@@ -1,4 +1,4 @@
-# A Coding Style for LLM-Assisted Development
+# L1 — Coding Style for LLM-Assisted Development
 
 A living document of coding patterns and the reasoning behind them.
 
@@ -6,6 +6,45 @@ A living document of coding patterns and the reasoning behind them.
 to understand it. This document exists so LLM-generated code is shaped consistently enough
 that re-reading it doesn't cost a translation pass. Every rule earns its place by reducing
 the friction of opening a file cold months after it was written.
+
+## Scope of this guide
+
+This guide applies to **any coding work** — bugfixes, daily maintenance, greenfield files,
+stack scaffolding, and schema-adjacent code. Wherever you write code, shape it by these
+rules.
+
+What this guide does **not** cover: how to divide systems, separate domains, choose a
+module boundary, or lay out a new project. That decision layer belongs to **L2 Project
+Bootstrap** (and related guides). Style here is about the smell and shape of the code you
+do write, not where that code belongs in the architecture.
+
+## What "complete" means
+
+A task is complete when:
+
+1. **The code works** for the intended behavior.
+2. **Unit tests pass**, or at least **do not fail more than before** the change.
+3. **The smell of the code aligns with this guide** — table-of-contents functions, clear
+   naming, explicit boundaries, no new anti-patterns from this document.
+
+Complete does **not** mean technically perfect, fully refactored, or every nearby smell
+fixed. Working + tests not worse + style aligned on the code you touched is enough.
+
+## Post-code check
+
+Run this after implementing, before calling the work done:
+
+1. **Unit tests** — suite passes, or failure count is not higher than before the change.
+2. **Scope** — **NEVER change code that is out of scope** of the current task. No drive-by
+   cleanups, no "while I was here" refactors, no edits to files that are not required to
+   ship the task.
+3. **Style on touched code** — the change you made reads like this guide; you did not
+   introduce listed anti-patterns.
+4. **Done bar** — works + tests not worse + smell aligned. Stop there. Do not polish for
+   perfection.
+
+If a check fails, fix it or shrink the change until it passes. Do not expand scope to
+make distant code prettier.
 
 Priorities, in order of cost when re-reading code:
 1. Tracing async / control flow
@@ -796,8 +835,13 @@ than an elegant rewrite that introduces a bug. Style and structure inconsistenci
 working code are left alone unless there's a reason to touch them.
 
 **The bar for touching code is: does this need to change to ship the current task?**
-If not, leave it. The extract-on-second-instance rule (§4) applies to code in the change
-you're already making, not to pre-existing duplication elsewhere.
+If not, leave it. **NEVER change code that is out of scope.** The extract-on-second-instance
+rule (§4) applies to code in the change you're already making, not to pre-existing
+duplication elsewhere.
+
+**Complete is not perfect.** Align smell on the code you touched; do not chase technical
+perfection across the module. See **What "complete" means** and **Post-code check** at the
+top of this document.
 
 **Sometimes constraints force ugliness.** A workaround for a vendor bug, a perf-critical
 loop, a contract you can't change — these may violate every rule in this document. That's
