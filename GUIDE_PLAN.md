@@ -21,19 +21,22 @@ L1 already exists as a proof of concept and is the template for tone and structu
 
 ## Suite layout (L0–L10)
 
+**File naming:** `L{n}_{SNAKE_NAME}.md` (or `L10_DECISIONS/` for the ADR directory).
+Underscores only — no spaces in paths.
+
 | Layer | File | Job | Status |
 |---|---|---|---|
-| L0 | `L0 AGENT_PROTOCOL.md` | How agents work in any repo that uses these guides: scope, when to open which guide, ask vs decide, definition of done | not started |
-| L1 | `L1 CODING STYLE.md` | Day-to-day shape of code, smells, post-code check | **done (v1)** |
-| L2 | `L2 PROJECT_BOOTSTRAP.md` | Greenfield: stack choice entry, layout, module boundaries, when a new service is allowed | not started |
-| L3 | `L3 LANGUAGE_AND_FRAMEWORK.md` | Per-stack defaults, allowlists, error model, bans | **v1 drafted** |
-| L4 | `L4 DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | not started |
-| L5 | `L5 API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | not started |
-| L6 | `L6 OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | not started |
-| L7 | `L7 TESTING.md` | What to test, factories, flake policy, unit vs integration | not started |
-| L8 | `L8 SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | not started |
-| L9 | `L9 CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | not started |
-| L10 | `L10 DECISIONS/` (ADRs) | Long-lived “why we chose X”; one file per decision | not started |
+| L0 | `L0_AGENT_PROTOCOL.md` | How agents work in any repo that uses these guides: scope, when to open which guide, ask vs decide, definition of done | not started |
+| L1 | `L1_CODING_STYLE.md` | Day-to-day shape of code, smells, post-code check | **v1** |
+| L2 | `L2_PROJECT_BOOTSTRAP.md` | Greenfield: stack choice entry, layout, module boundaries, when a new service is allowed | not started |
+| L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | Per-stack defaults, allowlists, error model, bans | **v1** |
+| L4 | `L4_DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | not started |
+| L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | not started |
+| L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | not started |
+| L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | not started |
+| L8 | `L8_SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | not started |
+| L9 | `L9_CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | not started |
+| L10 | `L10_DECISIONS/` (ADRs) | Long-lived “why we chose X”; one file per decision | not started |
 
 Optional later (not in the core 11 until needed):
 
@@ -97,7 +100,7 @@ until the author has answered enough that the draft can sound like them.
 **Draft means:** same density as L1. Prefer shorter docs with hard rules over long tutorials.
 
 **Delete this plan when:** L0–L9 have v1 text, L10 has a template + at least one real ADR
-(or an empty `DECISIONS/README` explaining the format), and `README.md` is the sole index.
+(or an empty `L10_DECISIONS/README.md` explaining the format), and `README.md` is the sole index.
 
 ---
 
@@ -116,7 +119,7 @@ until the author has answered enough that the draft can sound like them.
 stacks alone. Not a language tutorial. **Greenfield stack choice is never autonomous**
 unless the author explicitly overrides.
 
-**Status:** **v1.1** in `L3 LANGUAGE_AND_FRAMEWORK.md` after challenge-response revision.
+**Status:** **v1** in `L3_LANGUAGE_AND_FRAMEWORK.md`.
 
 ### Author answers (2026-07-11)
 
@@ -247,7 +250,7 @@ asking.
 
 ### Draft notes
 
-- File: `L3 LANGUAGE_AND_FRAMEWORK.md` (**v1.1**)
+- File: `L3_LANGUAGE_AND_FRAMEWORK.md` (**v1**)
 - Challenge-response incorporated:
   - TS default vs Kotlin direction: intentional tradeoff; port later (incl. AI) accepted
   - Rust: structs/impl/traits, not “pure FP”

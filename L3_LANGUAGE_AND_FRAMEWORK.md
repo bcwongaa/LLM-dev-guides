@@ -6,8 +6,9 @@ How to pick languages, frameworks, and storage — and how to behave once a stac
 “default.” Suggestions should match the author’s judgment. Final greenfield choices are
 **never autonomous** unless the author explicitly overrides that rule.
 
-This guide is not a language tutorial. It is not how to split domains (→ **L2**), not
-schema design (→ **L4**), and not day-to-day code smell (→ **L1**). Per-framework taste
+This guide is not a language tutorial. It is not how to split domains
+(→ **L2** / `L2_PROJECT_BOOTSTRAP.md`), not schema design (→ **L4** / `L4_DATA_MODEL.md`),
+and not day-to-day code smell (→ **L1** / `L1_CODING_STYLE.md`). Per-framework taste
 guides may appear later; until then, use each framework’s common practice plus judgment.
 
 ---
@@ -435,10 +436,10 @@ Working delivery in the chosen stack beats a pure re-stack.
 
 | Topic | Layer |
 |---|---|
-| Code smell, decomposition, naming, get/ensureGet | **L1** |
-| Domain split, service boundaries, greenfield layout intent | **L2** |
-| Language / framework / storage choice | **L3** (this file) |
-| Tables, migrations, invariants; reinforce no domain-in-DB | **L4** |
-| Wire contracts, HTTP/events | **L5** |
-| How agents open guides and ask vs decide | **L0** (when written) |
+| Code smell, decomposition, naming, get/ensureGet | **L1** / `L1_CODING_STYLE.md` |
+| Domain split, service boundaries, greenfield layout intent | **L2** / `L2_PROJECT_BOOTSTRAP.md` |
+| Language / framework / storage choice | **L3** / `L3_LANGUAGE_AND_FRAMEWORK.md` (this file) |
+| Tables, migrations, invariants; reinforce no domain-in-DB | **L4** / `L4_DATA_MODEL.md` |
+| Wire contracts, HTTP/events | **L5** / `L5_API_AND_CONTRACTS.md` |
+| How agents open guides and ask vs decide | **L0** / `L0_AGENT_PROTOCOL.md` (when written) |
 | Optional per-framework taste | future sub-guides (folder), not required yet |

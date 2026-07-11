@@ -14,9 +14,9 @@ stack scaffolding, and schema-adjacent code. Wherever you write code, shape it b
 rules.
 
 What this guide does **not** cover: how to divide systems, separate domains, choose a
-module boundary, or lay out a new project. That decision layer belongs to **L2 Project
-Bootstrap** (and related guides). Style here is about the smell and shape of the code you
-do write, not where that code belongs in the architecture.
+module boundary, or lay out a new project. That decision layer belongs to
+**L2** (`L2_PROJECT_BOOTSTRAP.md`) and related guides. Style here is about the smell and
+shape of the code you do write, not where that code belongs in the architecture.
 
 ## What "complete" means
 
@@ -286,8 +286,10 @@ expressed as a naming convention. See §12 for the full pattern.
 
 ### Constants are named, not inlined
 
-Magic numbers and durations get a named constant at the top of the file. The name describes
-what it represents, not just the value.
+Magic numbers and durations get a named constant at the top of the file. The name makes
+the value and unit readable at the use site — `FIFTEEN_MINUTES` is fine; a semantic name
+(`SESSION_TIMEOUT`) is not required when usage context already says what it's for. The sin
+is the bare inline value.
 
 ```
 ✓
