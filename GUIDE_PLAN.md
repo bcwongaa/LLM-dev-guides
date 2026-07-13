@@ -34,12 +34,12 @@ Underscores only — no spaces in paths.
 |---|---|---|---|
 | L0 | `L0_AGENT_PROTOCOL.md` | How agents work in any repo that uses these guides: scope, when to open which guide, ask vs decide, definition of done | **v1** |
 | L1 | `L1_CODING_STYLE.md` | Day-to-day shape of code, smells, post-code check | **v1** |
-| L2 | `L2_PROJECT_BOOTSTRAP.md` | Greenfield: layout, domain/engine split, when a new service is allowed | **v1 draft** (author review) |
+| L2 | `L2_PROJECT_BOOTSTRAP.md` | Greenfield: layout, domain/engine split, when a new service is allowed | **v1** |
 | L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | Per-stack defaults, allowlists, error model, bans | **v1** |
-| L4 | `L4_DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | **v1 draft** (file on disk; author review / plan notes backfill) |
-| L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | not started |
+| L4 | `L4_DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | **v1** |
+| L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | **v1 draft** (author review) |
 | L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | not started |
-| L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | **v1 draft** (author review) |
+| L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | **v1** |
 | L8 | `L8_SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | not started |
 | L9 | `L9_CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | not started |
 | L10 | `L10_DECISIONS/` (ADRs) | Long-lived “why we chose X”; one file per decision | not started |
@@ -115,10 +115,8 @@ smallest change that ships >  drive-by improvement
 
 | Order | Layer | Why |
 |---|---|---|
-| **now** | **L2 Project Bootstrap** | **v1 draft** — author review |
-| next | L4 author sign-off | Mark **v1** after review; optional small fixes from L4 review |
-| **now** | **L7 Testing** | **v1 draft** — author review; L1 §20 points here |
-| then | L5 API & Contracts | Natural after domain + data shape |
+| done | L2, L4, L7 | **v1** (author accepted) |
+| **now** | **L5 API & Contracts** | **v1 draft** — author review |
 | then | L6 Observability | Includes DB health |
 | then | L9 Change & Release | Migrations + deploy safety after schema rules exist |
 | then | L8 Security & Secrets | When auth/PII pain appears or before public APIs |
@@ -351,17 +349,11 @@ history / see file itself for the protocol.
 | Plan | Non-trivial only |
 | Density | L1-like |
 
-### L4 Data Model — v1 draft (file exists; sign-off pending)
+### L4 Data Model — v1 (accepted)
 
-**Status:** full draft in `L4_DATA_MODEL.md` (appeared before plan notes). **Not** “not
-started.”
+**Status:** **v1** in `L4_DATA_MODEL.md` (author accepted 2026-07-13).
 
-- Author should review for voice; optional follow-ups from review: destructive = L0 ask,
-  `timestamptz` default, append-only/ledger pattern, soft-delete uniqueness example
-- No formal consult block was captured before draft — treat review as the sign-off step
-- After accept: mark **v1** here and in README
-
-### L2 Project Bootstrap — v1 draft (2026-07-13)
+### L2 Project Bootstrap — v1 (accepted)
 
 Greenfield layout, domain/engine split, when a new service is allowed. Stack *choice*
 stays **L3**; data shape **L4**.
@@ -388,17 +380,41 @@ stays **L3**; data shape **L4**.
 
 #### Draft notes
 
-- File: `L2_PROJECT_BOOTSTRAP.md` — **v1 draft** for author voice review
+- File: `L2_PROJECT_BOOTSTRAP.md` — **v1** (author accepted)
 
-### L5 API & Contracts — consult later
+### L5 API & Contracts — v1 draft (2026-07-13)
 
-HTTP/events/DTOs, versioning, errors at the wire.
+#### Author answers (2026-07-13)
+
+| Topic | Choice |
+|---|---|
+| **Job** | Wire contracts: HTTP + events + DTOs |
+| **HTTP default** | Resource-oriented REST/JSON |
+| **Versioning** | Avoid breaks; version when needed; ask first |
+| **Errors** | Framework/project default — do not invent a second house error DTO |
+| **Idempotency** | Required for money/side-effect retries |
+| **DTO** | Separate at boundary; convert explicitly |
+| **Events** | Versioned/additive-tolerant payloads |
+| **Validation** | At boundary; follow framework convention (no parallel stack) |
+| **Pagination** | Cursor or offset — pick one per API, document, bound size |
+| **Public IDs** | Don’t expose raw internal DB keys by default (L4) |
+| **S2S / internal** | Not always HTTP; any external inbound is untrusted |
+| **Auth** | Principal on protected routes; authz in app; deep rules → L8 |
+| **Webhooks** | Verify signature; idempotent; retain raw if needed |
+| **PATCH** | Explicit partial; omitted ≠ null |
+| **Success body** | Resource JSON directly; no mandatory envelope |
+| **Breaking** | Remove/rename/type/meaning/stricter validation/auth changes |
+| **Transport (added)** | **External:** HTTP + WebSocket unless really must otherwise. **Internal:** many options; **gRPC > HTTP** for sync RPC; HTTP JSON between services is usually the worst default; in-process (L2) still first |
+
+#### Draft notes
+
+- File: `L5_API_AND_CONTRACTS.md` — **v1 draft** (+ transport §1 per author)
 
 ### L6 Observability — consult later
 
 Logs/metrics/traces + DB health.
 
-### L7 Testing — v1 draft (2026-07-13)
+### L7 Testing — v1 (accepted)
 
 #### Author answers (2026-07-13)
 
@@ -422,7 +438,7 @@ Logs/metrics/traces + DB health.
 
 #### Draft notes
 
-- File: `L7_TESTING.md` — **v1 draft**
+- File: `L7_TESTING.md` — **v1** (author accepted)
 - L1 §20 reduced to pointer to L7
 
 ### L8 Security & Secrets — consult later
@@ -452,10 +468,11 @@ rationale lives in each L-file. Until the suite is done, README can point at thi
 - [x] L1 **v1**
 - [x] L3 **v1**
 - [x] **Adapters v1** (Claude, Codex, Grok — thin; point at L\*)
-- [ ] L4 author accepts as **v1** (draft on disk)
-- [ ] L2 author accepts as **v1** (draft on disk)
-- [ ] L7 author accepts as **v1** (draft on disk)
-- [ ] L5, L6, L8, L9 each have a v1 the author accepts as “sounds like me”
+- [x] L2 **v1**
+- [x] L4 **v1**
+- [x] L7 **v1**
+- [ ] L5 author accepts as **v1** (draft on disk)
+- [ ] L6, L8, L9 each have a v1 the author accepts as “sounds like me”
 - [ ] L10 has format + process (and ideally one real decision)
 - [ ] README routes tasks → layers **and** which adapter to install for which tool
 - [ ] Cross-links between guides are consistent (L1 ≠ domain split; L3 = stack; L4 = data; etc.)
