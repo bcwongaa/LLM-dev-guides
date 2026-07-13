@@ -3,6 +3,9 @@
 Thin entry files so **Claude Code**, **Codex**, and **Grok Build** load the same law
 (`L0` → relevant `L*`). Adapters are **maps**, not a second style guide.
 
+For full brownfield adoption (paths, merge with existing CLAUDE.md, checklists), see
+**[`../USING_IN_EXISTING_REPOS.md`](../USING_IN_EXISTING_REPOS.md)**.
+
 ## Install into a consumer repo
 
 1. Copy (or symlink) the template for each tool you use into the **repo root**:

@@ -17,8 +17,9 @@ GUIDES_ROOT=.
 | Language / framework / storage | `L3_LANGUAGE_AND_FRAMEWORK.md` |
 | Other domains | `L{n}_*.md` / `L10_DECISIONS/` per L0 routing table |
 | Adapter templates | `adapters/` |
+| Adopt suite in existing apps | `USING_IN_EXISTING_REPOS.md` |
+| ADRs | `L10_DECISIONS/` |
 | WIP multi-tool handoff | `docs/agent/STATUS.md` (if present) |
-| Writing plan (temporary) | `GUIDE_PLAN.md` |
 
 **Bootstrap (every task):** this file → L0 → only relevant L\* → STATUS if present → plan if non-trivial → edit.
 

@@ -1,51 +1,84 @@
 # LLM Dev Guides
 
-Agent-facing guides distilled from real codebase practice. Generated code and decisions
-should match the author’s mental model, not generic “best practice.”
+**Public, opinionated agent guides** for multi-tool coding (Claude Code, Codex, Grok Build,
+and similar). Distilled from real projects so agents follow one mental model instead of
+generic “best practice.”
 
-## Layers (L0–L10)
+This is **one author’s engineering judgment**, not an industry standard. Fork, adapt, or
+ignore pieces. In *your* repos, **local code and your rules still win** over these files
+when they conflict (see L0).
 
-| Layer | File | Status |
-|---|---|---|
-| L0 | `L0_AGENT_PROTOCOL.md` | **v1** |
-| L1 | `L1_CODING_STYLE.md` | **v1** |
-| L2 | `L2_PROJECT_BOOTSTRAP.md` | **v1** |
-| L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | **v1** |
-| L4 | `L4_DATA_MODEL.md` | **v1** |
-| L5 | `L5_API_AND_CONTRACTS.md` | **v1** |
-| L6 | `L6_OBSERVABILITY.md` | **v1** |
-| L7 | `L7_TESTING.md` | **v1** |
-| L8 | `L8_SECURITY_AND_SECRETS.md` | **v1** |
-| L9 | `L9_CHANGE_AND_RELEASE.md` | **v1** |
-| L10 | `L10_DECISIONS/` | **v1 draft** (author review) |
-| Adapters | `adapters/{claude,codex,grok}/` | **v1** |
+## What’s in here
 
-This repo also has live entry maps: `CLAUDE.md`, `AGENTS.md` (`GUIDES_ROOT=.`).
+| Piece | Purpose |
+|---|---|
+| **L0–L9** | Protocol, style, bootstrap, stack, data, API, observability, testing, security, release |
+| **L10** | Short ADR process + template for standing decisions |
+| **`adapters/`** | Thin `CLAUDE.md` / `AGENTS.md` templates that point at the guides |
+| **`USING_IN_EXISTING_REPOS.md`** | How to attach this suite to a brownfield app |
 
-## Writing plan (temporary)
+This repo’s own maps: root `CLAUDE.md`, `AGENTS.md` (for working *on* the suite).
 
-See [`GUIDE_PLAN.md`](./GUIDE_PLAN.md) for consult history and remaining L10 work. Delete
-that file when the suite is stable and this README is the only index.
+## Layers (all v1)
+
+| Layer | File |
+|---|---|
+| L0 | `L0_AGENT_PROTOCOL.md` |
+| L1 | `L1_CODING_STYLE.md` |
+| L2 | `L2_PROJECT_BOOTSTRAP.md` |
+| L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` |
+| L4 | `L4_DATA_MODEL.md` |
+| L5 | `L5_API_AND_CONTRACTS.md` |
+| L6 | `L6_OBSERVABILITY.md` |
+| L7 | `L7_TESTING.md` |
+| L8 | `L8_SECURITY_AND_SECRETS.md` |
+| L9 | `L9_CHANGE_AND_RELEASE.md` |
+| L10 | `L10_DECISIONS/` |
+| Adapters | `adapters/{claude,codex,grok}/` |
 
 ## How to use
 
+### In another / existing codebase
+
+→ **[`USING_IN_EXISTING_REPOS.md`](./USING_IN_EXISTING_REPOS.md)**  
+(submodule / sibling path / vendor copy, install adapters, brownfield rules, checklist)
+
+Adapter details: [`adapters/README.md`](./adapters/README.md)
+
+### Which guide for which task
+
 | Need | Open |
 |---|---|
-| How any agent should work (start, ask vs decide, done, handoff) | `L0_AGENT_PROTOCOL.md` |
+| How any agent should work | `L0_AGENT_PROTOCOL.md` |
 | Code shape / smells | `L1_CODING_STYLE.md` |
-| Greenfield layout / engines / domain split | `L2_PROJECT_BOOTSTRAP.md` |
-| Language / framework / storage choice | `L3_LANGUAGE_AND_FRAMEWORK.md` |
-| Schema, invariants, migrations, money/time | `L4_DATA_MODEL.md` |
+| Greenfield layout / engines | `L2_PROJECT_BOOTSTRAP.md` |
+| Language / framework / storage | `L3_LANGUAGE_AND_FRAMEWORK.md` |
+| Schema / migrations / money / time | `L4_DATA_MODEL.md` |
 | HTTP / events / DTOs / internal transport | `L5_API_AND_CONTRACTS.md` |
 | Logs / metrics / traces / DB health | `L6_OBSERVABILITY.md` |
-| Testing policy, TDD, pyramid, factories | `L7_TESTING.md` |
+| Testing / TDD / factories | `L7_TESTING.md` |
 | Auth / PII / secrets / IDOR | `L8_SECURITY_AND_SECRETS.md` |
-| Expand/contract, flags, rollback, deploy | `L9_CHANGE_AND_RELEASE.md` |
-| Long-lived “why we chose X” (ADRs) | `L10_DECISIONS/README.md` + `TEMPLATE.md` |
-| Tool entry templates | [`adapters/`](./adapters/) |
+| Expand/contract, flags, deploy | `L9_CHANGE_AND_RELEASE.md` |
+| ADRs | `L10_DECISIONS/README.md` |
+| Adopt in an existing app | `USING_IN_EXISTING_REPOS.md` |
 
 **Conflict order:** local code > these guides > third-party skills (except pure vendor API
 how-to) > model taste.
 
-**Bootstrap:** thin adapter (`CLAUDE.md` / `AGENTS.md`) → L0 → only the L\* files the task
-needs → `docs/agent/STATUS.md` if present.
+**Bootstrap:** thin adapter → L0 → only the L\* files the task needs → `docs/agent/STATUS.md`
+if present.
+
+## Public repo notes
+
+- **No secrets belong here** — only placeholders (e.g. in security examples). Don’t open PRs
+  with real keys or private prod details.
+- Guides say “ask the author” for hard choices: in a fork or your company, that means
+  **your** owner / team, not a bot filing issues on this GitHub repo.
+- Issues/PRs that improve clarity are welcome; wholesale rewrites to generic best-practice
+  are out of scope for *this* project’s purpose.
+
+## License
+
+No `LICENSE` file is in the tree yet. **Public visibility ≠ a clear grant of rights** —
+add an explicit license (MIT, Apache-2.0, etc.) on GitHub if you want others to reuse
+this safely. Until then, treat reuse as “ask the owner / check GitHub defaults.”

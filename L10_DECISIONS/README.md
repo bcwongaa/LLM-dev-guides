@@ -3,8 +3,8 @@
 How and when to record **standing decisions** so agents and future-you do not re-litigate
 hard-to-reverse choices.
 
-**The goal:** durable “why we chose X” lives in short ADRs — not only in chat history or
-scattered PR descriptions.
+Durable “why we chose X” lives in short ADRs — not only in chat history or scattered PR
+descriptions.
 
 ## Scope
 
