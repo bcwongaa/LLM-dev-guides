@@ -38,10 +38,10 @@ Underscores only — no spaces in paths.
 | L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | Per-stack defaults, allowlists, error model, bans | **v1** |
 | L4 | `L4_DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | **v1** |
 | L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | **v1** |
-| L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | **v1 draft** (author review) |
+| L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | **v1** |
 | L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | **v1** |
 | L8 | `L8_SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | not started |
-| L9 | `L9_CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | not started |
+| L9 | `L9_CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | **v1 draft** (author review) |
 | L10 | `L10_DECISIONS/` (ADRs) | Long-lived “why we chose X”; one file per decision | not started |
 
 ### Tool adapters (first-class, not optional)
@@ -117,8 +117,8 @@ smallest change that ships >  drive-by improvement
 |---|---|---|
 | done | L2, L4, L7 | **v1** (author accepted) |
 | done | L5 API & Contracts | **v1** (author accepted; transport §1 included) |
-| **now** | **L6 Observability** | **v1 draft** — author review |
-| then | L9 Change & Release | Migrations + deploy safety after schema rules exist |
+| done | L6 Observability | **v1** (author accepted) |
+| **now** | **L9 Change & Release** | **v1 draft** — author review |
 | then | L8 Security & Secrets | When auth/PII pain appears or before public APIs |
 | then | L10 Decisions | Standing process; first ADRs as real choices are recorded |
 
@@ -431,7 +431,7 @@ stays **L3**; data shape **L4**.
 
 #### Draft notes
 
-- File: `L6_OBSERVABILITY.md` — **v1 draft**
+- File: `L6_OBSERVABILITY.md` — **v1** (author accepted)
 
 ### L7 Testing — v1 (accepted)
 
@@ -464,9 +464,26 @@ stays **L3**; data shape **L4**.
 
 Auth, PII, secrets.
 
-### L9 Change & Release — consult later
+### L9 Change & Release — v1 draft (2026-07-13)
 
-Flags, expand/contract, rollback.
+#### Author answers (2026-07-13)
+
+| Topic | Choice |
+|---|---|
+| **Job** | Safe change rollout: migrate, flag, rollback |
+| **Schema** | Expand/contract; additive first; never break old readers in one shot |
+| **Flags** | Primary config system; **long-lived OK**; **clean up dead flags regularly** |
+| **Rollback** | App easy; data often impossible — design forward fix |
+| **Order** | Expand DB → compatible code → backfill → contract |
+| **Destructive** | Always ask / explicit approval |
+| **API breaks** | Expand contract → migrate clients → remove old |
+| **Envs** | Same artifact; config/flags differ by env |
+| **Hotfix** | Smallest fix; no silent data destruction; note ceremony skips |
+| **Agents** | Prepare PR/migration/flag plan; **human ships prod** |
+
+#### Draft notes
+
+- File: `L9_CHANGE_AND_RELEASE.md` — **v1 draft**
 
 ### L10 Decisions — consult later
 
@@ -491,8 +508,9 @@ rationale lives in each L-file. Until the suite is done, README can point at thi
 - [x] L4 **v1**
 - [x] L7 **v1**
 - [x] L5 **v1**
-- [ ] L6 author accepts as **v1** (draft on disk)
-- [ ] L8, L9 each have a v1 the author accepts as “sounds like me”
+- [x] L6 **v1**
+- [ ] L9 author accepts as **v1** (draft on disk)
+- [ ] L8 **v1**
 - [ ] L10 has format + process (and ideally one real decision)
 - [ ] README routes tasks → layers **and** which adapter to install for which tool
 - [ ] Cross-links between guides are consistent (L1 ≠ domain split; L3 = stack; L4 = data; etc.)

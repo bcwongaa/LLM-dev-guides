@@ -118,7 +118,7 @@ Open the **smallest** set of guides that match the task. Missing file → see
 | Logs, metrics, traces, DB health, early APM | **L6** |
 | What to test, TDD, pyramid, factories, flakes | **L7** |
 | Auth boundaries, PII, secrets | **L8** |
-| Flags, expand/contract, rollback, deploy safety | **L9** |
+| Flags, expand/contract, rollback, deploy safety | **L9** (`L9_CHANGE_AND_RELEASE.md`) |
 | Why we chose X (standing decision) | **L10** |
 
 Mixed tasks: open every layer you will actually touch (e.g. new endpoint + migration →
