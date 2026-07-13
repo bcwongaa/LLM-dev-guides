@@ -625,5 +625,7 @@ local, and explained where a future reader would otherwise “fix” it.
 | Language, framework, storage role, ORM defaults | **L3** / `L3_LANGUAGE_AND_FRAMEWORK.md` |
 | Wire DTOs, HTTP/events, idempotency | **L5** / `L5_API_AND_CONTRACTS.md` |
 | Observability and database health | **L6** / `L6_OBSERVABILITY.md` |
+| Testing data-related behavior | **L7** / `L7_TESTING.md` |
 | Expand/contract rollout, rollback, deploy safety | **L9** / `L9_CHANGE_AND_RELEASE.md` |
 | Auth, PII, and secrets | **L8** / `L8_SECURITY_AND_SECRETS.md` |
+| Standing data-store decisions | **L10** / `L10_DECISIONS/` |

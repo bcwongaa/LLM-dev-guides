@@ -30,6 +30,7 @@ injection, and unsafe outbound calls. Security is part of “done,” not a late
 | Don’t log secrets (also) | **L6** — L8 owns the broader secret/PII law |
 | Schema-level access quirks | **L4** |
 | Deploy of secret material | **L9** (config by env; human ships prod) |
+| Standing security architecture decisions | **L10** |
 | Full threat models, SOC2, legal retention schedules | Human / org process |
 | Framework choice for auth libraries | **L3** + author |
 
@@ -315,3 +316,4 @@ Working secure defaults beat theoretical perfect compliance docs agents ignore.
 | Telemetry redaction | **L6** |
 | Authz/IDOR tests | **L7** |
 | Config by env, prod ship | **L9** |
+| ADRs for major auth choices | **L10** |

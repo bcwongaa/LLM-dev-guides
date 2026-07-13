@@ -40,9 +40,9 @@ Underscores only — no spaces in paths.
 | L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | **v1** |
 | L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | **v1** |
 | L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | **v1** |
-| L8 | `L8_SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | **v1 draft** (author review) |
+| L8 | `L8_SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | **v1** |
 | L9 | `L9_CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | **v1** |
-| L10 | `L10_DECISIONS/` (ADRs) | Long-lived “why we chose X”; one file per decision | not started |
+| L10 | `L10_DECISIONS/` (ADRs) | Long-lived “why we chose X”; one file per decision | **v1 draft** (author review) |
 
 ### Tool adapters (first-class, not optional)
 
@@ -107,27 +107,22 @@ smallest change that ships >  drive-by improvement
 |---|---|---|
 | 1 | L1 Coding Style | **v1** |
 | 2 | L3 Language & Framework | **v1** |
-| 3 | L0 Agent Protocol (+ multi-tool consult) | **v1** |
-| 4 | Tool adapters (Claude, Codex, Grok) | **v1** |
-| 5 | L4 Data Model | **v1 draft** on disk (ahead of original order; needs author sign-off) |
+| 3 | L0 + multi-tool / adapters | **v1** |
+| 4 | L4 Data Model | **v1** |
+| 5 | L2 Project Bootstrap | **v1** |
+| 6 | L7 Testing | **v1** |
+| 7 | L5 API & Contracts | **v1** |
+| 8 | L6 Observability | **v1** |
+| 9 | L9 Change & Release | **v1** |
+| 10 | L8 Security & Secrets | **v1** |
 
 ### Forward (from here)
 
 | Order | Layer | Why |
 |---|---|---|
-| done | L2, L4, L7 | **v1** (author accepted) |
-| done | L5 API & Contracts | **v1** (author accepted; transport §1 included) |
-| done | L6 Observability | **v1** (author accepted) |
-| done | L9 Change & Release | **v1** (author accepted) |
-| **now** | **L8 Security & Secrets** | **v1 draft** — author review |
-| then | L10 Decisions | Standing process; first ADRs as real choices are recorded |
+| **now** | **L10 Decisions** | **v1 draft** — process + template; author review |
 
-Order can change if the author prioritizes a pain point.
-
-**Process rule (current):** do not draft a new layer until that layer’s consult is started
-and answers are captured in this plan. **Exception already taken:** L4 was drafted with a
-full file before plan notes; treat as **v1 draft** pending author review, not as a license
-to skip consult on L2+.
+**Process rule:** do not draft a new layer until consult answers are in this plan.
 
 ---
 
@@ -316,8 +311,7 @@ asking.
 
 ## Layer notes (by status)
 
-When starting a layer: add **Author answers** here (same pattern as L0/L3). Do not draft
-L2, L5–L10 until that layer’s consult is started. L0/adapters/L4 already have files.
+**Status of core suite:** L0–L9 + adapters are **v1**. Remaining: **L10** ADR process.
 
 ### Tool adapters (Claude, Codex, Grok Build) — v1 (done)
 
@@ -382,7 +376,7 @@ stays **L3**; data shape **L4**.
 
 - File: `L2_PROJECT_BOOTSTRAP.md` — **v1** (author accepted)
 
-### L5 API & Contracts — v1 draft (2026-07-13)
+### L5 API & Contracts — v1 (accepted)
 
 #### Author answers (2026-07-13)
 
@@ -410,7 +404,7 @@ stays **L3**; data shape **L4**.
 
 - File: `L5_API_AND_CONTRACTS.md` — **v1** (author accepted)
 
-### L6 Observability — v1 draft (2026-07-13)
+### L6 Observability — v1 (accepted)
 
 #### Author answers (2026-07-13)
 
@@ -431,7 +425,7 @@ stays **L3**; data shape **L4**.
 
 #### Draft notes
 
-- File: `L6_OBSERVABILITY.md` — **v1** (author accepted)
+- File: `L6_OBSERVABILITY.md` — **v1**
 
 ### L7 Testing — v1 (accepted)
 
@@ -460,7 +454,7 @@ stays **L3**; data shape **L4**.
 - File: `L7_TESTING.md` — **v1** (author accepted)
 - L1 §20 reduced to pointer to L7
 
-### L8 Security & Secrets — v1 draft (2026-07-13)
+### L8 Security & Secrets — v1 (accepted)
 
 #### Author answers (2026-07-13)
 
@@ -479,7 +473,7 @@ stays **L3**; data shape **L4**.
 
 #### Draft notes
 
-- File: `L8_SECURITY_AND_SECRETS.md` — **v1 draft**
+- File: `L8_SECURITY_AND_SECRETS.md` — **v1**
 
 ### L9 Change & Release — v1 (accepted)
 
@@ -502,9 +496,24 @@ stays **L3**; data shape **L4**.
 
 - File: `L9_CHANGE_AND_RELEASE.md` — **v1** (author accepted)
 
-### L10 Decisions — consult later
+### L10 Decisions — v1 draft (2026-07-13)
 
-ADR format and when to write one.
+#### Author answers (2026-07-13)
+
+| Topic | Choice |
+|---|---|
+| **Job** | When + how to record standing decisions |
+| **When** | Hard-to-reverse: stack, multi-service split, auth model, money ledger shape, etc. |
+| **Where** | Suite `L10_DECISIONS/` for cross-project; apps may use `docs/adrs` too |
+| **Format** | Short: context, decision, consequences, status |
+| **Authority** | Agent drafts; author accepts |
+| **Ship v1** | README process + template; no required backfill ADRs |
+
+#### Draft notes
+
+- `L10_DECISIONS/README.md` — process
+- `L10_DECISIONS/TEMPLATE.md` — template
+- Index table empty until first accepted ADR
 
 ---
 
@@ -526,9 +535,10 @@ rationale lives in each L-file. Until the suite is done, README can point at thi
 - [x] L7 **v1**
 - [x] L5 **v1**
 - [x] L6 **v1**
+- [x] L8 **v1**
 - [x] L9 **v1**
-- [ ] L8 author accepts as **v1** (draft on disk)
-- [ ] L10 has format + process (and ideally one real decision)
-- [ ] README routes tasks → layers **and** which adapter to install for which tool
-- [ ] Cross-links between guides are consistent (L1 ≠ domain split; L3 = stack; L4 = data; etc.)
-- [ ] Delete `GUIDE_PLAN.md`
+- [ ] L10 author accepts as **v1** (process + template on disk)
+- [ ] Optional: first real accepted ADR
+- [x] README routes tasks → layers and adapters
+- [x] Cross-links updated for L0–L9 reality (2026-07-13 pass)
+- [ ] Delete `GUIDE_PLAN.md` (after L10 v1)

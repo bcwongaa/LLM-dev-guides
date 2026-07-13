@@ -441,5 +441,10 @@ Working delivery in the chosen stack beats a pure re-stack.
 | Language / framework / storage choice | **L3** / `L3_LANGUAGE_AND_FRAMEWORK.md` (this file) |
 | Tables, migrations, invariants; reinforce no domain-in-DB | **L4** / `L4_DATA_MODEL.md` |
 | Wire contracts, HTTP/events | **L5** / `L5_API_AND_CONTRACTS.md` |
-| How agents open guides and ask vs decide | **L0** / `L0_AGENT_PROTOCOL.md` (when written) |
-| Optional per-framework taste | future sub-guides (folder), not required yet |
+| Observability | **L6** / `L6_OBSERVABILITY.md` |
+| Testing | **L7** / `L7_TESTING.md` |
+| Security / secrets | **L8** / `L8_SECURITY_AND_SECRETS.md` |
+| Change and release | **L9** / `L9_CHANGE_AND_RELEASE.md` |
+| Standing decisions (ADRs) | **L10** / `L10_DECISIONS/` |
+| How agents open guides and ask vs decide | **L0** / `L0_AGENT_PROTOCOL.md` |
+| Optional per-framework taste | future sub-guides if needed; not required |

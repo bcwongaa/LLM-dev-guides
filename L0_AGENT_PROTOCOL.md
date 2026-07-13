@@ -47,7 +47,7 @@ When instructions disagree, apply this order (highest wins):
 
 ```
 1. Local codebase convention (existing code, project CLAUDE.md / AGENTS.md project facts)
-2. These guides (L0–L10), once the relevant layer exists
+2. These guides (L0–L10), when the relevant layer file exists
 3. Third-party skills — except pure vendor API usage (see Skills)
 4. Model default taste
 ```
@@ -119,34 +119,39 @@ Open the **smallest** set of guides that match the task. Missing file → see
 | What to test, TDD, pyramid, factories, flakes | **L7** |
 | Auth boundaries, PII, secrets, IDOR, supply chain | **L8** |
 | Flags, expand/contract, rollback, deploy safety | **L9** (`L9_CHANGE_AND_RELEASE.md`) |
-| Why we chose X (standing decision) | **L10** |
+| Why we chose X (standing decision) | **L10** / `L10_DECISIONS/` |
 
 Mixed tasks: open every layer you will actually touch (e.g. new endpoint + migration →
 L4 + L5, plus L1 for code shape). Do not open the rest.
 
 ```
 ✓  “Fix null check in formatter” → L1 only
-✓  “Add Postgres column + API field” → L1 + L4 + L5 (if those files exist)
+✓  “Add Postgres column + API field” → L1 + L4 + L5
 ✗  Open L1–L10 for a one-line bugfix
-✗  Invent an L7 testing philosophy because L7 is not written yet
+✗  Invent a private testing philosophy that fights L7
 ```
 
 ---
 
 ## Missing layers
 
-If the routing table points at a guide that is **not written yet**:
+**Core suite status:** L0–L9 and tool adapters are written. **L10** (ADRs) may still be
+empty or thin — use it when present.
 
-1. **Do not invent** a house rule for that domain.
+If a routing target file is **missing from the consumer repo** (guides not vendored) or an
+optional layer (e.g. L10) has no decisions yet:
+
+1. **Do not invent** a parallel house rule for that domain.
 2. **Match local code** and existing project instructions.
 3. **Ask** if the change hits the [always ask](#always-ask-conservative) list.
-4. Otherwise proceed with smallest safe change and note the gap in the task summary.
+4. Otherwise proceed with smallest safe change; for standing “why we chose X” with no ADR,
+   ask rather than invent history.
 
 ```
-✓  L7 missing; add a test in the same style as neighboring tests
-✓  L4 missing; small column add → ask (schema is high-impact)
-✗  L7 missing; write a novel testing manifesto in the PR
-✗  L3 missing on greenfield; pick Nest + Mongo without asking
+✓  Guides vendored: open L7 for test policy
+✓  L10 empty: ask before treating a stack choice as sacred forever
+✗  Guides missing locally: invent a second style guide in the PR
+✗  Ignore L8 because “security isn’t my task” on an auth change
 ```
 
 ---

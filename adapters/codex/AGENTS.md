@@ -18,7 +18,7 @@ Inside the suite repo itself, use `.`
 | Protocol (start, ask vs decide, done, handoff) | `GUIDES_ROOT/L0_AGENT_PROTOCOL.md` |
 | Code shape / smells | `GUIDES_ROOT/L1_CODING_STYLE.md` |
 | Language / framework / storage | `GUIDES_ROOT/L3_LANGUAGE_AND_FRAMEWORK.md` |
-| Other domains | `GUIDES_ROOT/L{n}_*.md` per L0 routing table |
+| Other domains | `GUIDES_ROOT/L{n}_*.md` or `L10_DECISIONS/` per L0 routing table |
 | WIP multi-tool handoff | `docs/agent/STATUS.md` (if present) |
 
 **Bootstrap (every task):** this file → L0 → only relevant L\* → STATUS if present → plan if non-trivial → edit.

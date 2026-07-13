@@ -15,7 +15,7 @@ GUIDES_ROOT=.
 | Protocol (start, ask vs decide, done, handoff) | `L0_AGENT_PROTOCOL.md` |
 | Code shape / smells | `L1_CODING_STYLE.md` |
 | Language / framework / storage | `L3_LANGUAGE_AND_FRAMEWORK.md` |
-| Other domains | `L{n}_*.md` per L0 routing table |
+| Other domains | `L{n}_*.md` / `L10_DECISIONS/` per L0 routing table |
 | Adapter templates | `adapters/` |
 | WIP multi-tool handoff | `docs/agent/STATUS.md` (if present) |
 | Writing plan (temporary) | `GUIDE_PLAN.md` |

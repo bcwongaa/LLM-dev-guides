@@ -26,7 +26,7 @@ prod edits, and flag/config chaos. Rollout is a sequence, not a single merge.
 | Wire contract shape / versioning vocabulary | **L5** |
 | Observability during/after ship | **L6** |
 | Test proof before ship | **L7** |
-| Auth/secrets product policy | **L8** (when written) |
+| Auth/secrets product policy | **L8** |
 | CI vendor YAML tutorials, branching religion | Project-local |
 | On-call pages / SLO burn math | Out of suite for now |
 
@@ -273,4 +273,4 @@ Working production and recoverable mistakes beat one-shot elegance.
 | API break definition | **L5** |
 | See it in prod | **L6** |
 | Prove before ship | **L7** |
-| Secrets in config | **L8** (when written) |
+| Secrets in config | **L8** |

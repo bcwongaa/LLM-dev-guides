@@ -29,8 +29,8 @@ universal template and not whatever framework demo the model remembers.
 | HTTP/events/DTO wire contracts | **L5** |
 | Day-to-day code shape | **L1** |
 | Agent protocol, ask vs decide, handoff | **L0** |
-| CI, deploy pipeline, flags, rollback choreography | **L9** (when written) |
-| Auth/PII product rules | **L8** (when written) |
+| CI, deploy pipeline, flags, rollback choreography | **L9** |
+| Auth/PII product rules | **L8** |
 
 L3 answers “what stack.” L2 answers “what pieces exist and how they are arranged.”  
 Greenfield stack selection remains **never autonomous** (L3 + L0).
@@ -213,7 +213,7 @@ small-tool shape, not the default for multi-user production systems.
 | Placement | Default |
 |---|---|
 | Same deployable | **In-process** calls to the other module’s public API |
-| Different deployables | Explicit remote contract (HTTP/events) — details in **L5** when written; do not invent a mesh early |
+| Different deployables | Explicit remote contract (HTTP/events/gRPC) — **L5**; do not invent a mesh early |
 
 ```
 ✓  inventory.reserve(…) from checkout module in the same process
@@ -331,5 +331,7 @@ Working system and clear ownership beat diagram purity.
 | Code shape | **L1** |
 | Language, framework, storage choice | **L3** |
 | Schema, migrations, invariants | **L4** |
-| Wire contracts between deployables | **L5** (when written) |
-| Release / expand-contract of systems | **L9** (when written) |
+| Wire contracts between deployables | **L5** |
+| Release / expand-contract of systems | **L9** |
+| Security / secrets | **L8** |
+| Standing decisions (ADRs) | **L10** |

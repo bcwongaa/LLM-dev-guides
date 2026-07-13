@@ -27,7 +27,7 @@ especially on greenfield.
 | Which APM product license / full dashboard design | Project ops (L6 only requires *a* real stack) |
 | SLO math, pages, escalation policies | Out of suite for now |
 | Schema/query correctness | **L4** / **L7** |
-| Auth/PII product policy | **L8** (when written) |
+| Auth/PII product policy | **L8** |
 
 L6 is **what to observe and the minimum bar**, not how to click Datadog.
 
@@ -108,7 +108,7 @@ Prefer **metrics** for high-cardinality rates; logs for discrete events and fail
 
 - **Never** log secrets: passwords, tokens, API keys, raw session material, private keys.
 - **Minimize PII**: avoid full card numbers, full auth headers, unrestricted personal data
-  dumps. Prefer opaque ids. Full field policy → **L8** when written.
+  dumps. Prefer opaque ids. Full field policy → **L8**.
 - Do not log entire request bodies by default on authenticated or payment paths.
 
 ---
@@ -298,4 +298,4 @@ Visible production truth beats a clean but silent system.
 | Query design | **L4** |
 | Wire errors clients see | **L5** |
 | Tests | **L7** |
-| PII/secrets policy depth | **L8** (when written) |
+| PII/secrets policy depth | **L8** |

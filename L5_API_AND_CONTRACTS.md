@@ -30,8 +30,8 @@ retries — especially where money or side effects are involved.
 | Logical engines vs deployables | **L2** |
 | Framework choice (Nest, etc.) | **L3** |
 | Tables, migrations, DB invariants | **L4** |
-| Deep auth product rules, PII policy | **L8** (when written) |
-| Deploy flags / expand-contract of APIs in prod | **L9** (when written) |
+| Deep auth product rules, PII policy | **L8** |
+| Deploy flags / expand-contract of APIs in prod | **L9** |
 | How to test contracts | **L7** |
 
 In-process module calls (same deployable) are **L2**, not remote contracts. Do not invent
@@ -334,8 +334,8 @@ Inbound webhooks are **hostile until proven otherwise**:
   **project convention**).
 - **Authorization** is application logic (roles/permissions/ownership) — not “the client
   sent `role: admin`.”
-- Do not put secrets in query strings or logs (also L8 when written).
-- Deep product auth/PII rules wait for **L8**; L5 only places the boundary.
+- Do not put secrets in query strings or logs (**L6**, **L8**).
+- Deep product auth/PII rules: **L8**. L5 only places the boundary.
 
 ```
 ✓  middleware loads principal → handler checks canCancel(order, principal)
@@ -433,5 +433,5 @@ Working clients and safe retries beat diagram purity.
 | Framework | **L3** |
 | Storage shape, null, JSON retention | **L4** |
 | Testing contracts | **L7** |
-| Auth/PII product policy | **L8** (when written) |
-| Rollout of breaking APIs | **L9** (when written) |
+| Auth/PII product policy | **L8** |
+| Rollout of breaking APIs | **L9** |

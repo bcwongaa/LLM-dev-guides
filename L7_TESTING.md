@@ -338,4 +338,6 @@ Working safety nets beat ritual. Dishonest tests are worse than a documented gap
 | Engines/modules testable in isolation | **L2** |
 | Runner/tooling defaults | **L3** / project |
 | Data invariants under test | **L4** |
-| Contract tests at the wire | **L5** (when written) |
+| Contract tests at the wire | **L5** |
+| Authz / IDOR regressions | **L8** |
+| Safe rollout of test impact | **L9** |
