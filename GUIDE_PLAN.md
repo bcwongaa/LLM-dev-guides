@@ -39,7 +39,7 @@ Underscores only — no spaces in paths.
 | L4 | `L4_DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | **v1 draft** (file on disk; author review / plan notes backfill) |
 | L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | not started |
 | L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | not started |
-| L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | not started |
+| L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | **v1 draft** (author review) |
 | L8 | `L8_SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | not started |
 | L9 | `L9_CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | not started |
 | L10 | `L10_DECISIONS/` (ADRs) | Long-lived “why we chose X”; one file per decision | not started |
@@ -117,7 +117,7 @@ smallest change that ships >  drive-by improvement
 |---|---|---|
 | **now** | **L2 Project Bootstrap** | **v1 draft** — author review |
 | next | L4 author sign-off | Mark **v1** after review; optional small fixes from L4 review |
-| then | L7 Testing | Agents over/under-test without an explicit bar |
+| **now** | **L7 Testing** | **v1 draft** — author review; L1 §20 points here |
 | then | L5 API & Contracts | Natural after domain + data shape |
 | then | L6 Observability | Includes DB health |
 | then | L9 Change & Release | Migrations + deploy safety after schema rules exist |
@@ -398,9 +398,32 @@ HTTP/events/DTOs, versioning, errors at the wire.
 
 Logs/metrics/traces + DB health.
 
-### L7 Testing — consult later
+### L7 Testing — v1 draft (2026-07-13)
 
-What/how to test; factories; flakes.
+#### Author answers (2026-07-13)
+
+| Topic | Choice |
+|---|---|
+| **Job** | Policy bar: what/when/how much — not a runner tutorial |
+| **Rhythm** | TDD when logic non-trivial; **TDD very important**; greenfield: **tests first** |
+| **Priority** | Business rules + regressions first |
+| **Shape** | Pyramid: many unit, some integration, few E2E |
+| **Mocks** | Mock IO at boundaries; don’t mock the unit under test |
+| **Flakes** | Fix or delete — never ignore |
+| **Live deps** | No prod; local/test DB or fakes only |
+| **Coverage %** | No global target |
+| **Snapshots** | Rare — stable pure output only |
+| **L1 §20** | **Move all test rules into L7**; L1 is pointer only |
+| **Divide & conquer** | Test each unit/engine **in isolation** |
+| **Greenfield tests first** | Harness + first failing test before feature code |
+| **Uncertainty** | Normal not to know full matrix at setup; still write enough tests so you need not re-break the same code later |
+| **Visual/E2E** | Critical journeys + when UI changed |
+| **Done** | Tests not worse + new logic/regression covered |
+
+#### Draft notes
+
+- File: `L7_TESTING.md` — **v1 draft**
+- L1 §20 reduced to pointer to L7
 
 ### L8 Security & Secrets — consult later
 
@@ -431,7 +454,8 @@ rationale lives in each L-file. Until the suite is done, README can point at thi
 - [x] **Adapters v1** (Claude, Codex, Grok — thin; point at L\*)
 - [ ] L4 author accepts as **v1** (draft on disk)
 - [ ] L2 author accepts as **v1** (draft on disk)
-- [ ] L5–L9 each have a v1 the author accepts as “sounds like me”
+- [ ] L7 author accepts as **v1** (draft on disk)
+- [ ] L5, L6, L8, L9 each have a v1 the author accepts as “sounds like me”
 - [ ] L10 has format + process (and ideally one real decision)
 - [ ] README routes tasks → layers **and** which adapter to install for which tool
 - [ ] Cross-links between guides are consistent (L1 ≠ domain split; L3 = stack; L4 = data; etc.)

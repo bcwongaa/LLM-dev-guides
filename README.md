@@ -14,7 +14,7 @@ decisions match the author’s mental model, not generic “best practice.”
 | L4 | `L4_DATA_MODEL.md` | **v1 draft** (author review) |
 | L5 | `L5_API_AND_CONTRACTS.md` | planned |
 | L6 | `L6_OBSERVABILITY.md` | planned |
-| L7 | `L7_TESTING.md` | planned |
+| L7 | `L7_TESTING.md` | **v1 draft** (author review) |
 | L8 | `L8_SECURITY_AND_SECRETS.md` | planned |
 | L9 | `L9_CHANGE_AND_RELEASE.md` | planned |
 | L10 | `L10_DECISIONS/` | planned |
@@ -34,7 +34,8 @@ per-layer notes. That file will be deleted when the suite is stable.
 | Language / framework / storage choice | `L3_LANGUAGE_AND_FRAMEWORK.md` |
 | Schema, invariants, migrations, money/time (draft) | `L4_DATA_MODEL.md` |
 | Greenfield layout / engines / domain split (draft) | `L2_PROJECT_BOOTSTRAP.md` |
-| Other domains (API, test, security, release, …) | not written yet; follow local code + L0 ask-list |
+| Testing policy, TDD, pyramid, factories (draft) | `L7_TESTING.md` |
+| Other domains (API, security, release, …) | not written yet; follow local code + L0 ask-list |
 | Tool entry templates | [`adapters/`](./adapters/) — this suite also has root `CLAUDE.md` / `AGENTS.md` |
 
 **Conflict order (summary):** local code > these guides > third-party skills (except pure

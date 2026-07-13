@@ -773,38 +773,13 @@ enforcement.
 
 ---
 
-## 20. Test structure
+## 20. Tests → L7
 
-Function names describe the **behavior verified**, not the operation tested.
+Testing policy, TDD, pyramid, mocks, flakes, naming, and factories live in
+**L7** (`L7_TESTING.md`). Do not invent a second test style here.
 
-```
-✓ recent_trade_is_not_stale
-✓ cancelling_shipped_order_throws
-✗ test_stale_trade_detection
-✗ test_cancel_order
-```
-
-Test data is built by **private factory functions** inside the test module, not fixtures
-or shared state. Each factory takes only the parameters that vary across test cases;
-everything else is hardcoded to a sensible default.
-
-```
-✓
-function makeOrder(overrides: Partial<Order> = {}): Order {
-  return {
-    id: 'ord_test_1',
-    userId: 'user_test_1',
-    status: 'pending',
-    total: 100,
-    ...overrides,
-  }
-}
-
-test('cancelling_shipped_order_throws', () => {
-  const order = makeOrder({ status: 'shipped' })
-  expect(() => cancelOrder(order)).toThrow(OrderAlreadyShippedError)
-})
-```
+Day-to-day reminder only: tests must **not be worse** after a change (see “What complete
+means” and post-code check above). For everything else about tests, open L7.
 
 ---
 
