@@ -49,7 +49,7 @@ Adapter details: [`adapters/README.md`](./adapters/README.md)
 
 | Need | Open |
 |---|---|
-| How any agent should work | `L0_AGENT_PROTOCOL.md` |
+| How any agent should work (incl. git flow + parallel agents) | `L0_AGENT_PROTOCOL.md` |
 | Code shape / smells | `L1_CODING_STYLE.md` |
 | Greenfield layout / engines | `L2_PROJECT_BOOTSTRAP.md` |
 | Language / framework / storage | `L3_LANGUAGE_AND_FRAMEWORK.md` |

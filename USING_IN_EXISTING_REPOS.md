@@ -138,6 +138,14 @@ hard-to-reverse — L10).
 Create `docs/agent/STATUS.md` when work spans sessions or tools (Grok ↔ Claude ↔ Codex).
 Mandatory sections (L0): Goal, Done, Next, Do not touch, Open questions.
 
+### Git flow and parallel agents
+
+L0 defines **team-style** flow for this suite: feature branch from `develop` (else `main`),
+small PRs, delete branch after merge, human merges base, conflicts via rebase + understand
+the other side. Parallel agents get **one branch/worktree each** — see L0 sections
+*Team-style git flow* and *Parallel agents and subagents*. Project may override base branch
+names in its adapter if different.
+
 ### App-local ADRs
 
 Product-specific standing decisions → e.g. `docs/adrs/` in the app (L10).  
