@@ -15,8 +15,8 @@ decisions match the author’s mental model, not generic “best practice.”
 | L5 | `L5_API_AND_CONTRACTS.md` | **v1** |
 | L6 | `L6_OBSERVABILITY.md` | **v1** |
 | L7 | `L7_TESTING.md` | **v1** |
-| L8 | `L8_SECURITY_AND_SECRETS.md` | planned |
-| L9 | `L9_CHANGE_AND_RELEASE.md` | **v1 draft** (author review) |
+| L8 | `L8_SECURITY_AND_SECRETS.md` | **v1 draft** (author review) |
+| L9 | `L9_CHANGE_AND_RELEASE.md` | **v1** |
 | L10 | `L10_DECISIONS/` | planned |
 | Adapters | `adapters/{claude,codex,grok}/` | **v1** |
 
@@ -37,8 +37,9 @@ per-layer notes. That file will be deleted when the suite is stable.
 | Testing policy, TDD, pyramid, factories | `L7_TESTING.md` |
 | HTTP / events / DTOs / contracts | `L5_API_AND_CONTRACTS.md` |
 | Logs / metrics / traces / DB health | `L6_OBSERVABILITY.md` |
-| Change / release / migrations rollout (draft) | `L9_CHANGE_AND_RELEASE.md` |
-| Other domains (security, ADRs, …) | not written yet; follow local code + L0 ask-list |
+| Change / release / migrations rollout | `L9_CHANGE_AND_RELEASE.md` |
+| Auth / PII / secrets (draft) | `L8_SECURITY_AND_SECRETS.md` |
+| Long-lived decisions (ADRs) | L10 — not started |
 | Tool entry templates | [`adapters/`](./adapters/) — this suite also has root `CLAUDE.md` / `AGENTS.md` |
 
 **Conflict order (summary):** local code > these guides > third-party skills (except pure

@@ -40,8 +40,8 @@ Underscores only — no spaces in paths.
 | L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | **v1** |
 | L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | **v1** |
 | L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | **v1** |
-| L8 | `L8_SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | not started |
-| L9 | `L9_CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | **v1 draft** (author review) |
+| L8 | `L8_SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | **v1 draft** (author review) |
+| L9 | `L9_CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | **v1** |
 | L10 | `L10_DECISIONS/` (ADRs) | Long-lived “why we chose X”; one file per decision | not started |
 
 ### Tool adapters (first-class, not optional)
@@ -118,8 +118,8 @@ smallest change that ships >  drive-by improvement
 | done | L2, L4, L7 | **v1** (author accepted) |
 | done | L5 API & Contracts | **v1** (author accepted; transport §1 included) |
 | done | L6 Observability | **v1** (author accepted) |
-| **now** | **L9 Change & Release** | **v1 draft** — author review |
-| then | L8 Security & Secrets | When auth/PII pain appears or before public APIs |
+| done | L9 Change & Release | **v1** (author accepted) |
+| **now** | **L8 Security & Secrets** | **v1 draft** — author review |
 | then | L10 Decisions | Standing process; first ADRs as real choices are recorded |
 
 Order can change if the author prioritizes a pain point.
@@ -460,11 +460,28 @@ stays **L3**; data shape **L4**.
 - File: `L7_TESTING.md` — **v1** (author accepted)
 - L1 §20 reduced to pointer to L7
 
-### L8 Security & Secrets — consult later
+### L8 Security & Secrets — v1 draft (2026-07-13)
 
-Auth, PII, secrets.
+#### Author answers (2026-07-13)
 
-### L9 Change & Release — v1 draft (2026-07-13)
+| Topic | Choice |
+|---|---|
+| **Job** | Broad security topics, still rule-dense (not long tutorials) |
+| **Secrets** | Env/secret manager only; never git/client; **`.env.example` placeholders OK** |
+| **Authz** | Server-side on every sensitive action; never trust client role |
+| **PII** | Collect minimum; encrypt/hash sensitive at rest; never log freely |
+| **Passwords** | No plaintext; proven lib/IdP; no home-grown crypto |
+| **IDOR** | Every query scoped to principal’s tenant/resource |
+| **Injection/XSS/CSRF** | Parameterized queries; encode output; framework CSRF for cookie sessions |
+| **Deps** | Don’t add unvetted; prefer known stack; **prefer ~3 day delay on brand-new packages** |
+| **SSRF** | No user-controlled URL fetch without allowlist/guard |
+| **Admin** | Separate authz; audit log; no admin via client body |
+
+#### Draft notes
+
+- File: `L8_SECURITY_AND_SECRETS.md` — **v1 draft**
+
+### L9 Change & Release — v1 (accepted)
 
 #### Author answers (2026-07-13)
 
@@ -483,7 +500,7 @@ Auth, PII, secrets.
 
 #### Draft notes
 
-- File: `L9_CHANGE_AND_RELEASE.md` — **v1 draft**
+- File: `L9_CHANGE_AND_RELEASE.md` — **v1** (author accepted)
 
 ### L10 Decisions — consult later
 
@@ -509,8 +526,8 @@ rationale lives in each L-file. Until the suite is done, README can point at thi
 - [x] L7 **v1**
 - [x] L5 **v1**
 - [x] L6 **v1**
-- [ ] L9 author accepts as **v1** (draft on disk)
-- [ ] L8 **v1**
+- [x] L9 **v1**
+- [ ] L8 author accepts as **v1** (draft on disk)
 - [ ] L10 has format + process (and ideally one real decision)
 - [ ] README routes tasks → layers **and** which adapter to install for which tool
 - [ ] Cross-links between guides are consistent (L1 ≠ domain split; L3 = stack; L4 = data; etc.)
