@@ -68,6 +68,10 @@ how-to) > model taste.
 **Bootstrap:** thin adapter → L0 → only the L\* files the task needs → `docs/agent/STATUS.md`
 if present.
 
+**Orchestration:** root asks the human; subagents escalate to parent (L0). Write children
+need a full brief (paths, `GUIDES_ROOT`, L0). See L0 orchestrator checklist and
+brief/result templates.
+
 ## Public repo notes
 
 - **No secrets belong here** — only placeholders (e.g. in security examples). Don’t open PRs
@@ -79,6 +83,5 @@ if present.
 
 ## License
 
-No `LICENSE` file is in the tree yet. **Public visibility ≠ a clear grant of rights** —
-add an explicit license (MIT, Apache-2.0, etc.) on GitHub if you want others to reuse
-this safely. Until then, treat reuse as “ask the owner / check GitHub defaults.”
+[MIT](./LICENSE) — free to use, copy, modify, and distribute with attribution notice
+retained.

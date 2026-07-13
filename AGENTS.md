@@ -31,7 +31,9 @@ GUIDES_ROOT=.
 
 This project is run with **always-approve / full auto** permissions. You may run commands and edit files freely **within L0 scope rules**.
 
-Still **always ask** for: greenfield stack, new services, schema/API breaks, security/PII/secrets, ambiguous product intent, scope expansion — and before rewriting author-native guide voice without review.
+Still **always ask** for: greenfield stack, new services, schema/API breaks, security/PII/secrets, ambiguous product intent, scope expansion — and before rewriting author-native guide voice without review — **if you are the root session**.
+
+**If you are a subagent:** escalate always-ask items to your **parent** (you cannot ask the human). See L0.
 
 ---
 

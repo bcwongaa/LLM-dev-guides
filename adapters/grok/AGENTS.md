@@ -32,7 +32,9 @@ Inside the suite repo itself, use `.`
 This project is run with **always-approve / yolo-style** permissions (no interactive tool prompts).  
 You may run commands and edit files freely **within L0 scope rules**.
 
-Still **always ask** (L0) for: greenfield stack, new services, schema/API breaks, security/PII/secrets, ambiguous product intent, scope expansion.
+Still **always ask** (L0) for: greenfield stack, new services, schema/API breaks, security/PII/secrets, ambiguous product intent, scope expansion — **if you are the root session talking to the human**.
+
+**If you are a subagent:** you **cannot** ask the human. Escalate always-ask items to your **parent** (options + recommendation). Parent decides or escalates; hard items (destructive data, new auth, new deployable, true product ambiguity) go human via root. See L0 parent/subagent rules.
 
 Permissionless ≠ autonomous product or architecture decisions.
 

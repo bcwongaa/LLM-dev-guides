@@ -142,9 +142,17 @@ Mandatory sections (L0): Goal, Done, Next, Do not touch, Open questions.
 
 L0 defines **team-style** flow for this suite: feature branch from `develop` (else `main`),
 small PRs, delete branch after merge, human merges base, conflicts via rebase + understand
-the other side. Parallel agents get **one branch/worktree each** — see L0 sections
-*Team-style git flow* and *Parallel agents and subagents*. Project may override base branch
-names in its adapter if different.
+the other side. Parallel agents get **one branch/worktree each**; **serialize** lockfiles and
+migration chains. See L0: *Team-style git flow*, *Parallel agents and subagents*,
+*Orchestrator checklist*, *Subagent brief and result templates*.
+
+**Orchestrator / delegation:** the root parent loads L0 fully; every **write** child must
+be briefed with `GUIDES_ROOT`, L0 (or equivalent), owned paths, decisions already made, and
+“escalate always-ask to parent.” Nested children escalate to their **direct** spawner only;
+only the root asks the human. Hard items (destructive data, new auth, new deployable,
+product ambiguity) must not be rubber-stamped by a parent.
+
+Project may override base branch names in its adapter if different.
 
 ### App-local ADRs
 
@@ -173,10 +181,11 @@ list (stack, schema breaks, security, scope expansion) or L9 “human ships prod
 
 Ask the agent (any tool):
 
-> Read AGENTS.md/CLAUDE.md and L0. Summarize conflict order and which guide you open for a
-> schema migration. Do not edit code.
+> Read AGENTS.md/CLAUDE.md and L0. Summarize conflict order, which guide you open for a
+> schema migration, and what a subagent does on an always-ask item. Do not edit code.
 
-Expect: local code > guides; L4 + L9 (and L1 for code shape); ask on destructive steps.
+Expect: local code > guides; L4 + L9 (and L1 for code shape); destructive → ask human (root)
+or escalate to parent (subagent); parallel writers isolated.
 
 ---
 

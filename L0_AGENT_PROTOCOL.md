@@ -21,6 +21,9 @@ not coding style, not stack choice, not domain design.
 - WIP handoff (`docs/agent/STATUS.md`) and PR handoff
 - Team-style git flow (feature branches, small PRs, base branch, conflicts)
 - Parallel agents / subagents (isolation, ownership, handoff)
+- Parent/subagent authority, nested spawners, orchestrator checklist
+- Subagent brief and result templates
+- Shared hotspot serialization (lockfiles, migrations)
 - How third-party skills relate to these guides
 
 **Out of scope** (do not put these in L0)
@@ -222,16 +225,49 @@ Rules:
    parent owns decisions it approved for subagents.
 4. **Write decisions down** (STATUS, PR, or brief handoff) so other agents/subagents do not
    re-litigate.
+5. **Hard escalate to the human** (parent must not rubber-stamp) for:
+   - destructive or irreversible **data** loss;
+   - **new auth model** / security boundary change;
+   - **new deployable** / multi-repo split;
+   - true **product ambiguity** the user task does not settle.
+   On those, parent asks the human even when unblocking a subagent. Other ask-list items
+   (routine scope edge, non-destructive dual-write design within an approved feature) the
+   parent may decide from guides + task.
 
 ```
 ✓  Subagent: “Need stack for new worker — options A/B; recommend B per L3. Parent decide.”
 ✓  Parent: decides B from guides + user goal, or asks human if still ambiguous
+✓  Parent: subagent wants DROP COLUMN — parent asks human, does not auto-approve
 ✗  Subagent silently scaffolds a new service and new DB because it “had to progress”
-✗  Parent ignores ask-list and says “whatever, keep going” on destructive migration
+✗  Parent rubber-stamps destructive migration “to unblock” the child
 ```
 
 Parallel **peer** agents (separate sessions both talking to the human) still **ask the
 human** on the always-ask list — only **subagents under a parent** use parent-as-authority.
+
+### Nested spawners (multi-level delegation)
+
+Authority is always **direct spawner**, not “any ancestor” improvising:
+
+```
+Human
+  └─ Root parent (only role that asks the human)
+        └─ Child A (subagent)     → escalates to Root
+              └─ Grandchild A1   → escalates to Child A (not straight to Human)
+```
+
+| Rule | Detail |
+|---|---|
+| **Escalate to direct parent only** | A worker reports blockers to who spawned it |
+| **Only root talks to human** | Intermediate parents either decide (within guides + brief) or escalate upward |
+| **Same hard human list** | Destructive data, new auth, new deployable, true product ambiguity — bubble to root → human |
+| **No orphan writers** | Every write agent has a clear parent responsible for its decisions |
+
+```
+✓  A1 blocks on schema → A decides or escalates to root → root asks human if hard item
+✗  A1 “asks the human” directly and ignores A
+✗  Root claims it never knew A approved a new service
+```
 
 ---
 
@@ -260,7 +296,8 @@ non-trivial:
 
 - Change code outside the task
 - “While I’m here” refactors or cleanups
-- Expand the task without explicit human approval
+- Expand the task without explicit approval from the **human**, or from the **parent**
+  when you are a subagent (parent documents the expansion; hard items still go to human)
 - Touch unrelated files to satisfy personal taste
 
 If fixing the task truly requires a one-line change in a dependency of the edit path, that
@@ -454,10 +491,30 @@ teammates who do not type in the same dirty working tree.
 3. Write STATUS for that stream: Goal, Done, Next, **Do not touch**, Open questions.  
 4. Stay inside owned paths unless the human expands scope.  
 
+### Shared hotspots (serialize)
+
+Some paths cannot be safely parallel-edited. Assign **one owner workstream** or run
+**serially** (queue):
+
+| Hotspot (examples) | Rule |
+|---|---|
+| Lockfiles (`package-lock.json`, `pnpm-lock.yaml`, `Cargo.lock`, …) | One owner per change wave |
+| Migration chains / linear schema history | One writer; others wait or stack after merge |
+| Generated dumps that rewrite whole files | One owner |
+| Global CI config / root release config | One owner unless split is explicit |
+
+```
+✓  Agent A owns migrations this wave; B does not touch supabase/migrations/
+✓  After A merges, B rebases and adds its migration
+✗  A and B both regenerate package-lock on parallel branches without a merge plan
+```
+
+If two streams both need a hotspot: **stop**, coordinate via parent/STATUS, or sequence PRs.
+
 ### When streams collide
 
 - If you need a file another stream owns: **stop**, read their STATUS/PR, and either wait,
-  split work, or ask the human.
+  split work, or escalate (human if peer sessions; parent if subagent).
 - Merge conflicts across streams: same conflict rules — rebase, understand the other
   change, no blind overwrite.
 - Do not “win” by deleting the other agent’s uncommitted work.
@@ -471,17 +528,75 @@ Subagents inherit **this protocol** (scope, guides, git isolation). Prefer:
 - parent integrates via PR or explicit sequential merge — not three writers on `main`.
 
 **Ask vs decide:** subagents **cannot ask the human**. On any always-ask item, they
-**escalate to the parent**; the **parent decides** (or asks the human). See
-[Parent agent is the authority for subagents](#parent-agent-is-the-authority-for-subagents).
+**escalate to the direct parent**; the parent decides or escalates (nested rules above).
+Hard items → root → human.
+
+**Context packing (required for write children):** every write subagent must receive enough
+protocol to obey it — at minimum: path to **L0** (or an embedded child brief that restates
+isolation + escalate-to-parent + owned paths), `GUIDES_ROOT`, owned/forbidden paths, and
+decisions already made. A three-line “go implement X” with no L0 is a protocol failure by
+the parent.
 
 When briefing a subagent, the parent should pre-decide or constrain ask-list topics
 (stack, scope boundaries, “do not migrate”, owned paths) so the subagent is not blocked
-mid-flight without a channel.
+mid-flight without a channel. Use the [brief template](#subagent-brief-and-result-templates).
 
 ```
 ✓  Parent brief: “TS + existing Nest app only; no new deployable; touch only billing/”
 ✓  Subagent blocks: “Schema break needed — parent must decide expand steps”
 ✗  Subagent invents auth model because parent is busy
+✗  Parent spawns writer with no GUIDES_ROOT and no owned paths
+```
+
+### Subagent brief and result templates
+
+Copy/adapt these in the parent prompt or STATUS. Keep short.
+
+**Brief (parent → child):**
+
+```markdown
+## Brief
+- Goal:
+- GUIDES_ROOT:
+- Read first: L0 (+ L1/L7/… as needed)
+- Owned paths:
+- Do not touch:
+- Decisions already made: (stack, scope, no new service, …)
+- Branch / worktree:
+- Done means:
+- On always-ask items: escalate to parent (you cannot ask the human)
+```
+
+**Result (child → parent):**
+
+```markdown
+## Result
+- Status: done | blocked | partial
+- Summary:
+- Branch / PR:
+- Files touched:
+- Tests / verify:
+- Blockers / decisions needed: (options + recommendation)
+- Do not touch still holds: yes/no
+```
+
+### Orchestrator checklist
+
+When one agent **plans and delegates** (tech-lead / orchestrator role):
+
+1. **Understand** user goal; open L0 + relevant L\*.  
+2. **Plan** workstreams (≤5 bullets each); prefer small PRs.  
+3. **Assign** owned paths; name hotspot owners; forbid shared dirty trees.  
+4. **Brief** each write child with the template above (include L0 / GUIDES_ROOT).  
+5. **Run** children in parallel only when paths/hotspots don’t fight.  
+6. **Collect** results; decide or escalate ask-list items (hard list → human).  
+7. **Integrate** — rebase onto base, fix conflicts with understanding, open/update PRs.  
+8. **Human merges** protected base; delete feature branches after merge.  
+9. **Update** STATUS; clear done streams.
+
+```
+✓  Orchestrator sequences migration PR before feature PR that depends on it
+✗  Fan-out five writers on one worktree with one sentence each
 ```
 
 ---
@@ -527,6 +642,10 @@ task needs that vendor/domain.
 | Reusing a merged branch for the next feature | Dirty history; wrong base |
 | Subagent silently deciding always-ask items | No human channel; invents architecture |
 | Parent blaming subagent for an unapproved stack/schema choice | Parent is the authority for subagents |
+| Parent rubber-stamping destructive/auth/deployable choices | Hard items must reach the human |
+| Write subagent without L0 / owned paths in brief | Protocol never enters context |
+| Parallel edits to lockfile or migration chain | Unmergeable or broken history |
+| Nested child escalating to human, skipping parent | Breaks authority chain |
 
 ---
 
@@ -548,10 +667,12 @@ exception.
 - [ ] L0 applied; only relevant L\* opened
 - [ ] STATUS read if present; updated if WIP spans tools/sessions/workstreams
 - [ ] Plan written if non-trivial
-- [ ] Ask-list items: human asked (parent session) or parent decided for subagents (documented)
-- [ ] No out-of-scope edits
+- [ ] Ask-list items: human asked (root) or parent decided for children (documented); hard items not rubber-stamped
+- [ ] No out-of-scope edits (human or parent-approved expansion only)
 - [ ] Feature branch from integration base (`develop` if present, else `main`)
-- [ ] Parallel work isolated (own branch/worktree; path ownership)
+- [ ] Parallel work isolated (own branch/worktree; path ownership; hotspots serialized)
+- [ ] Write subagents briefed with L0/GUIDES_ROOT + owned paths + escalate-to-parent
+- [ ] Nested agents escalate to direct parent only
 - [ ] Tests not worse; lint/types clean if available
 - [ ] Short summary delivered
 - [ ] Small, purposeful PR when review-ready; description filled

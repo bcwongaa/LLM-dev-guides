@@ -39,7 +39,9 @@ GUIDES_ROOT=.          # when working inside this suite repo
 
 Author runs **permissionless / always-approve** on all three tools. Adapters assume the agent
 may run commands and edit files without interactive permission prompts. That does **not**
-relax L0: still ask on greenfield stack, schema breaks, security, and scope expansion.
+relax L0: root sessions still ask on greenfield stack, schema breaks, security, and scope
+expansion. **Subagents** escalate those items to the **parent** (see L0) — they do not ask
+the human directly.
 
 See each adapter’s `NOTES.md` for tool-specific flags.
 
