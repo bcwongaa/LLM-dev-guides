@@ -51,9 +51,9 @@ suite. **No second style system.** Adapters point at guides; they do not restate
 
 | Adapter | Planned location | Tool | Status |
 |---|---|---|---|
-| Claude | `adapters/claude/` (templates: `CLAUDE.md`, optional `.claude/rules/` stubs) | Claude Code | not started |
-| Codex | `adapters/codex/` (templates: `AGENTS.md`, notes for `~/.codex` if needed) | OpenAI Codex | not started |
-| Grok Build | `adapters/grok/` (templates + session bootstrap for Grok Build) | Grok Build | not started |
+| Claude | `adapters/claude/` (`CLAUDE.md` + `NOTES.md`) | Claude Code | **v1** |
+| Codex | `adapters/codex/` (`AGENTS.md` + `NOTES.md`) | OpenAI Codex | **v1** |
+| Grok Build | `adapters/grok/` (`AGENTS.md` + `NOTES.md`) | Grok Build | **v1** |
 
 **Rules for adapters:**
 
@@ -102,7 +102,7 @@ smallest change that ships >  drive-by improvement
 |---|---|---|
 | 1 | L1 Coding Style | Done — template and daily maintenance |
 | 2 | **L3 Language & Framework** | Stops stack invention; unblocks greenfield without full L2 |
-| 3 | **Tool adapters (Claude, Codex, Grok Build)** | Multi-tool requirement; filenames agreed in L0 consult; **templates still to draft** after L0 review |
+| 3 | **Tool adapters (Claude, Codex, Grok Build)** | **v1** under `adapters/`; suite root has live `CLAUDE.md` + `AGENTS.md` |
 | 4 | L0 Agent Protocol | **v1** — body accepted; goal blurb dropped |
 | 5 | L4 Data Model | Highest blast radius after code shape |
 | 6 | L2 Project Bootstrap | Domain split / layout; depends on knowing stack defaults (L3) |
@@ -310,9 +310,9 @@ Do not draft L0, L2, L4–L10, or adapter templates until the author starts that
 consult. When starting a layer, add an **Author answers** block under that layer in this
 file (same pattern as L3).
 
-### Tool adapters (Claude, Codex, Grok Build) — plan before L0
+### Tool adapters (Claude, Codex, Grok Build) — v1
 
-**Status:** planned; consult + layout **before** drafting L0.
+**Status:** **v1** shipped under `adapters/` + suite root entry files.
 
 **Why before L0:** L0 is the shared protocol. It must say “open your tool’s entry file,
 then follow this ritual.” That only works if adapters exist as a named deliverable with
@@ -327,26 +327,21 @@ agreed entry filenames and non-goals.
 - Adapters are templates shipped from this repo into real projects (or referenced as the
   canonical pattern).
 
-#### Open consult questions (answer before drafting adapters or L0)
+#### Shipped (2026-07-13)
 
-1. **Layout:** prefer `adapters/{claude,codex,grok}/` with copy-paste templates, or also
-   root-level example files in this repo?
-2. **Claude:** how much of `.claude/rules/` and hooks is template vs “leave to each app”?
-3. **Codex:** is root `AGENTS.md` the only required surface, or also `~/.codex/AGENTS.md`
-   personal defaults?
-4. **Grok Build:** current entry mechanism (project instructions file, session preamble,
-   config)? Capture whatever is real at draft time — do not invent a fake CLAUDE.md twin.
-5. **Handoff:** is a short `STATUS.md` / PR comment the cross-tool continuity mechanism,
-   or something else?
-6. **Sync rule:** when L1–L10 change, adapters only change if entrypoints/commands change —
-   never re-copy style rules into adapters.
+- Layout: `adapters/{claude,codex,grok}/` templates + root `CLAUDE.md` / `AGENTS.md` for this suite
+- Permissionless assumed on all three tools (NOTES.md has operator flags)
+- Claude: optional `.claude/rules/` = project facts only (not in template tree)
+- Codex: root `AGENTS.md` is the project surface; `~/.codex` personal only
+- Grok: reads `AGENTS.md` (shared with Codex); also loads `CLAUDE.md` if present — keep in sync
+- Handoff: L0 (`docs/agent/STATUS.md` + PR)
+- Sync rule: adapters change only when entrypoints/ritual change — never re-copy L1/L3
 
-#### Draft non-goals (until author overrides)
+#### Non-goals (hold)
 
-- No full restatement of L1/L3 inside any adapter.
-- No adapter-specific coding style.
-- No requirement that all three tools are installed in every environment — only that this
-  repo documents how each one should attach when used.
+- No full restatement of L1/L3 inside any adapter
+- No adapter-specific coding style
+- No requirement that all three tools are installed everywhere
 
 ### L0 Agent Protocol — consult in progress (2026-07-13)
 
@@ -437,7 +432,7 @@ rationale lives in each L-file. Until the suite is done, README can point at thi
 
 - [ ] L0–L9 each have a v1 the author accepts as “sounds like me”
 - [ ] L10 has format + process (and ideally one real decision)
-- [ ] **Adapters v1:** Claude, Codex, and Grok Build templates exist and stay thin (point at L*; no forked style)
+- [x] **Adapters v1:** Claude, Codex, and Grok Build templates exist and stay thin (point at L*; no forked style)
 - [ ] README routes tasks → layers **and** which adapter to install for which tool
 - [ ] Cross-links between guides are consistent (L1 does not own domain split; L3 owns stack defaults; etc.)
 - [ ] Delete `GUIDE_PLAN.md`

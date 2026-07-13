@@ -18,7 +18,7 @@ decisions match the author’s mental model, not generic “best practice.”
 | L8 | `L8_SECURITY_AND_SECRETS.md` | planned |
 | L9 | `L9_CHANGE_AND_RELEASE.md` | planned |
 | L10 | `L10_DECISIONS/` | planned |
-| Adapters | `adapters/{claude,codex,grok}/` | planned (thin entry templates) |
+| Adapters | `adapters/{claude,codex,grok}/` | **v1** (thin entry templates) |
 
 ## Writing plan (temporary)
 
@@ -31,4 +31,4 @@ per-layer notes. That file will be deleted when the suite is stable.
 - **Shaping code you already know where to put** → `L1_CODING_STYLE.md`
 - **Language / framework / storage choice** → `L3_LANGUAGE_AND_FRAMEWORK.md`
 - **Everything else** → not written yet; do not invent a second style system
-- **Tool entry files** → thin `CLAUDE.md` / `AGENTS.md` (adapters planned under `adapters/`)
+- **Tool entry files** → root `CLAUDE.md` / `AGENTS.md` (this repo); templates under [`adapters/`](./adapters/)

@@ -76,8 +76,8 @@ L1/L3.
 **L0 job:** shared ritual for every tool.  
 **L1–L10 job:** domain law.
 
-Templates for adapters live in this suite under `adapters/` (when present). Consuming repos
-copy or symlink them; they must stay thin.
+Templates live under `adapters/` (`claude/`, `codex/`, `grok/`). Consuming repos copy or
+symlink them into the root; they must stay thin. See `adapters/README.md`.
 
 ---
 
