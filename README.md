@@ -9,7 +9,7 @@ decisions match the author’s mental model, not generic “best practice.”
 |---|---|---|
 | L0 | `L0_AGENT_PROTOCOL.md` | **v1** |
 | L1 | `L1_CODING_STYLE.md` | **v1** |
-| L2 | `L2_PROJECT_BOOTSTRAP.md` | consult in progress |
+| L2 | `L2_PROJECT_BOOTSTRAP.md` | **v1 draft** (author review) |
 | L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | **v1** |
 | L4 | `L4_DATA_MODEL.md` | **v1 draft** (author review) |
 | L5 | `L5_API_AND_CONTRACTS.md` | planned |
@@ -33,7 +33,7 @@ per-layer notes. That file will be deleted when the suite is stable.
 | Code shape / smells | `L1_CODING_STYLE.md` |
 | Language / framework / storage choice | `L3_LANGUAGE_AND_FRAMEWORK.md` |
 | Schema, invariants, migrations, money/time (draft) | `L4_DATA_MODEL.md` |
-| Greenfield layout / domain split | L2 — not written yet; do not invent a house layout system |
+| Greenfield layout / engines / domain split (draft) | `L2_PROJECT_BOOTSTRAP.md` |
 | Other domains (API, test, security, release, …) | not written yet; follow local code + L0 ask-list |
 | Tool entry templates | [`adapters/`](./adapters/) — this suite also has root `CLAUDE.md` / `AGENTS.md` |
 

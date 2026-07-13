@@ -34,7 +34,7 @@ Underscores only — no spaces in paths.
 |---|---|---|---|
 | L0 | `L0_AGENT_PROTOCOL.md` | How agents work in any repo that uses these guides: scope, when to open which guide, ask vs decide, definition of done | **v1** |
 | L1 | `L1_CODING_STYLE.md` | Day-to-day shape of code, smells, post-code check | **v1** |
-| L2 | `L2_PROJECT_BOOTSTRAP.md` | Greenfield: stack choice entry, layout, module boundaries, when a new service is allowed | **consult in progress** |
+| L2 | `L2_PROJECT_BOOTSTRAP.md` | Greenfield: layout, domain/engine split, when a new service is allowed | **v1 draft** (author review) |
 | L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | Per-stack defaults, allowlists, error model, bans | **v1** |
 | L4 | `L4_DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | **v1 draft** (file on disk; author review / plan notes backfill) |
 | L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | not started |
@@ -115,7 +115,7 @@ smallest change that ships >  drive-by improvement
 
 | Order | Layer | Why |
 |---|---|---|
-| **now** | **L2 Project Bootstrap** | **consult in progress** — domain split / greenfield layout after stack defaults (L3) exist |
+| **now** | **L2 Project Bootstrap** | **v1 draft** — author review |
 | next | L4 author sign-off | Mark **v1** after review; optional small fixes from L4 review |
 | then | L7 Testing | Agents over/under-test without an explicit bar |
 | then | L5 API & Contracts | Natural after domain + data shape |
@@ -361,34 +361,34 @@ started.”
 - No formal consult block was captured before draft — treat review as the sign-off step
 - After accept: mark **v1** here and in README
 
-### L2 Project Bootstrap — consult in progress (2026-07-13)
+### L2 Project Bootstrap — v1 draft (2026-07-13)
 
-Greenfield layout, domain boundaries, when a new service/package is allowed. Stack
-*choice* stays **L3**; L2 is *where things live* and *how the system is split*.
+Greenfield layout, domain/engine split, when a new service is allowed. Stack *choice*
+stays **L3**; data shape **L4**.
 
-#### Author answers (2026-07-13) — round 1
-
-| Topic | Choice |
-|---|---|
-| **L2 job** | **Greenfield layout + domain split only** — not full CI/scaffold playbook; not pure domain theory. Stack = L3; data = L4. |
-| **Default system shape** | **No universal monolith-first.** Shape **depends on the product**. Prefer thinking from **what services / engines are needed**, then build a **mental model** of the project, then layout. (Closer to “split when domains differ” than “always one deployable,” but engines/services are the starting lens.) |
-| **New deployable** | Agent may **propose** when a clear boundary exists; **still confirm** before scaffolding. |
-| **Domain separation** | **Hybrid** — top-level by capability/domain; inside each domain, framework-idiomatic layers. |
-| **Monorepo vs multi-repo** | **No preference** — case by case; ask when it matters. |
-| **Folder prescription** | **Principles only** — no universal tree; no mandatory per-stack reference trees in L2 v1. |
-
-#### Author answers (2026-07-13) — round 2
+#### Author answers (2026-07-13) — rounds 1–3
 
 | Topic | Choice |
 |---|---|
-| **Greenfield order** | **Engines/services needed → mental model → layout → L3 stack per piece** |
-| **Engine vs service** | **Both** — distinguish **logical** engines/modules vs **physical** deployables. Logical split first; physical needs higher bar + ask. |
-| **Clear boundary reasons** | Different scale/failure/data ownership; different team/cadence; different language/runtime (L3). **Any may justify a proposal; none auto-approve** — still ask before scaffold. |
-| **Shared code** | **Prefer duplication over shared** — avoid shared libs until pain is real. |
-| **FE vs BE** | Align with L3: **separate apps by default** when both exist. Exception: **very small / localhost-only** projects may keep everything in the frontend. |
-| **Density / asks** | **L1-like** + always ask on new deployable, multi-repo, cross-domain rewrite. |
+| **L2 job** | Greenfield layout + domain split only |
+| **System shape** | No universal monolith-first; depends on product |
+| **Thinking order** | Engines/services needed → mental model → layout → L3 stack per piece |
+| **Engine vs service** | Logical engines/modules vs physical deployables; logical first |
+| **New deployable** | Propose when boundary clear; **always ask** before scaffold |
+| **Boundary reasons** | Scale/failure/data ownership; team/cadence; different runtime (L3) — none auto-approve |
+| **Domain separation** | Hybrid: top-level by capability; framework layers inside |
+| **Folders** | Principles only |
+| **Monorepo** | Case by case; ask when it matters |
+| **Shared code** | Prefer duplication over shared libs |
+| **Data ownership** | One DB OK with clear table ownership; separate DB when deployable/isolation needs it |
+| **In-process talk** | Direct module/public API calls; no fake HTTP inside one process |
+| **FE/BE** | Separate apps by default (L3); tiny localhost-only may be FE-only |
+| **Brownfield** | Follow local layout; no drive-by re-architecture |
+| **Density** | L1-like + structural ask list |
 
-#### Open / round 3 pending
+#### Draft notes
+
+- File: `L2_PROJECT_BOOTSTRAP.md` — **v1 draft** for author voice review
 
 ### L5 API & Contracts — consult later
 
@@ -430,7 +430,7 @@ rationale lives in each L-file. Until the suite is done, README can point at thi
 - [x] L3 **v1**
 - [x] **Adapters v1** (Claude, Codex, Grok — thin; point at L\*)
 - [ ] L4 author accepts as **v1** (draft on disk)
-- [ ] L2 **v1**
+- [ ] L2 author accepts as **v1** (draft on disk)
 - [ ] L5–L9 each have a v1 the author accepts as “sounds like me”
 - [ ] L10 has format + process (and ideally one real decision)
 - [ ] README routes tasks → layers **and** which adapter to install for which tool

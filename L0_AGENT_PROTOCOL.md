@@ -111,7 +111,7 @@ Open the **smallest** set of guides that match the task. Missing file → see
 |---|---|
 | How to start / ask vs decide / done bar | **L0** (this file) |
 | Day-to-day code shape, smells, post-code style | **L1** |
-| Greenfield layout, domain boundaries, new service? | **L2** |
+| Greenfield layout, engines/modules, new deployable? | **L2** |
 | Language / framework / storage choice or bans | **L3** |
 | Schema, migrations, keys, nullability, money/time | **L4** |
 | HTTP/events/DTOs, versioning, wire errors | **L5** |
