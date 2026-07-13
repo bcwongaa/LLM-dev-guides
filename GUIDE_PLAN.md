@@ -37,8 +37,8 @@ Underscores only — no spaces in paths.
 | L2 | `L2_PROJECT_BOOTSTRAP.md` | Greenfield: layout, domain/engine split, when a new service is allowed | **v1** |
 | L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | Per-stack defaults, allowlists, error model, bans | **v1** |
 | L4 | `L4_DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | **v1** |
-| L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | **v1 draft** (author review) |
-| L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | not started |
+| L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | **v1** |
+| L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | **v1 draft** (author review) |
 | L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | **v1** |
 | L8 | `L8_SECURITY_AND_SECRETS.md` | Auth boundaries, PII, secret handling | not started |
 | L9 | `L9_CHANGE_AND_RELEASE.md` | Expand/contract migrations, flags, rollback, deploy safety | not started |
@@ -116,8 +116,8 @@ smallest change that ships >  drive-by improvement
 | Order | Layer | Why |
 |---|---|---|
 | done | L2, L4, L7 | **v1** (author accepted) |
-| **now** | **L5 API & Contracts** | **v1 draft** — author review |
-| then | L6 Observability | Includes DB health |
+| done | L5 API & Contracts | **v1** (author accepted; transport §1 included) |
+| **now** | **L6 Observability** | **v1 draft** — author review |
 | then | L9 Change & Release | Migrations + deploy safety after schema rules exist |
 | then | L8 Security & Secrets | When auth/PII pain appears or before public APIs |
 | then | L10 Decisions | Standing process; first ADRs as real choices are recorded |
@@ -408,11 +408,30 @@ stays **L3**; data shape **L4**.
 
 #### Draft notes
 
-- File: `L5_API_AND_CONTRACTS.md` — **v1 draft** (+ transport §1 per author)
+- File: `L5_API_AND_CONTRACTS.md` — **v1** (author accepted)
 
-### L6 Observability — consult later
+### L6 Observability — v1 draft (2026-07-13)
 
-Logs/metrics/traces + DB health.
+#### Author answers (2026-07-13)
+
+| Topic | Choice |
+|---|---|
+| **Job** | What to observe + minimum bars (not full platform/on-call handbook) |
+| **Logs** | Keep L1 format; structured where needed |
+| **Metrics** | RED/USE-ish + key business counters |
+| **Tracing** | When multiple services; propagate context |
+| **DB health** | Slow queries, pool exhaustion, error rates — in L6 |
+| **PII/secrets** | Never secrets; minimize PII (depth → L8) |
+| **Levels** | error/warn/info; debug off in prod |
+| **Request IDs** | Required on external requests; propagate |
+| **Alerting/SLOs** | Out of scope — observe only |
+| **L1 §21** | L6 owns policy; L1 keeps default line format |
+| **Health** | Liveness + readiness; ready depends on critical deps |
+| **Greenfield** | **Highly recommend Datadog or equivalent observability stack immediately** — prevent late discovery of bad p95 DB paths |
+
+#### Draft notes
+
+- File: `L6_OBSERVABILITY.md` — **v1 draft**
 
 ### L7 Testing — v1 (accepted)
 
@@ -471,8 +490,9 @@ rationale lives in each L-file. Until the suite is done, README can point at thi
 - [x] L2 **v1**
 - [x] L4 **v1**
 - [x] L7 **v1**
-- [ ] L5 author accepts as **v1** (draft on disk)
-- [ ] L6, L8, L9 each have a v1 the author accepts as “sounds like me”
+- [x] L5 **v1**
+- [ ] L6 author accepts as **v1** (draft on disk)
+- [ ] L8, L9 each have a v1 the author accepts as “sounds like me”
 - [ ] L10 has format + process (and ideally one real decision)
 - [ ] README routes tasks → layers **and** which adapter to install for which tool
 - [ ] Cross-links between guides are consistent (L1 ≠ domain split; L3 = stack; L4 = data; etc.)

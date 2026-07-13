@@ -115,7 +115,7 @@ Open the **smallest** set of guides that match the task. Missing file → see
 | Language / framework / storage choice or bans | **L3** |
 | Schema, migrations, keys, nullability, money/time | **L4** |
 | HTTP/events/DTOs, versioning, wire errors | **L5** |
-| Logs, metrics, traces, DB health | **L6** |
+| Logs, metrics, traces, DB health, early APM | **L6** |
 | What to test, TDD, pyramid, factories, flakes | **L7** |
 | Auth boundaries, PII, secrets | **L8** |
 | Flags, expand/contract, rollback, deploy safety | **L9** |

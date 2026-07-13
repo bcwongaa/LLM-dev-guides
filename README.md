@@ -12,8 +12,8 @@ decisions match the author’s mental model, not generic “best practice.”
 | L2 | `L2_PROJECT_BOOTSTRAP.md` | **v1** |
 | L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | **v1** |
 | L4 | `L4_DATA_MODEL.md` | **v1** |
-| L5 | `L5_API_AND_CONTRACTS.md` | **v1 draft** (author review) |
-| L6 | `L6_OBSERVABILITY.md` | planned |
+| L5 | `L5_API_AND_CONTRACTS.md` | **v1** |
+| L6 | `L6_OBSERVABILITY.md` | **v1 draft** (author review) |
 | L7 | `L7_TESTING.md` | **v1** |
 | L8 | `L8_SECURITY_AND_SECRETS.md` | planned |
 | L9 | `L9_CHANGE_AND_RELEASE.md` | planned |
@@ -35,8 +35,9 @@ per-layer notes. That file will be deleted when the suite is stable.
 | Schema, invariants, migrations, money/time | `L4_DATA_MODEL.md` |
 | Greenfield layout / engines / domain split | `L2_PROJECT_BOOTSTRAP.md` |
 | Testing policy, TDD, pyramid, factories | `L7_TESTING.md` |
-| HTTP / events / DTOs / contracts (draft) | `L5_API_AND_CONTRACTS.md` |
-| Other domains (observability, security, release, …) | not written yet; follow local code + L0 ask-list |
+| HTTP / events / DTOs / contracts | `L5_API_AND_CONTRACTS.md` |
+| Logs / metrics / traces / DB health (draft) | `L6_OBSERVABILITY.md` |
+| Other domains (security, release, …) | not written yet; follow local code + L0 ask-list |
 | Tool entry templates | [`adapters/`](./adapters/) — this suite also has root `CLAUDE.md` / `AGENTS.md` |
 
 **Conflict order (summary):** local code > these guides > third-party skills (except pure
