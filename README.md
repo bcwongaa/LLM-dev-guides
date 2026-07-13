@@ -9,16 +9,16 @@ decisions match the author’s mental model, not generic “best practice.”
 |---|---|---|
 | L0 | `L0_AGENT_PROTOCOL.md` | **v1** |
 | L1 | `L1_CODING_STYLE.md` | **v1** |
-| L2 | `L2_PROJECT_BOOTSTRAP.md` | planned |
+| L2 | `L2_PROJECT_BOOTSTRAP.md` | consult in progress |
 | L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | **v1** |
-| L4 | `L4_DATA_MODEL.md` | planned |
+| L4 | `L4_DATA_MODEL.md` | **v1 draft** (author review) |
 | L5 | `L5_API_AND_CONTRACTS.md` | planned |
 | L6 | `L6_OBSERVABILITY.md` | planned |
 | L7 | `L7_TESTING.md` | planned |
 | L8 | `L8_SECURITY_AND_SECRETS.md` | planned |
 | L9 | `L9_CHANGE_AND_RELEASE.md` | planned |
 | L10 | `L10_DECISIONS/` | planned |
-| Adapters | `adapters/{claude,codex,grok}/` | **v1** (thin entry templates) |
+| Adapters | `adapters/{claude,codex,grok}/` | **v1** |
 
 ## Writing plan (temporary)
 
@@ -27,8 +27,15 @@ per-layer notes. That file will be deleted when the suite is stable.
 
 ## How to use
 
-- **How any agent should work (start, ask vs decide, done, handoff)** → `L0_AGENT_PROTOCOL.md`
-- **Shaping code you already know where to put** → `L1_CODING_STYLE.md`
-- **Language / framework / storage choice** → `L3_LANGUAGE_AND_FRAMEWORK.md`
-- **Everything else** → not written yet; do not invent a second style system
-- **Tool entry files** → root `CLAUDE.md` / `AGENTS.md` (this repo); templates under [`adapters/`](./adapters/)
+| Need | Open |
+|---|---|
+| How any agent should work (start, ask vs decide, done, handoff) | `L0_AGENT_PROTOCOL.md` |
+| Code shape / smells | `L1_CODING_STYLE.md` |
+| Language / framework / storage choice | `L3_LANGUAGE_AND_FRAMEWORK.md` |
+| Schema, invariants, migrations, money/time (draft) | `L4_DATA_MODEL.md` |
+| Greenfield layout / domain split | L2 — not written yet; do not invent a house layout system |
+| Other domains (API, test, security, release, …) | not written yet; follow local code + L0 ask-list |
+| Tool entry templates | [`adapters/`](./adapters/) — this suite also has root `CLAUDE.md` / `AGENTS.md` |
+
+**Conflict order (summary):** local code > these guides > third-party skills (except pure
+vendor API how-to) > model taste.

@@ -32,11 +32,11 @@ Underscores only — no spaces in paths.
 
 | Layer | File | Job | Status |
 |---|---|---|---|
-| L0 | `L0_AGENT_PROTOCOL.md` | How agents work in any repo that uses these guides: scope, when to open which guide, ask vs decide, definition of done | **v1** (goal blurb dropped; author accepted body) |
+| L0 | `L0_AGENT_PROTOCOL.md` | How agents work in any repo that uses these guides: scope, when to open which guide, ask vs decide, definition of done | **v1** |
 | L1 | `L1_CODING_STYLE.md` | Day-to-day shape of code, smells, post-code check | **v1** |
-| L2 | `L2_PROJECT_BOOTSTRAP.md` | Greenfield: stack choice entry, layout, module boundaries, when a new service is allowed | not started |
+| L2 | `L2_PROJECT_BOOTSTRAP.md` | Greenfield: stack choice entry, layout, module boundaries, when a new service is allowed | **consult in progress** |
 | L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` | Per-stack defaults, allowlists, error model, bans | **v1** |
-| L4 | `L4_DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | not started |
+| L4 | `L4_DATA_MODEL.md` | Schema, migrations, invariants, keys, nullability, money/time | **v1 draft** (file on disk; author review / plan notes backfill) |
 | L5 | `L5_API_AND_CONTRACTS.md` | HTTP/events/DTOs, versioning, error shapes, idempotency | not started |
 | L6 | `L6_OBSERVABILITY.md` | Logs, metrics, traces, DB health / slow queries / pools | not started |
 | L7 | `L7_TESTING.md` | What to test, factories, flake policy, unit vs integration | not started |
@@ -86,10 +86,13 @@ Copy what worked in L1:
 6. **Scope boundary** — what this guide does *not* cover (pointer to another L).
 7. **Done checklist** for work in that domain (where applicable).
 
-Cross-cutting conflict order (to encode in L0):
+Cross-cutting conflict order (**encoded in L0**; skills tier included):
 
 ```
-local codebase convention  >  these guides  >  model default taste
+local codebase convention  >  these guides (L0–L10)
+third-party skills         >  model default taste
+  (skills may win only on pure vendor API usage; stack/style stay with guides)
+
 working behavior           >  style purity
 smallest change that ships >  drive-by improvement
 ```
@@ -98,26 +101,35 @@ smallest change that ships >  drive-by improvement
 
 ## Writing order
 
-| Order | Layer | Why this order |
+### Historical (what actually shipped)
+
+| Order | Layer | Status |
 |---|---|---|
-| 1 | L1 Coding Style | Done — template and daily maintenance |
-| 2 | **L3 Language & Framework** | Stops stack invention; unblocks greenfield without full L2 |
-| 3 | **Tool adapters (Claude, Codex, Grok Build)** | **v1** under `adapters/`; suite root has live `CLAUDE.md` + `AGENTS.md` |
-| 4 | L0 Agent Protocol | **v1** — body accepted; goal blurb dropped |
-| 5 | L4 Data Model | Highest blast radius after code shape |
-| 6 | L2 Project Bootstrap | Domain split / layout; depends on knowing stack defaults (L3) |
-| 7 | L7 Testing | Agents over/under-test without an explicit bar |
-| 8 | L5 API & Contracts | Natural after domain + data shape |
-| 9 | L6 Observability | Includes DB health |
-| 10 | L9 Change & Release | Migrations + deploy safety after schema rules exist |
-| 11 | L8 Security & Secrets | When auth/PII pain appears or before public APIs |
-| 12 | L10 Decisions | Standing process; first ADRs as real choices are recorded |
+| 1 | L1 Coding Style | **v1** |
+| 2 | L3 Language & Framework | **v1** |
+| 3 | L0 Agent Protocol (+ multi-tool consult) | **v1** |
+| 4 | Tool adapters (Claude, Codex, Grok) | **v1** |
+| 5 | L4 Data Model | **v1 draft** on disk (ahead of original order; needs author sign-off) |
 
-Order can change if the author prioritizes a pain point. Default above stands until then.
+### Forward (from here)
 
-**Hard sequencing rule:** do **not** draft L0 until tool-adapter scope is captured in this
-plan (author answers below) and adapter layout is agreed. L0 depends on knowing how each
-tool is supposed to enter the suite.
+| Order | Layer | Why |
+|---|---|---|
+| **now** | **L2 Project Bootstrap** | **consult in progress** — domain split / greenfield layout after stack defaults (L3) exist |
+| next | L4 author sign-off | Mark **v1** after review; optional small fixes from L4 review |
+| then | L7 Testing | Agents over/under-test without an explicit bar |
+| then | L5 API & Contracts | Natural after domain + data shape |
+| then | L6 Observability | Includes DB health |
+| then | L9 Change & Release | Migrations + deploy safety after schema rules exist |
+| then | L8 Security & Secrets | When auth/PII pain appears or before public APIs |
+| then | L10 Decisions | Standing process; first ADRs as real choices are recorded |
+
+Order can change if the author prioritizes a pain point.
+
+**Process rule (current):** do not draft a new layer until that layer’s consult is started
+and answers are captured in this plan. **Exception already taken:** L4 was drafted with a
+full file before plan notes; treat as **v1 draft** pending author review, not as a license
+to skip consult on L2+.
 
 ---
 
@@ -304,96 +316,79 @@ asking.
 
 ---
 
-## Later layers — stubs only until consultation
+## Layer notes (by status)
 
-Do not draft L0, L2, L4–L10, or adapter templates until the author starts that layer’s
-consult. When starting a layer, add an **Author answers** block under that layer in this
-file (same pattern as L3).
+When starting a layer: add **Author answers** here (same pattern as L0/L3). Do not draft
+L2, L5–L10 until that layer’s consult is started. L0/adapters/L4 already have files.
 
-### Tool adapters (Claude, Codex, Grok Build) — v1
+### Tool adapters (Claude, Codex, Grok Build) — v1 (done)
 
-**Status:** **v1** shipped under `adapters/` + suite root entry files.
+**Status:** **v1** under `adapters/` + suite root `CLAUDE.md` / `AGENTS.md`.
 
-**Why before L0:** L0 is the shared protocol. It must say “open your tool’s entry file,
-then follow this ritual.” That only works if adapters exist as a named deliverable with
-agreed entry filenames and non-goals.
+- Thin maps only; permissionless assumed; shared `AGENTS.md` for Codex + Grok
+- See `adapters/README.md`
 
-#### Intent (author, 2026-07-13)
+### L0 Agent Protocol — v1 (done)
 
-- This repo must include **specific adapters** for the tools the author will actually use:
-  **Claude Code**, **Codex**, and **Grok Build**.
-- Goal: switch tools freely without being locked to one product’s instruction format, while
-  keeping **one** mental model (the L-guides).
-- Adapters are templates shipped from this repo into real projects (or referenced as the
-  canonical pattern).
+**Status:** **v1** in `L0_AGENT_PROTOCOL.md` (consult 2026-07-13; goal blurb dropped).
 
-#### Shipped (2026-07-13)
+Summary of law: router only; conservative ask; standard done bar; thin adapters; STATUS at
+`docs/agent/STATUS.md`; skills lose on stack/style. Full answers remain above in git
+history / see file itself for the protocol.
 
-- Layout: `adapters/{claude,codex,grok}/` templates + root `CLAUDE.md` / `AGENTS.md` for this suite
-- Permissionless assumed on all three tools (NOTES.md has operator flags)
-- Claude: optional `.claude/rules/` = project facts only (not in template tree)
-- Codex: root `AGENTS.md` is the project surface; `~/.codex` personal only
-- Grok: reads `AGENTS.md` (shared with Codex); also loads `CLAUDE.md` if present — keep in sync
-- Handoff: L0 (`docs/agent/STATUS.md` + PR)
-- Sync rule: adapters change only when entrypoints/ritual change — never re-copy L1/L3
+#### Author answers (2026-07-13) — kept for archive
 
-#### Non-goals (hold)
+| Topic | Choice |
+|---|---|
+| Job | Router + protocol only |
+| Ask vs decide | Conservative |
+| Done | Standard |
+| Entry | Thin adapters → L0 |
+| Skills | Guides win except pure vendor API how-to |
+| Handoff | `docs/agent/STATUS.md` + PR |
+| Bootstrap | Adapter → L0 → L\* → STATUS if present |
+| Drive-by | Hard ban |
+| Plan | Non-trivial only |
+| Density | L1-like |
 
-- No full restatement of L1/L3 inside any adapter
-- No adapter-specific coding style
-- No requirement that all three tools are installed everywhere
+### L4 Data Model — v1 draft (file exists; sign-off pending)
 
-### L0 Agent Protocol — consult in progress (2026-07-13)
+**Status:** full draft in `L4_DATA_MODEL.md` (appeared before plan notes). **Not** “not
+started.”
 
-How agents open guides, scope discipline, ask vs decide, definition of done across layers.
-Must include: multi-tool bootstrap (read adapter entry → L0 ritual → relevant L*), conflict
-order, and handoff when switching Claude ↔ Codex ↔ Grok Build.
+- Author should review for voice; optional follow-ups from review: destructive = L0 ask,
+  `timestamptz` default, append-only/ledger pattern, soft-delete uniqueness example
+- No formal consult block was captured before draft — treat review as the sign-off step
+- After accept: mark **v1** here and in README
+
+### L2 Project Bootstrap — consult in progress (2026-07-13)
+
+Greenfield layout, domain boundaries, when a new service/package is allowed. Stack
+*choice* stays **L3**; L2 is *where things live* and *how the system is split*.
 
 #### Author answers (2026-07-13) — round 1
 
 | Topic | Choice |
 |---|---|
-| **L0 primary job** | **Router + protocol only** — how agents start, which guide to open, ask vs decide, definition of done. No style/stack content in L0. |
-| **Ask vs decide** | **Conservative** — greenfield stack, new services, schema/API breaks, security, ambiguous product intent → always ask. Day-to-day code shape may follow L1/L3. |
-| **Definition of done** | **Standard** — scope respected, relevant guide followed, tests not worse, lint/typecheck if available, short summary of what changed. |
-| **Multi-tool entry** | **Thin adapters point at L0** — each tool has a thin entry file; L0 is the shared ritual. No style restated in adapters. |
-| **Skills vs guides** | **Guides win except vendor APIs** — stack/style from guides; third-party skill may override only pure vendor API usage patterns. Full hierarchy still: local code > L* > skills (except vendor API how-to) > model taste. |
-| **Cross-tool handoff** | **Both STATUS + PR** — STATUS for WIP; PR description when review-ready. |
+| **L2 job** | **Greenfield layout + domain split only** — not full CI/scaffold playbook; not pure domain theory. Stack = L3; data = L4. |
+| **Default system shape** | **No universal monolith-first.** Shape **depends on the product**. Prefer thinking from **what services / engines are needed**, then build a **mental model** of the project, then layout. (Closer to “split when domains differ” than “always one deployable,” but engines/services are the starting lens.) |
+| **New deployable** | Agent may **propose** when a clear boundary exists; **still confirm** before scaffolding. |
+| **Domain separation** | **Hybrid** — top-level by capability/domain; inside each domain, framework-idiomatic layers. |
+| **Monorepo vs multi-repo** | **No preference** — case by case; ask when it matters. |
+| **Folder prescription** | **Principles only** — no universal tree; no mandatory per-stack reference trees in L2 v1. |
 
 #### Author answers (2026-07-13) — round 2
 
 | Topic | Choice |
 |---|---|
-| **Bootstrap** | Adapter → L0 → relevant L* → **STATUS if present** → then edit. |
-| **Guide routing** | **Short routing table only** in L0. Missing layer = do not invent rules; ask or follow local code. |
-| **Scope / drive-by** | **Hard ban** — no unrelated files, no “while I’m here,” no task expansion without asking. |
-| **STATUS location** | Not repo root — **`docs/` or `.agent/STATUS.md`** (exact path still TBD in round 3). |
-| **L0 density** | **L1-like** — rules, ✓/✗, anti-patterns, when to break; still no style/stack. |
-| **Adapter filenames** | **CLAUDE.md + AGENTS.md + Grok note** — Claude: `CLAUDE.md`; Codex: `AGENTS.md`; Grok: `AGENTS.md` and/or short project instruction pointing at L0. |
+| **Greenfield order** | **Engines/services needed → mental model → layout → L3 stack per piece** |
+| **Engine vs service** | **Both** — distinguish **logical** engines/modules vs **physical** deployables. Logical split first; physical needs higher bar + ask. |
+| **Clear boundary reasons** | Different scale/failure/data ownership; different team/cadence; different language/runtime (L3). **Any may justify a proposal; none auto-approve** — still ask before scaffold. |
+| **Shared code** | **Prefer duplication over shared** — avoid shared libs until pain is real. |
+| **FE vs BE** | Align with L3: **separate apps by default** when both exist. Exception: **very small / localhost-only** projects may keep everything in the frontend. |
+| **Density / asks** | **L1-like** + always ask on new deployable, multi-repo, cross-domain rewrite. |
 
-#### Author answers (2026-07-13) — round 3
-
-| Topic | Choice |
-|---|---|
-| **STATUS path** | **`docs/agent/STATUS.md`** |
-| **Missing layer** | Follow **local code** + **ask if high-impact** (conservative ask-list). Do not invent house rules. |
-| **Plan before code** | **Only if non-trivial** — multi-file, design choice, or unclear scope → ≤5 bullet plan first. Trivial one-file can skip. |
-| **STATUS mandatory fields** | Goal, Done, Next, Do not touch, Open questions. (Not required: verify commands, tool last used.) |
-| **L0 v1 scope** | **Nothing else** — ready to draft from these answers. |
-
-#### Draft notes
-
-- File: `L0_AGENT_PROTOCOL.md` — **v1** from rounds 1–3; no style/stack content; no separate
-  “The goal” section (opening paragraph is job-only).
-- Adapters remain next deliverable; L0 references thin entry files by name.
-
-### L2 Project Bootstrap — consult later
-
-Greenfield layout, domain boundaries, monolith-first rules.
-
-### L4 Data Model — consult later
-
-Schema, migrations, invariants.
+#### Open / round 3 pending
 
 ### L5 API & Contracts — consult later
 
@@ -430,9 +425,14 @@ rationale lives in each L-file. Until the suite is done, README can point at thi
 
 ## Definition of done for the suite (then delete this plan)
 
-- [ ] L0–L9 each have a v1 the author accepts as “sounds like me”
+- [x] L0 **v1**
+- [x] L1 **v1**
+- [x] L3 **v1**
+- [x] **Adapters v1** (Claude, Codex, Grok — thin; point at L\*)
+- [ ] L4 author accepts as **v1** (draft on disk)
+- [ ] L2 **v1**
+- [ ] L5–L9 each have a v1 the author accepts as “sounds like me”
 - [ ] L10 has format + process (and ideally one real decision)
-- [x] **Adapters v1:** Claude, Codex, and Grok Build templates exist and stay thin (point at L*; no forked style)
 - [ ] README routes tasks → layers **and** which adapter to install for which tool
-- [ ] Cross-links between guides are consistent (L1 does not own domain split; L3 owns stack defaults; etc.)
+- [ ] Cross-links between guides are consistent (L1 ≠ domain split; L3 = stack; L4 = data; etc.)
 - [ ] Delete `GUIDE_PLAN.md`
