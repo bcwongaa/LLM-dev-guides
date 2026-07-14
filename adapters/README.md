@@ -51,7 +51,13 @@ See each adapter’s `NOTES.md` for tool-specific flags.
 |---|---|
 | `AGENTS.md` | Yes — Codex + Grok both read it; keep one file |
 | `CLAUDE.md` | Claude-native; keep content aligned with `AGENTS.md` |
+| `claude/skills/` | Claude-native pointer-skills (route tasks to L\* guides; no law inside) |
+| `claude/hooks/` | Claude-native enforcement hooks (STATUS inject, branch guard, test gate) |
 | `.claude/rules/` | Optional Claude path-scoped stubs — project-specific, not required by this suite |
+
+Skills/hooks are **Claude-only leverage on shared law**: the L\* files remain the single
+canon; Codex and Grok read the same files via `AGENTS.md`. Parity applies to the law's
+content, not to tool mechanics.
 
 When both `AGENTS.md` and `CLAUDE.md` exist, keep them **equivalent maps** (same GUIDES_ROOT,
 same commands, same “read L0 first”). Drift = two laws.

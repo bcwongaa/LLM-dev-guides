@@ -1,0 +1,30 @@
+{
+  "//": "Merge into the consumer repo's .claude/settings.json. Copy the hook scripts to .claude/hooks/ first. Set GUIDES_TEST_CMD to the same command as the adapter's Exact-commands Test row.",
+  "env": {
+    "GUIDES_TEST_CMD": "{{TEST_CMD}}"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/session-start-status.sh" }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/pre-edit-branch-guard.sh" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/stop-test-gate.sh" }
+        ]
+      }
+    ]
+  }
+}

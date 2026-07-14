@@ -249,15 +249,45 @@ test('cancelling_shipped_order_throws', () => {
 
 ---
 
-## 8. What agents must do
+## 8. Brownfield: characterization tests before change
+
+Changing **untested legacy code** is where agents cause silent regressions. Before
+modifying a zero-coverage path that has real behavior:
+
+1. **Pin current behavior first.** Write a characterization test that captures what the
+   code does **today** — inputs in, observed outputs/effects asserted — even if today’s
+   behavior looks wrong. The pin proves your change altered only what you meant to alter.
+2. **Then change**, with the bug repro test (red) alongside the pins.
+3. **Then decide** what the pins become: keep as regression tests, or update deliberately
+   where the old behavior *was* the bug (say so in the summary).
+
+Characterization tests are the one place snapshot-style assertions are **normal**, not
+rare — capturing an ugly real output verbatim is the point.
+
+**No harness at all?** Introduce the **minimum viable harness**: the stack’s default
+runner, zero config beyond running one file, no CI framework build-out. Ask before larger
+harness work (scope rule); a one-line fix in trivial glue may proceed without a harness —
+that is the documented exception in *When to break these rules*, not the default.
+
+```
+✓  pin formatLegacyInvoice() with 3 real-shaped inputs → fix date bug → 1 pin updated deliberately, 2 unchanged
+✓  no runner in repo: add the stack’s default runner + the pin file, nothing more
+✗  refactor a 400-line untested module “carefully” with zero tests before or after
+✗  block a one-line typo fix on standing up a full test framework
+```
+
+---
+
+## 9. What agents must do
 
 | Situation | Behavior |
 |---|---|
 | Change behavior / fix bug | Add or update tests; bugfix starts from a repro test when practical |
+| Change untested legacy code | Characterization pins first (§8), then the change |
 | Greenfield feature | Harness exists; failing test before implementation for real logic |
 | UI change | Critical-path or affected journey check when e2e exists or is warranted |
 | Touch only docs/comments | No forced new tests |
-| Project has no harness | Do not invent a heavy framework without asking; for greenfield, propose harness first |
+| Project has no harness | Minimum viable harness (§8); do not invent a heavy framework without asking; for greenfield, propose harness first |
 
 **Definition of done (tests):** tests not worse **and** new logic / regressions covered at
 an appropriate layer.
@@ -267,9 +297,10 @@ sufficient** when you introduced behavior.
 
 ---
 
-## 9. Anti-patterns
+## 10. Anti-patterns
 
 ```
+✗ modify untested legacy behavior with no characterization pin (§8)
 ✗ large untested domain core “until later”
 ✗ tests that only mirror implementation (assert mocks were called, not outcomes)
 ✗ production DB or live vendor in CI default path
@@ -285,7 +316,7 @@ sufficient** when you introduced behavior.
 
 ---
 
-## 10. Intentional patterns that may look like mistakes
+## 11. Intentional patterns that may look like mistakes
 
 **Fewer tests early in greenfield than a mature suite.** Normal if each shipped behavior
 is covered and the harness runs. Not an excuse for zero tests on core rules.
@@ -306,9 +337,10 @@ bugs that unit fakes never catch.
 
 - Author explicitly accepts risk (spike, prototype) — time-box and do not merge as
   production core without tests.
-- Legacy brownfield has no harness; fixing a one-line bug may not require introducing a
-  full framework — still do not leave the suite worse; ask before large harness work if
-  out of scope.
+- Legacy brownfield has no harness; fixing a one-line bug in trivial glue may not require
+  introducing a full framework — still do not leave the suite worse; ask before large
+  harness work if out of scope. For anything with real behavior, §8 (characterization
+  pins + minimum viable harness) is the bar, not this exception.
 - External systems cannot be faked meaningfully; use a recorded contract or sandbox with
   isolation, never prod.
 
@@ -319,6 +351,7 @@ Working safety nets beat ritual. Dishonest tests are worse than a documented gap
 ## Done checklist
 
 - [ ] Behavior change or bugfix has appropriate automated coverage
+- [ ] Untested legacy path: characterization pins written before the change (§8)
 - [ ] TDD used for non-trivial logic (red first when practical)
 - [ ] Greenfield: harness + tests-first for real behavior
 - [ ] Units/engines tested in isolation where possible (divide and conquer)

@@ -14,14 +14,23 @@ Inside the suite repo itself, use `.`
 | Need | Open |
 |---|---|
 | Protocol (start, ask vs decide, done, handoff) | `GUIDES_ROOT/L0_AGENT_PROTOCOL.md` |
+| Git flow / parallel agents / subagent briefs (only when orchestrating) | `GUIDES_ROOT/L0_ORCHESTRATION.md` |
 | Code shape / smells | `GUIDES_ROOT/L1_CODING_STYLE.md` |
+| Bugfix | `GUIDES_ROOT/L1` + `L7` (repro test) |
+| Greenfield layout / engines / new deployable | `GUIDES_ROOT/L2_PROJECT_BOOTSTRAP.md` |
 | Language / framework / storage | `GUIDES_ROOT/L3_LANGUAGE_AND_FRAMEWORK.md` |
-| Other domains | `GUIDES_ROOT/L{n}_*.md` or `L10_DECISIONS/` per L0 routing table |
+| Schema / migrations / money / time | `GUIDES_ROOT/L4_DATA_MODEL.md` |
+| HTTP / events / DTOs / versioning | `GUIDES_ROOT/L5_API_AND_CONTRACTS.md` |
+| Logs / metrics / traces | `GUIDES_ROOT/L6_OBSERVABILITY.md` |
+| Testing / TDD / factories / legacy pins | `GUIDES_ROOT/L7_TESTING.md` |
+| Auth / PII / secrets / IDOR | `GUIDES_ROOT/L8_SECURITY_AND_SECRETS.md` |
+| Flags / expand-contract / deploy | `GUIDES_ROOT/L9_CHANGE_AND_RELEASE.md` |
+| Standing decisions (ADRs) | `GUIDES_ROOT/L10_DECISIONS/` |
 | WIP multi-tool handoff | `docs/agent/STATUS.md` (if present) |
 
-**Bootstrap (every task):** this file → L0 → only relevant L\* → STATUS if present → plan if non-trivial → edit.
+**Bootstrap (every task):** this file → L0 → only relevant L\* → STATUS if present → test/lint baseline → plan if non-trivial → edit.
 
-**Conflict order:** local code > guides > third-party skills (except pure vendor API how-to) > model taste.
+**Conflict order:** local code > guides > user-global tool files > third-party skills (except pure vendor API how-to) > model taste.
 
 ---
 
@@ -55,9 +64,10 @@ If a cell is unknown, discover from `package.json` / Makefile / README — do no
 
 ## Claude-only notes
 
+- **Pointer-skills:** install `GUIDES_ROOT/adapters/claude/skills/` into `.claude/skills/` — one thin skill per L1–L9 that tells Claude to read the right guide on task match. No law lives in the skills.
+- **Hooks:** install `GUIDES_ROOT/adapters/claude/hooks/` per its README — SessionStart injects STATUS, PreToolUse blocks edits on the protected base branch, Stop runs the Test command. Hooks enforce local gates; they do not replace L0 definition of done.
 - Optional path-scoped rules: `.claude/rules/*.md` — **project facts only**, not a fork of L1/L3.
 - Prefer MCP / project tools already configured; do not add new global tooling without asking.
-- Hooks (if any) enforce local gates; they do not replace L0 definition of done.
 
 ---
 

@@ -23,7 +23,8 @@ This repo’s own maps: root `CLAUDE.md`, `AGENTS.md` (for working *on* the suit
 
 | Layer | File |
 |---|---|
-| L0 | `L0_AGENT_PROTOCOL.md` |
+| L0 | `L0_AGENT_PROTOCOL.md` (every-task core) |
+| L0.1 | `L0_ORCHESTRATION.md` (git flow, parallel agents, subagents — load when orchestrating) |
 | L1 | `L1_CODING_STYLE.md` |
 | L2 | `L2_PROJECT_BOOTSTRAP.md` |
 | L3 | `L3_LANGUAGE_AND_FRAMEWORK.md` |
@@ -49,7 +50,8 @@ Adapter details: [`adapters/README.md`](./adapters/README.md)
 
 | Need | Open |
 |---|---|
-| How any agent should work (incl. git flow + parallel agents) | `L0_AGENT_PROTOCOL.md` |
+| How any agent should work (start, ask vs decide, done bar) | `L0_AGENT_PROTOCOL.md` |
+| Git flow, parallel agents, subagent briefs, orchestration | `L0_ORCHESTRATION.md` |
 | Code shape / smells | `L1_CODING_STYLE.md` |
 | Greenfield layout / engines | `L2_PROJECT_BOOTSTRAP.md` |
 | Language / framework / storage | `L3_LANGUAGE_AND_FRAMEWORK.md` |
@@ -62,15 +64,14 @@ Adapter details: [`adapters/README.md`](./adapters/README.md)
 | ADRs | `L10_DECISIONS/README.md` |
 | Adopt in an existing app | `USING_IN_EXISTING_REPOS.md` |
 
-**Conflict order:** local code > these guides > third-party skills (except pure vendor API
-how-to) > model taste.
+**Conflict order:** local code > guides > user-global tool files > third-party skills (except pure vendor API how-to) > model taste.
 
 **Bootstrap:** thin adapter → L0 → only the L\* files the task needs → `docs/agent/STATUS.md`
 if present.
 
 **Orchestration:** root asks the human; subagents escalate to parent (L0). Write children
-need a full brief (paths, `GUIDES_ROOT`, L0). See L0 orchestrator checklist and
-brief/result templates.
+need a full brief (paths, `GUIDES_ROOT`, L0). See `L0_ORCHESTRATION.md` for the
+orchestrator checklist and brief/result templates.
 
 ## Public repo notes
 

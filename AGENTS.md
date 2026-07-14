@@ -13,6 +13,7 @@ GUIDES_ROOT=.
 | Need | Open |
 |---|---|
 | Protocol (start, ask vs decide, done, handoff) | `L0_AGENT_PROTOCOL.md` |
+| Git flow / parallel agents / subagent briefs | `L0_ORCHESTRATION.md` (only when orchestrating) |
 | Code shape / smells | `L1_CODING_STYLE.md` |
 | Language / framework / storage | `L3_LANGUAGE_AND_FRAMEWORK.md` |
 | Other domains | `L{n}_*.md` / `L10_DECISIONS/` per L0 routing table |
@@ -23,7 +24,7 @@ GUIDES_ROOT=.
 
 **Bootstrap (every task):** this file → L0 → only relevant L\* → STATUS if present → plan if non-trivial → edit.
 
-**Conflict order:** local code > guides > third-party skills (except pure vendor API how-to) > model taste.
+**Conflict order:** local code > guides > user-global tool files > third-party skills (except pure vendor API how-to) > model taste.
 
 ---
 
@@ -41,7 +42,7 @@ Still **always ask** for: greenfield stack, new services, schema/API breaks, sec
 
 | Action | Command |
 |---|---|
-| Test | _(none — markdown suite; no test runner)_ |
+| Test | `bash scripts/check-sync.sh` (entry-file drift + routing-target check) |
 | Lint | _(none required)_ |
 | Build | _(none required)_ |
 | Preview guides | read the target `L*.md` / `adapters/**` files |

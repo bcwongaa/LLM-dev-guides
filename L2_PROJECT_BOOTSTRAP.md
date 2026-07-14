@@ -321,6 +321,8 @@ Working system and clear ownership beat diagram purity.
 - [ ] Table/collection ownership clear if multiple engines share a DB
 - [ ] FE/BE split matches L3 defaults (or documented tiny localhost exception)
 - [ ] In-process engines use public module APIs, not fake RPC
+- [ ] Hard-to-reverse structural choices (new deployable, repo split) captured as a
+      **proposed ADR** per L10 once approved
 - [ ] L0 scope and ask rules still held
 
 ## Relationship to other layers

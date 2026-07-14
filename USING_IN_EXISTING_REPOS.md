@@ -22,7 +22,7 @@ Adapters are **maps**. They must not restate L1/L3.
 (L0 conflict order).
 
 ```
-local codebase convention  >  these guides  >  third-party skills  >  model taste
+local code > guides > user-global tool files > third-party skills (except pure vendor API how-to) > model taste
 ```
 
 Do **not** use adoption as a license to re-architecture the tree to match L2 mid-feature.
@@ -77,7 +77,7 @@ If `my-app` already lives in a monorepo, place the suite as a top-level folder a
 
 Agents need **read access** to at least:
 
-- `L0_AGENT_PROTOCOL.md` … `L9_CHANGE_AND_RELEASE.md`
+- `L0_AGENT_PROTOCOL.md` + `L0_ORCHESTRATION.md` … `L9_CHANGE_AND_RELEASE.md`
 - `L10_DECISIONS/` (process + any accepted ADRs)
 - Prefer the whole suite so routing tables and cross-links resolve.
 
@@ -114,6 +114,11 @@ Then edit **both** (keep them equivalent maps):
 
 Grok also loads `CLAUDE.md` if present — keep `CLAUDE.md` and `AGENTS.md` in sync.
 
+**Claude Code only (optional but recommended):** install the pointer-skills and
+enforcement hooks from `adapters/claude/skills/` and `adapters/claude/hooks/` (see each
+README). Skills route tasks to the right L\* guide automatically; hooks enforce STATUS
+reading, branch isolation, and the test gate mechanically.
+
 ---
 
 ## 4. Brownfield rules (read before first agent session)
@@ -140,11 +145,12 @@ Mandatory sections (L0): Goal, Done, Next, Do not touch, Open questions.
 
 ### Git flow and parallel agents
 
-L0 defines **team-style** flow for this suite: feature branch from `develop` (else `main`),
-small PRs, delete branch after merge, human merges base, conflicts via rebase + understand
-the other side. Parallel agents get **one branch/worktree each**; **serialize** lockfiles and
-migration chains. See L0: *Team-style git flow*, *Parallel agents and subagents*,
-*Orchestrator checklist*, *Subagent brief and result templates*.
+`L0_ORCHESTRATION.md` defines **team-style** flow for this suite: feature branch from
+`develop` (else `main`), small PRs, delete branch after merge, human merges base, conflicts
+via rebase + understand the other side. Parallel agents get **one branch/worktree each**;
+**serialize** lockfiles and migration chains. See L0_ORCHESTRATION: *Team-style git flow*,
+*Parallel agents and subagents*, *Orchestrator checklist*, *Subagent brief and result
+templates*.
 
 **Orchestrator / delegation:** the root parent loads L0 fully; every **write** child must
 be briefed with `GUIDES_ROOT`, L0 (or equivalent), owned paths, decisions already made, and
@@ -221,6 +227,7 @@ covered by a guide they can open.
 |---|---|
 | `README.md` | Suite index / which L for which task |
 | `L0_AGENT_PROTOCOL.md` | Bootstrap, ask vs decide, done, handoff |
+| `L0_ORCHESTRATION.md` | Git flow, parallel agents, subagent briefs |
 | `adapters/README.md` | Adapter copy rules and permissionless notes |
 | `L10_DECISIONS/README.md` | When to write ADRs |
 | App’s own `CLAUDE.md` / `AGENTS.md` | Commands + project facts only |

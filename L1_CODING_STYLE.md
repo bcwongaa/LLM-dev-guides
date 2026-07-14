@@ -828,6 +828,11 @@ top of this document.
 loop, a contract you can't change — these may violate every rule in this document. That's
 fine. Leave a comment (§15) explaining why, and move on.
 
+**Brownfield code whose own convention violates this guide:** follow the tie-breaker in
+**L0 → Local convention**. Short form: net-new files follow L1; edits inside an existing
+file match that file's dominant pattern — unless the pattern is on the never-list below
+and the fix stays within the lines already being changed.
+
 ---
 
 ## Anti-patterns: never do these

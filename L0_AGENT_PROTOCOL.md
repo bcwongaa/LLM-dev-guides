@@ -1,10 +1,13 @@
-# L0 — Agent Protocol
+# L0 — Agent Protocol (every-task core)
 
 How any coding agent works in a repo that uses these guides. Shared ritual for Grok,
 Claude, Codex, and any other tool: start the same way, open the right guide, know when to
-ask, ship with the same definition of done. Includes **team-style git flow** and
-**parallel agents** so multiple workers behave like a careful team. **Protocol only** —
-not coding style, not stack choice, not domain design.
+ask, ship with the same definition of done. **Protocol only** — not coding style, not
+stack choice, not domain design.
+
+Git flow, parallel agents, subagent briefs, and orchestration mechanics live in
+**`L0_ORCHESTRATION.md`** — load that file only when branching/PRing, spawning subagents,
+or running parallel workstreams. A solo one-file fix does not need it.
 
 ---
 
@@ -12,24 +15,21 @@ not coding style, not stack choice, not domain design.
 
 **In scope**
 
-- Bootstrap ritual before editing
+- Bootstrap ritual before editing (including the test baseline)
 - Which L-guide to open for which task
-- Ask vs decide (conservative)
+- Ask vs decide (conservative), including subagent escalation basics
+- Local convention discovery and the brownfield tie-breaker
 - Scope discipline (hard ban on drive-bys)
 - Definition of done + post-task check
 - Multi-tool entry via thin adapters
 - WIP handoff (`docs/agent/STATUS.md`) and PR handoff
-- Team-style git flow (feature branches, small PRs, base branch, conflicts)
-- Parallel agents / subagents (isolation, ownership, handoff)
-- Parent/subagent authority, nested spawners, orchestrator checklist
-- Subagent brief and result templates
-- Shared hotspot serialization (lockfiles, migrations)
 - How third-party skills relate to these guides
 
 **Out of scope** (do not put these in L0)
 
 | Concern | Where it lives |
 |---|---|
+| Team git flow, parallel agents, subagent briefs, orchestrator role | **L0_ORCHESTRATION.md** |
 | Code shape, smells, naming | **L1** |
 | Greenfield layout / domain split | **L2** |
 | Language, framework, storage defaults | **L3** |
@@ -55,9 +55,21 @@ When instructions disagree, apply this order (highest wins):
 ```
 1. Local codebase convention (existing code, project CLAUDE.md / AGENTS.md project facts)
 2. These guides (L0–L10), when the relevant layer file exists
-3. Third-party skills — except pure vendor API usage (see Skills)
-4. Model default taste
+3. User-global tool files (~/.claude/CLAUDE.md, ~/.codex, ~/.grok prefs)
+4. Third-party skills — except pure vendor API usage (see Skills)
+5. Model default taste
 ```
+
+One-line form (adapters use this exact line):
+
+```
+local code > guides > user-global tool files > third-party skills (except pure vendor API how-to) > model taste
+```
+
+User-global files (personal `~/.claude/CLAUDE.md` and equivalents) are **personal
+defaults**: they win over skills and taste, but in a repo that adopts this suite the
+suite’s law and the local codebase win over them. Personal tooling habits stay; personal
+style/process rules yield.
 
 Also always:
 
@@ -79,12 +91,15 @@ L1/L3.
 | Codex | `AGENTS.md` |
 | Grok Build | `AGENTS.md` and/or a short project instruction that points at L0 |
 
-**Adapter job:** map + exact commands + “read L0, then the relevant L\*”.  
-**L0 job:** shared ritual for every tool.  
+**Adapter job:** map + exact commands + “read L0, then the relevant L\*”.
+**L0 job:** shared ritual for every tool.
 **L1–L10 job:** domain law.
 
 Templates live under `adapters/` (`claude/`, `codex/`, `grok/`). Consuming repos copy or
-symlink them into the root; they must stay thin. See `adapters/README.md`.
+symlink them into the root; they must stay thin. See `adapters/README.md`. The Claude
+adapter also ships optional pointer-skills and hooks (`adapters/claude/skills/`,
+`adapters/claude/hooks/`) that enforce parts of this ritual — they supplement L0, never
+replace it.
 
 ---
 
@@ -97,16 +112,20 @@ Before editing code:
 2. Read this file (L0) if not already loaded
 3. Open only the L-guide(s) the routing table requires for this task
 4. If docs/agent/STATUS.md exists — read it (and any workstream STATUS you own)
-5. Confirm git base: on a **feature branch** off the integration base — not long-lived
-   direct commits to `main`/`develop` for feature work
-6. Then plan (if non-trivial) or edit
+5. Baseline: run the project’s Test (and Lint) commands from the adapter’s Exact
+   commands and record the result (pass/fail + failure count). “Tests not worse”
+   at the end is measured against THIS. Skip only if the project has no test command.
+6. Confirm git base: on a **feature branch** off the integration base — not long-lived
+   direct commits to `main`/`develop` for feature work (mechanics: L0_ORCHESTRATION.md)
+7. Then plan (if non-trivial) or edit
 ```
 
 ```
-✓  Adapter → L0 → L1 (bugfix) → STATUS present → feature branch → edit one module
+✓  Adapter → L0 → L1+L7 (bugfix) → STATUS present → baseline recorded → feature branch → edit one module
 ✗  Skip guides and “improve” three unrelated packages
 ✗  Load every L-file “just in case”
 ✗  Ignore STATUS and redo work another tool already finished
+✗  Declare “tests not worse” with no pre-edit baseline
 ✗  Pile feature work on main/develop without a branch + PR
 ```
 
@@ -120,7 +139,9 @@ Open the **smallest** set of guides that match the task. Missing file → see
 | Task type | Open |
 |---|---|
 | How to start / ask vs decide / done bar | **L0** (this file) |
+| Branching/PRs, conflicts, parallel agents, subagent briefs | **L0_ORCHESTRATION.md** |
 | Day-to-day code shape, smells, post-code style | **L1** |
+| **Bugfix** | **L1 + L7** (every bugfix gets a repro/regression test — L7) |
 | Greenfield layout, engines/modules, new deployable? | **L2** |
 | Language / framework / storage choice or bans | **L3** |
 | Schema, migrations, keys, nullability, money/time | **L4** |
@@ -135,7 +156,7 @@ Mixed tasks: open every layer you will actually touch (e.g. new endpoint + migra
 L4 + L5, plus L1 for code shape). Do not open the rest.
 
 ```
-✓  “Fix null check in formatter” → L1 only
+✓  “Fix null check in formatter” → L1 + L7 (repro test)
 ✓  “Add Postgres column + API field” → L1 + L4 + L5
 ✗  Open L1–L10 for a one-line bugfix
 ✗  Invent a private testing philosophy that fights L7
@@ -145,15 +166,12 @@ L4 + L5, plus L1 for code shape). Do not open the rest.
 
 ## Missing layers
 
-**Core suite status:** L0–L9 and tool adapters are written. **L10** (ADRs) may still be
-empty or thin — use it when present.
-
 If a routing target file is **missing from the consumer repo** (guides not vendored) or an
 optional layer (e.g. L10) has no decisions yet:
 
 1. **Do not invent** a parallel house rule for that domain.
 2. **Match local code** and existing project instructions.
-3. **Ask** if the change hits the [always ask](#always-ask-conservative) list.
+3. **Ask** if the change hits the [always ask](#always-ask) list.
 4. Otherwise proceed with smallest safe change; for standing “why we chose X” with no ADR,
    ask rather than invent history.
 
@@ -200,73 +218,48 @@ When unsure whether something is on the ask list: **ask** (if you can talk to th
 ✗  Expand “fix login bug” into auth redesign → ask (or refuse expansion)
 ```
 
-### Parent agent is the authority for subagents
+### Subagents: escalate, never improvise
 
-**Subagents cannot ask the human.** They have no reliable user channel for the
-conservative ask-list.
+**Subagents cannot ask the human.** Core rules (full detail + templates:
+`L0_ORCHESTRATION.md`):
 
-| Role | Duty on ask-list items |
-|---|---|
-| **Subagent** | Does **not** invent product/architecture answers alone. Surfaces the decision need to the **parent** (return a clear blocker / options / recommendation). Stays inside the brief and owned paths. |
-| **Parent agent** (session that spawned the subagent) | **Acts as the authority** in place of the human for that subagent: decides using these guides, local code, STATUS, and the original user task — **or** escalates to the real human when the parent itself must ask. |
-| **Human** | Still the authority for the parent session on the always-ask list. |
+1. A subagent that hits an always-ask item **stops** and reports to its **direct parent**
+   with options + a recommendation. It does not silently pick a stack, break a schema, or
+   expand scope.
+2. The **parent is the authority** for its children: it decides from guides + local code +
+   task intent, or escalates. The parent owns decisions it approves — no blaming the child.
+3. **Hard items always reach the human via the root**: destructive/irreversible data loss,
+   new auth model / security boundary, new deployable / multi-repo split, true product
+   ambiguity. Parents must not rubber-stamp these.
+4. Nested children escalate to their **direct spawner** only; only the root talks to the
+   human.
+5. Peer sessions (each talking to the human) still ask the human directly.
 
-Rules:
+---
 
-1. **Subagent hits an always-ask item** → stop autonomous expansion; report to parent with
-   options and a recommended choice when possible. Do not silently pick a new stack,
-   break a schema, or expand scope.
-2. **Parent receives that report** → either:
-   - **Decide** for the subagent (guides + task intent + local code), and resume the
-     subagent with an explicit decision; or
-   - **Ask the human** when the parent would have asked anyway (greenfield stack, destructive
-     data, security model, true product ambiguity).
-3. **Parent must not launder responsibility** — “the subagent chose Mongo” is invalid. The
-   parent owns decisions it approved for subagents.
-4. **Write decisions down** (STATUS, PR, or brief handoff) so other agents/subagents do not
-   re-litigate.
-5. **Hard escalate to the human** (parent must not rubber-stamp) for:
-   - destructive or irreversible **data** loss;
-   - **new auth model** / security boundary change;
-   - **new deployable** / multi-repo split;
-   - true **product ambiguity** the user task does not settle.
-   On those, parent asks the human even when unblocking a subagent. Other ask-list items
-   (routine scope edge, non-destructive dual-write design within an approved feature) the
-   parent may decide from guides + task.
+## Local convention (how to find it, and the brownfield tie-breaker)
 
-```
-✓  Subagent: “Need stack for new worker — options A/B; recommend B per L3. Parent decide.”
-✓  Parent: decides B from guides + user goal, or asks human if still ambiguous
-✓  Parent: subagent wants DROP COLUMN — parent asks human, does not auto-approve
-✗  Subagent silently scaffolds a new service and new DB because it “had to progress”
-✗  Parent rubber-stamps destructive migration “to unblock” the child
-```
+“Local code wins” needs a procedure in repos with mixed history:
 
-Parallel **peer** agents (separate sessions both talking to the human) still **ask the
-human** on the always-ask list — only **subagents under a parent** use parent-as-authority.
+**Discovery:** before writing in an unfamiliar area, read **2–3 sibling files** nearest
+the edit (same folder, then same package). Prefer the **most recently merged** code in
+that area as the live convention when styles compete.
 
-### Nested spawners (multi-level delegation)
+**Tie-breakers** (highest wins): nearest file > package > repo; newer > older.
 
-Authority is always **direct spawner**, not “any ancestor” improvising:
+**When the local convention is itself an L1 anti-pattern:**
+
+- **Net-new files/modules** follow **L1**.
+- **Edits inside an existing file** match that file’s dominant pattern — *unless* the
+  pattern is on L1’s never-list (swallowed errors, dishonest types, missing await) **and**
+  the fix stays within the lines you are already changing. Then fix those lines to L1 and
+  say so in the summary. Do not sweep the rest of the file (scope ban).
 
 ```
-Human
-  └─ Root parent (only role that asks the human)
-        └─ Child A (subagent)     → escalates to Root
-              └─ Grandchild A1   → escalates to Child A (not straight to Human)
-```
-
-| Rule | Detail |
-|---|---|
-| **Escalate to direct parent only** | A worker reports blockers to who spawned it |
-| **Only root talks to human** | Intermediate parents either decide (within guides + brief) or escalate upward |
-| **Same hard human list** | Destructive data, new auth, new deployable, true product ambiguity — bubble to root → human |
-| **No orphan writers** | Every write agent has a clear parent responsible for its decisions |
-
-```
-✓  A1 blocks on schema → A decides or escalates to root → root asks human if hard item
-✗  A1 “asks the human” directly and ignores A
-✗  Root claims it never knew A approved a new service
+✓  Repo half callbacks / half async: new code follows the newer async convention in that package
+✓  Editing an error-swallowing wrapper’s catch block anyway → stop swallowing in those lines, note it
+✗  “File uses catch-and-ignore, so my new code also ignores errors” — never-list is not a convention
+✗  Convert the whole file to async “while here” — drive-by
 ```
 
 ---
@@ -317,11 +310,15 @@ A task is complete when:
 
 1. **Scope respected** — only what the task required; hard ban above held.
 2. **Relevant guides followed** — for layers that exist and apply.
-3. **Tests not worse** — suite passes, or failure count is not higher than before.
+3. **Tests not worse** — suite passes, or failure count is not higher than the **baseline
+   recorded at bootstrap**. Bugfixes and behavior changes also carry the L7 coverage bar
+   (repro/regression test), not just “not worse.”
 4. **Lint / typecheck** — run if the project already has them; don’t leave new failures.
 5. **Git hygiene** — feature work on a branch from the integration base; PR small and
-   purposeful when review-ready; no silent commits to protected base as the normal path.
-6. **Short summary** — what changed, what was deliberately not changed, open questions.
+   purposeful when review-ready (mechanics: `L0_ORCHESTRATION.md`); no silent commits to
+   protected base as the normal path.
+6. **Short summary** — what changed, what was deliberately not changed, open questions —
+   **with evidence**: the before/after tail of the test/lint output, not just a checked box.
 
 Complete does **not** mean perfect, fully refactored, or every nearby smell fixed.
 
@@ -329,13 +326,13 @@ Complete does **not** mean perfect, fully refactored, or every nearby smell fixe
 
 Before calling the work done:
 
-1. Scope — no out-of-scope edits  
-2. Guides — opened and applied the right L\*  
-3. Tests — not worse  
-4. Lint/types — clean if applicable  
-5. Summary — written  
-6. Handoff — STATUS updated or cleared; PR description if review-ready  
-7. Git — on correct base lineage; PR not a mega-diff; branch deletable after merge  
+1. Scope — no out-of-scope edits
+2. Guides — opened and applied the right L\*
+3. Tests — not worse vs the recorded baseline; new/changed behavior covered (L7)
+4. Lint/types — clean if applicable
+5. Summary — written, with test/lint evidence
+6. Handoff — STATUS updated or cleared; PR description if review-ready
+7. Git — on correct base lineage; PR not a mega-diff; branch deletable after merge
 
 If a check fails, fix or shrink the change. Do not expand scope to polish distant code.
 
@@ -376,228 +373,16 @@ Optional (not required by protocol): verify commands, tool last used.
 When opening or updating a PR, the PR body is the handoff for reviewers and the next
 agent:
 
-- What / why  
-- How to verify  
-- Out of scope / do not touch  
-- Open questions  
+- What / why
+- How to verify
+- Out of scope / do not touch
+- Open questions
 
 STATUS is for **WIP continuity**; the PR is for **review continuity**.
 
-When **multiple agents or humans** share a repo, prefer **one STATUS per workstream**
-(see [Parallel agents](#parallel-agents-and-subagents)) or clear sections so Do-not-touch
-and Goal do not overwrite each other.
-
----
-
-## Team-style git flow
-
-Work **as if a team of developers** shares the repo: isolated feature work, review via PR,
-small diffs, clean branch hygiene. This is protocol law for agents using these guides
-unless the project explicitly documents a different model.
-
-### Integration base
-
-| Situation | Base branch |
-|---|---|
-| Repo has `develop` (or `dev`) | Branch from and open PRs into **`develop`** (or project’s named integration branch) |
-| No develop-style branch | Branch from and open PRs into **`main`** (or `master` if that is the default) |
-
-Always **branch off the current integration base** after updating it (fetch + fast-forward
-or rebase onto latest base). Do not start feature work from a stale or random commit.
-
-```
-✓  git fetch && git checkout develop && git pull && git checkout -b feat/short-name
-✓  PR: feat/short-name → develop (or → main if no develop)
-✗  commit feature work directly on main/develop as the normal path
-✗  branch from an old feature branch that already mixed three topics
-```
-
-### Feature work and PRs
-
-- **New features and non-trivial fixes** → **branch + PR**. Treat the team (humans and
-  agents) as reviewers via the PR.
-- **Small PR ≫ big PR.** Prefer several focused PRs over one mega-diff. Split by
-  concern when a change grows (L1 smallest change still applies inside each PR).
-- One PR ≈ one clear purpose. Do not bundle unrelated refactors (hard ban on drive-bys).
-- Agent **opens / updates the PR**; **human merges** into the protected integration base
-  (aligns L9: human ships protected integration / prod paths). Do not force-push shared
-  bases; do not merge your own PR to `main`/`develop` unless the human explicitly said so
-  for this task.
-
-### After merge
-
-- The **merged feature branch is considered deleted** — delete local and remote feature
-  branches after merge (or rely on host auto-delete). Do not keep landing commits on a
-  merged branch.
-- Next work: **branch again from the updated integration base**, not from the dead branch.
-
-```
-✓  merge PR → delete feat/… → checkout develop → pull → new branch
-✗  reopen the merged branch and pile the next feature on it
-```
-
-### Conflicts
-
-When your branch conflicts with the base or another change:
-
-1. **Update onto the latest integration base** — prefer **rebase** onto latest
-   `develop`/`main` (or the PR’s target), then fix conflicts.
-2. **Understand the other side** before resolving: read the conflicting hunks, the other
-   PR/commit message, and STATUS / Do-not-touch if another workstream owns the area.
-3. Resolve **deliberately** so both intents survive when possible; if they cannot, prefer
-   the safer product behavior and **note the choice** in the PR.
-4. **Never** blind `take ours` / `take theirs` without reading.
-5. If the other change is unclear or high-impact (auth, money, schema) — **ask**.
-
-```
-✓  rebase onto latest develop → read both sides → fix → force-with-lease only on your feature branch if needed
-✗  git checkout --ours . without reading
-✗  resolve by deleting the other feature’s logic to make tests pass
-```
-
-### Naming (suggested, not sacred)
-
-Prefer short, purpose-based names: `feat/…`, `fix/…`, `chore/…`. Match project convention
-when it exists.
-
----
-
-## Parallel agents and subagents
-
-Multiple agents (or subagents) may work at once **only with isolation**. Behave like
-teammates who do not type in the same dirty working tree.
-
-### Defaults
-
-| Rule | Detail |
-|---|---|
-| **Isolation** | **One branch per agent/workstream**; prefer **one git worktree** (or clean clone) per parallel agent — **no shared dirty worktree** |
-| **Path ownership** | Each workstream lists **Do not touch** / owned paths in its STATUS; do not edit another stream’s files without coordinating |
-| **Base** | Every stream branches from the same integration base rules as above |
-| **Integration** | Land via **small PRs**; later streams rebase onto base after earlier merges |
-| **Handoff** | Per-workstream STATUS (e.g. `docs/agent/STATUS-<short-name>.md`) or clearly separated sections |
-
-```
-✓  Agent A: worktree + feat/payments-idempotency
-✓  Agent B: worktree + feat/admin-export — non-overlapping paths
-✗  two agents `Write` the same files on one dirty checkout
-✗  parallel agents both rewriting package-lock without ownership
-```
-
-### Starting a parallel workstream
-
-1. Update integration base.  
-2. Create branch (and worktree if the tool supports it).  
-3. Write STATUS for that stream: Goal, Done, Next, **Do not touch**, Open questions.  
-4. Stay inside owned paths unless the human expands scope.  
-
-### Shared hotspots (serialize)
-
-Some paths cannot be safely parallel-edited. Assign **one owner workstream** or run
-**serially** (queue):
-
-| Hotspot (examples) | Rule |
-|---|---|
-| Lockfiles (`package-lock.json`, `pnpm-lock.yaml`, `Cargo.lock`, …) | One owner per change wave |
-| Migration chains / linear schema history | One writer; others wait or stack after merge |
-| Generated dumps that rewrite whole files | One owner |
-| Global CI config / root release config | One owner unless split is explicit |
-
-```
-✓  Agent A owns migrations this wave; B does not touch supabase/migrations/
-✓  After A merges, B rebases and adds its migration
-✗  A and B both regenerate package-lock on parallel branches without a merge plan
-```
-
-If two streams both need a hotspot: **stop**, coordinate via parent/STATUS, or sequence PRs.
-
-### When streams collide
-
-- If you need a file another stream owns: **stop**, read their STATUS/PR, and either wait,
-  split work, or escalate (human if peer sessions; parent if subagent).
-- Merge conflicts across streams: same conflict rules — rebase, understand the other
-  change, no blind overwrite.
-- Do not “win” by deleting the other agent’s uncommitted work.
-
-### Subagents spawned by one parent
-
-Subagents inherit **this protocol** (scope, guides, git isolation). Prefer:
-
-- **read-only** explore/review subagents on the same tree;  
-- **write** subagents on a **dedicated branch/worktree** when they edit code;  
-- parent integrates via PR or explicit sequential merge — not three writers on `main`.
-
-**Ask vs decide:** subagents **cannot ask the human**. On any always-ask item, they
-**escalate to the direct parent**; the parent decides or escalates (nested rules above).
-Hard items → root → human.
-
-**Context packing (required for write children):** every write subagent must receive enough
-protocol to obey it — at minimum: path to **L0** (or an embedded child brief that restates
-isolation + escalate-to-parent + owned paths), `GUIDES_ROOT`, owned/forbidden paths, and
-decisions already made. A three-line “go implement X” with no L0 is a protocol failure by
-the parent.
-
-When briefing a subagent, the parent should pre-decide or constrain ask-list topics
-(stack, scope boundaries, “do not migrate”, owned paths) so the subagent is not blocked
-mid-flight without a channel. Use the [brief template](#subagent-brief-and-result-templates).
-
-```
-✓  Parent brief: “TS + existing Nest app only; no new deployable; touch only billing/”
-✓  Subagent blocks: “Schema break needed — parent must decide expand steps”
-✗  Subagent invents auth model because parent is busy
-✗  Parent spawns writer with no GUIDES_ROOT and no owned paths
-```
-
-### Subagent brief and result templates
-
-Copy/adapt these in the parent prompt or STATUS. Keep short.
-
-**Brief (parent → child):**
-
-```markdown
-## Brief
-- Goal:
-- GUIDES_ROOT:
-- Read first: L0 (+ L1/L7/… as needed)
-- Owned paths:
-- Do not touch:
-- Decisions already made: (stack, scope, no new service, …)
-- Branch / worktree:
-- Done means:
-- On always-ask items: escalate to parent (you cannot ask the human)
-```
-
-**Result (child → parent):**
-
-```markdown
-## Result
-- Status: done | blocked | partial
-- Summary:
-- Branch / PR:
-- Files touched:
-- Tests / verify:
-- Blockers / decisions needed: (options + recommendation)
-- Do not touch still holds: yes/no
-```
-
-### Orchestrator checklist
-
-When one agent **plans and delegates** (tech-lead / orchestrator role):
-
-1. **Understand** user goal; open L0 + relevant L\*.  
-2. **Plan** workstreams (≤5 bullets each); prefer small PRs.  
-3. **Assign** owned paths; name hotspot owners; forbid shared dirty trees.  
-4. **Brief** each write child with the template above (include L0 / GUIDES_ROOT).  
-5. **Run** children in parallel only when paths/hotspots don’t fight.  
-6. **Collect** results; decide or escalate ask-list items (hard list → human).  
-7. **Integrate** — rebase onto base, fix conflicts with understanding, open/update PRs.  
-8. **Human merges** protected base; delete feature branches after merge.  
-9. **Update** STATUS; clear done streams.
-
-```
-✓  Orchestrator sequences migration PR before feature PR that depends on it
-✗  Fan-out five writers on one worktree with one sentence each
-```
+When **multiple agents or humans** share a repo, prefer **one STATUS per workstream** or
+clear sections so Do-not-touch and Goal do not overwrite each other
+(see `L0_ORCHESTRATION.md`).
 
 ---
 
@@ -635,17 +420,12 @@ task needs that vendor/domain.
 | Autonomous greenfield stack pick | Highest-cost wrong decision |
 | Treating STATUS as optional memory while switching tools | Lost work / duplicate work |
 | Letting a skill override stack bans | Silent violation of L3 |
-| Feature commits straight to main/develop | Team flow breaks; review and rollback suffer |
-| Mega-PR with unrelated changes | Review fails; parallel work collides |
-| Two agents on one dirty worktree | Overwrites, unexplainable conflicts |
-| Blind conflict resolution (ours/theirs) | Silently drops the other teammate’s intent |
-| Reusing a merged branch for the next feature | Dirty history; wrong base |
-| Subagent silently deciding always-ask items | No human channel; invents architecture |
-| Parent blaming subagent for an unapproved stack/schema choice | Parent is the authority for subagents |
-| Parent rubber-stamping destructive/auth/deployable choices | Hard items must reach the human |
-| Write subagent without L0 / owned paths in brief | Protocol never enters context |
-| Parallel edits to lockfile or migration chain | Unmergeable or broken history |
-| Nested child escalating to human, skipping parent | Breaks authority chain |
+| “Tests not worse” with no recorded baseline | Unfalsifiable done bar |
+| Bugfix shipped with no repro/regression test | Same bug returns; L7 exists for this |
+| Treating a never-list smell as “local convention” | Guides exist to stop exactly that |
+
+Orchestration anti-patterns (mega-PRs, dirty shared worktrees, rubber-stamping parents,
+blind conflict resolution): see `L0_ORCHESTRATION.md`.
 
 ---
 
@@ -655,6 +435,7 @@ task needs that vendor/domain.
 - **Emergency production fix** — still no drive-by refactors; smallest branch/PR or documented direct fix; note protocol skips in the summary.
 - **Adapter or guide missing in a legacy repo** — follow local project instructions; do not block forever. Prefer adding a thin adapter later.
 - **Project documents a different branch model** (e.g. trunk-only) — follow **local** git convention; keep small PRs and conflict understanding anyway.
+- **No test command exists** — the baseline step is skipped, not faked; say so in the summary (and see L7 on minimum harnesses before larger work).
 
 Breaking “always ask” on greenfield stack or security without a human is **not** a valid
 exception.
@@ -664,17 +445,16 @@ exception.
 ## Done checklist (for work under this protocol)
 
 - [ ] Thin adapter read (or project equivalent)
-- [ ] L0 applied; only relevant L\* opened
+- [ ] L0 applied; only relevant L\* opened (L0_ORCHESTRATION only when branching/spawning)
 - [ ] STATUS read if present; updated if WIP spans tools/sessions/workstreams
+- [ ] Baseline test/lint run recorded before editing (or “no test command” noted)
 - [ ] Plan written if non-trivial
 - [ ] Ask-list items: human asked (root) or parent decided for children (documented); hard items not rubber-stamped
 - [ ] No out-of-scope edits (human or parent-approved expansion only)
 - [ ] Feature branch from integration base (`develop` if present, else `main`)
-- [ ] Parallel work isolated (own branch/worktree; path ownership; hotspots serialized)
-- [ ] Write subagents briefed with L0/GUIDES_ROOT + owned paths + escalate-to-parent
-- [ ] Nested agents escalate to direct parent only
-- [ ] Tests not worse; lint/types clean if available
-- [ ] Short summary delivered
+- [ ] Parallel/subagent work follows `L0_ORCHESTRATION.md` (isolation, briefs, hotspots)
+- [ ] Tests not worse vs baseline; bugfix/behavior change covered per L7; lint/types clean if available
+- [ ] Short summary delivered with test/lint evidence
 - [ ] Small, purposeful PR when review-ready; description filled
 - [ ] After merge: feature branch treated as deleted; next work from fresh base
 
@@ -683,11 +463,11 @@ exception.
 ## Relationship to other layers
 
 ```
-Adapter (tool) → L0 (protocol + git/agents) → L1…L10 (domain law) → code
-                           ↑
-                 STATUS / branch / PR (handoff)
+Adapter (tool) → L0 (core ritual) → L0_ORCHESTRATION (git/agents, when needed) → L1…L10 (domain law) → code
+                          ↑
+                STATUS / branch / PR (handoff)
 ```
 
-L0 does not replace L1–L10. It ensures every agent enters them the same way, coordinates
-like a team on git, and stops at the same done bar. **L9** still owns expand/contract and
-prod deploy safety; L0 owns branch/PR/parallel-agent behavior before and around that.
+L0 does not replace L1–L10. It ensures every agent enters them the same way and stops at
+the same done bar. **L0_ORCHESTRATION.md** owns branch/PR/parallel-agent mechanics; **L9**
+still owns expand/contract and prod deploy safety.

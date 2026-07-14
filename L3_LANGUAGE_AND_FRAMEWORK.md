@@ -86,7 +86,9 @@ network and DB.
 
 ```
 Is this EVM / smart-contract work?
-  → Solidity (required). Tooling: Hardhat is known and acceptable.
+  → Solidity (required). Tooling: Hardhat is known and acceptable; Foundry is also
+    acceptable when the project or author prefers it. Do not migrate an existing
+    project’s toolchain unprompted.
 
 Is this frontend UI?
   → TypeScript + React (default).
@@ -183,7 +185,8 @@ author steers that way or constraints clearly demand the JVM.
 ### Solidity
 
 - **When:** EVM. No alternative language discussion.
-- **How:** known toolchain includes Hardhat.
+- **How:** known toolchain includes Hardhat; Foundry acceptable by project/author
+  preference. Keep whichever the repo already uses.
 
 ### Go
 
@@ -258,6 +261,7 @@ Pick storage from **data nature**, not fashion.
 | **Postgres** | Default relational store. Almost always wins unless a rare niche forbids it. |
 | **MongoDB** | Only when data is truly dynamic / document-oriented and that shape is the point. |
 | **Redis** | Cache, and/or loose inter-service communication in a microservice setup. |
+| **SQLite** | Embedded store for the small localhost-only tool shape (L2 §7) or single-process utilities. Not the default for multi-user production services — that is Postgres. |
 
 ```
 ✓  transactional business records, relations, constraints  → Postgres
@@ -417,6 +421,7 @@ Working delivery in the chosen stack beats a pure re-stack.
       serverless backend core, npm+Node for TS, no business logic in DB)
 - [ ] Trade-offs and rejected alternatives named briefly
 - [ ] **Author confirmation received** (unless override was explicit)
+- [ ] **ADR drafted** per L10 (status: `proposed`) recording the accepted choice
 
 ### B. Implementing inside an already-chosen stack
 

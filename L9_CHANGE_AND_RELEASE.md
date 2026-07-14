@@ -28,7 +28,7 @@ prod edits, and flag/config chaos. Rollout is a sequence, not a single merge.
 | Test proof before ship | **L7** |
 | Auth/secrets product policy | **L8** |
 | CI vendor YAML | Project-local |
-| Feature branch / PR / parallel-agent workflow | **L0** (team-style git flow) |
+| Feature branch / PR / parallel-agent workflow | **L0_ORCHESTRATION.md** (team-style git flow) |
 | On-call pages / SLO burn math | Out of suite for now |
 
 L4 says the data must remain valid during change. **L9 says in what order you deploy the
