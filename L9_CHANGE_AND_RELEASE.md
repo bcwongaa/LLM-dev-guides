@@ -70,7 +70,8 @@ DDL — unless you have an approved downtime plan (rare; **ask**).
 ```
 
 Large backfills are **separate** from the schema expand when runtime or failure modes
-differ (L4). Watch them with L6 signals.
+differ (L4). Watch progress, rejects, reconciliation, and relevant freshness/volume with
+L6 signals.
 
 ---
 

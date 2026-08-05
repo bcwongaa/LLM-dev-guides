@@ -446,7 +446,7 @@ Working delivery in the chosen stack beats a pure re-stack.
 | Language / framework / storage choice | **L3** / `L3_LANGUAGE_AND_FRAMEWORK.md` (this file) |
 | Tables, migrations, invariants; reinforce no domain-in-DB | **L4** / `L4_DATA_MODEL.md` |
 | Wire contracts, HTTP/events | **L5** / `L5_API_AND_CONTRACTS.md` |
-| Observability | **L6** / `L6_OBSERVABILITY.md` |
+| Application and runtime data observability | **L6** / `L6_OBSERVABILITY.md` |
 | Testing | **L7** / `L7_TESTING.md` |
 | Security / secrets | **L8** / `L8_SECURITY_AND_SECRETS.md` |
 | Change and release | **L9** / `L9_CHANGE_AND_RELEASE.md` |

@@ -1,11 +1,12 @@
 # L6 — Observability
 
-What a system must emit so failures, slowness, and bad data access are visible **before**
-months of silent pain — not a vendor tutorial or an on-call handbook.
+What a system must emit so failures, slowness, stale/incomplete data, and bad data access
+are visible **before** months of silent pain — not a vendor tutorial or an on-call
+handbook.
 
 **The goal:** agents stop shipping “it works on my machine” services with no request IDs,
-no latency signals, and no idea the DB pool is dying. Observability is part of building,
-especially on greenfield.
+no latency signals, no idea the DB pool is dying, or a green pipeline that silently
+produces unusable data. Observability is part of building, especially on greenfield.
 
 ## Scope of this guide
 
@@ -14,6 +15,8 @@ especially on greenfield.
 - Minimum bars for logs, metrics, traces
 - Correlation / request IDs
 - DB and pool health signals
+- Runtime data health for pipelines and derived / replicated datasets
+- Data lineage when data crosses meaningful processing stages
 - Health/readiness checks
 - Greenfield: stand up an observability stack early
 - Secrets/PII in telemetry (light; deep policy → L8)
@@ -26,7 +29,8 @@ especially on greenfield.
 | Code structure of handlers | **L1** |
 | Which APM product license / full dashboard design | Project ops (L6 only requires *a* real stack) |
 | SLO math, pages, escalation policies | Out of suite for now |
-| Schema/query correctness | **L4** / **L7** |
+| Schema meaning, invariants, and query correctness | **L4** / **L7** |
+| Expand/contract and backfill rollout order | **L9** |
 | Auth/PII product policy | **L8** |
 
 L6 is **what to observe and the minimum bar**, not how to click Datadog.
@@ -41,9 +45,12 @@ A service or feature change is observability-complete when:
 3. You did not log **secrets**; PII is minimized.
 4. DB/IO work you added is not invisible (slow query / error visibility path exists).
 5. Greenfield work did not skip standing up **an** observability framework early.
+6. A pipeline or derived / replicated dataset you touched has signals for its relevant
+   runtime data-health risks and enough lineage to find upstream cause and downstream
+   impact.
 
 Complete does **not** mean perfect dashboards, full distributed tracing on a single
-process toy, or paging rules.
+process toy, profiling every dataset/column, or paging rules.
 
 ---
 
@@ -194,7 +201,128 @@ L6 does not replace **L4** query design or **L7** tests. It makes production tru
 
 ---
 
-## 7. Health: liveness vs readiness
+## 7. Data observability: when the data can be wrong while the system is up
+
+Application observability asks whether the software is available and behaving. **Data
+observability** asks whether the data it produces or depends on is usable, complete enough,
+and current enough for its consumers.
+
+A pipeline can finish successfully, a query can return in 20 ms, and every health check can
+be green while half of yesterday's records are missing. L4 constraints prevent invalid
+states the store can recognize; L7 tests prove known behavior before ship. L6 makes silent
+runtime degradation visible after real data starts moving.
+
+### Apply it conditionally
+
+Use the data-observability bar when a change introduces or materially changes:
+
+- scheduled, batch, streaming, ingestion, transformation, export, or backfill work;
+- derived or replicated data such as read models, materialized views, search indexes,
+  warehouse/lake assets, analytics datasets, or ML inputs;
+- a critical external feed whose partial or late failure could remain invisible to normal
+  request metrics;
+- a multi-stage flow where identifying upstream cause or downstream impact matters.
+
+Do **not** require a five-signal platform for every synchronous CRUD table, local tool, or
+static reference dataset. For those, L4 invariants, L7 tests, and the ordinary L6 service/DB
+signals are normally enough.
+
+```
+✓  nightly settlement export: freshness + records written + reconciliation + source-to-export lineage
+✓  product search index: source lag + indexed count + failed documents + source/index dependency
+✓  plain transactional table: constraints + tests + DB health; no ceremonial lineage platform
+✗  every table and column monitored because "data observability is mandatory"
+```
+
+### Five useful capabilities, not five universal boxes
+
+Freshness, volume, schema, content distribution, and lineage are a useful coverage model.
+Apply the capabilities that match the failure modes; do not treat their names as vendor or
+architecture law.
+
+| Capability | Question | Minimum useful signal |
+|---|---|---|
+| **Freshness** | Did usable data arrive when consumers expect it? | Last successful completion, source/event watermark, and/or source-to-consumer lag against a stated cadence |
+| **Volume** | Did roughly the expected amount arrive? | Records/events/bytes read and written by meaningful run, window, or partition; include rejects/duplicates when relevant |
+| **Schema** | Did runtime structure change compatibly and intentionally? | Added/removed/renamed fields, type/nullability change, or contract/version mismatch visible at the boundary |
+| **Content health / distribution** | Do critical fields still look valid and plausible? | Targeted null, uniqueness, validity, range, cardinality, category-share, or quantile signals |
+| **Lineage** | Where did this data come from and what depends on it? | Source/producer → transformation/job → output → critical consumer at the smallest useful granularity |
+
+**Freshness needs a business expectation.** `MAX(updated_at)` is not automatically proof
+that a load is fresh: one new row can hide a missing partition, late events can be normal,
+and a backfill can make old business data look newly updated. Prefer the source/event
+watermark or completed partition that consumers actually rely on.
+
+**Volume is evidence, not completeness.** Stable row count can hide one missing record and
+one duplicate. Pair volume with reconciliation, rejected-record counts, uniqueness, or a
+source total where the domain requires it.
+
+**Schema checks observe; they do not define.** L4 defines stored field meaning and safe
+schema shape, L5 defines published contracts, and L9 owns compatible rollout. L6 detects
+unexpected runtime drift and confirms that intentional changes arrived without silently
+breaking consumers. Do not duplicate those schema rules inside the monitor.
+
+**Content health is broader than a statistical distribution.** Known business invariants
+use explicit checks. Historical baselines can surface unknown shifts, but "statistically
+normal" does not prove data is correct. Monitor critical fields, not every column by
+reflex.
+
+**Lineage is diagnostic context, not a health metric.** Prefer metadata the platform,
+orchestrator, query engine, or data tool already emits. Table/dataset-level lineage is a
+good default; require field-level lineage only when it materially changes root-cause or
+impact analysis. A hand-maintained diagram with no update path is not trustworthy lineage.
+
+### Pipeline and monitor health still matter
+
+The five capabilities do not replace ordinary execution signals. A meaningful data path
+also exposes, as applicable:
+
+- run/job success, failure, duration, retry count, and queue/schedule delay;
+- records read, written, rejected, and deduplicated;
+- a run/correlation id joining logs to input and output datasets;
+- the deployed code/config version when it helps identify a regression;
+- monitor/check execution failure, so a silent monitor is not mistaken for healthy data.
+
+Use fixed rules for known invariants and historical/anomaly baselines for variable patterns.
+Do not make anomaly detection the only way to catch a fact the business already knows.
+
+### Keep signals actionable, safe, and affordable
+
+For each monitored dataset or path, know:
+
+1. **Why it is critical** and which consumer is harmed when it degrades.
+2. **What normal means**, including expected cadence, partitions, lateness, and planned
+   pauses or backfills.
+3. **Who owns the producing path** or where the incident can be routed. Exact paging policy
+   remains project ops.
+4. **What evidence is safe to collect.** Prefer metadata and aggregate statistics; do not
+   copy raw PII into telemetry to explain an anomaly.
+5. **What the check costs.** Use warehouse metadata, targeted partitions, sampling, or
+   incremental checks before repeatedly scanning an entire large dataset.
+
+```
+✓  known invariant uses a fixed assertion; changing daily volume uses a seasonal baseline
+✓  backfill is labelled/suppressed deliberately while progress and rejects remain visible
+✓  aggregate null rate emitted without shipping raw customer values
+✗  alert with no dataset owner, affected consumer, run id, or next diagnostic step
+✗  full-table profile every minute on an expensive warehouse
+✗  monitoring query exports sensitive rows into a general-purpose log sink
+```
+
+### Layer boundaries
+
+| Concern | Owner |
+|---|---|
+| Field meaning, stored invariants, source of truth | **L4** |
+| Input/output event or API contract | **L5** |
+| Deterministic assertions and regression tests before ship | **L7** |
+| Expand/contract, backfill ordering, rollback/forward-fix | **L9** |
+| Runtime freshness, volume, drift, execution signals, and lineage | **L6** |
+| PII, retention, and access policy for observed data | **L8** |
+
+---
+
+## 8. Health: liveness vs readiness
 
 | Check | Meaning |
 |---|---|
@@ -215,7 +343,7 @@ Match platform conventions (K8s probes, load balancer checks). Keep checks **che
 
 ---
 
-## 8. What agents must do
+## 9. What agents must do
 
 | Situation | Behavior |
 |---|---|
@@ -223,6 +351,8 @@ Match platform conventions (K8s probes, load balancer checks). Keep checks **che
 | New external endpoint | Request id + logs; metrics for rate/error/latency as the stack allows |
 | New money/side-effect path | Business counter or clear log milestone; no secret logging |
 | New heavy query / DB use | Ensure slow/error visibility path exists |
+| New/changed pipeline or derived dataset | Identify relevant freshness, volume, schema, content-health, and lineage signals; add only those justified by its failure modes |
+| Backfill or bulk transformation | Run/progress/reject visibility; distinguish planned movement from an incident |
 | Brownfield, no APM | Don’t expand scope to full platform without ask; don’t remove existing signals |
 
 **Out of scope for L6:** defining pages, SLO targets, and on-call rotations. Emitting the
@@ -230,7 +360,7 @@ signals those systems need **is** in scope.
 
 ---
 
-## 9. Anti-patterns
+## 10. Anti-patterns
 
 ```
 ✗ greenfield with no metrics/APM until “later”
@@ -242,11 +372,18 @@ signals those systems need **is** in scope.
 ✗ only host CPU/memory, zero app golden signals
 ✗ log volume as a substitute for metrics on hot paths
 ✗ silent pool exhaustion (“requests just hang”)
+✗ pipeline marked healthy only because the job exited 0
+✗ one recent row used as proof that every expected partition is fresh
+✗ row count treated as proof that the dataset is complete and duplicate-free
+✗ anomaly detection treated as proof of business correctness
+✗ monitor every dataset/column with no criticality, owner, cost, or response path
+✗ hand-maintained lineage that silently drifts from the running system
+✗ monitoring failures invisible, so “no alerts” is mistaken for healthy data
 ```
 
 ---
 
-## 10. Intentional patterns that may look like mistakes
+## 11. Intentional patterns that may look like mistakes
 
 **Plain L1 text logs plus a SaaS agent.** Valid when the agent parses/ships them; structure
 optional until query needs force it.
@@ -261,14 +398,27 @@ discovery of bad p95 DB paths.
 **Cheap readiness that only checks “can get a DB connection.”** Better than a deep
 synthetic transaction on every probe.
 
+**No five-capability data-observability setup for ordinary synchronous CRUD.** Correct when
+constraints, tests, and normal service/DB signals cover its realistic failure modes.
+
+**Table-level rather than field-level lineage.** Correct until field detail would materially
+improve diagnosis or impact analysis.
+
+**A few explicit data assertions beside anomaly monitoring.** Known invariants should fail
+clearly; baselines are for patterns whose exact threshold is not already known.
+
 ---
 
 ## When to break these rules
 
 - Author chooses a minimal local prototype with no deploy — still remove secret logging.
 - Platform already injects metrics/traces — don’t duplicate; integrate.
+- Platform already captures job/dataset lineage or quality metrics — enrich and reuse it
+  instead of building a parallel catalog.
 - Emergency hotfix: do not strip existing telemetry; add minimal logs if the path is blind.
 - Extreme cardinality or cost constraints — drop labels, not all visibility.
+- One-off backfill — full standing monitors may be wasteful; progress, rejects, reconciliation,
+  and restartability still need a visible path.
 
 Visible production truth beats a clean but silent system.
 
@@ -284,6 +434,10 @@ Visible production truth beats a clean but silent system.
 - [ ] Key business counters for money/side-effect paths when relevant
 - [ ] Multi-service: trace context propagated when tracing is in use
 - [ ] DB/pool errors and slow-path visibility considered
+- [ ] Pipeline/derived data touched: relevant freshness, volume, schema, and content-health signals exist
+- [ ] Pipeline/derived data touched: lineage identifies useful upstream cause and downstream impact
+- [ ] Data checks are actionable, cost-aware, and do not leak raw sensitive data
+- [ ] Pipeline and monitor execution failures are themselves visible
 - [ ] Liveness vs readiness correct for critical deps
 - [ ] L1 log shape (or project structured equivalent) respected
 
@@ -297,5 +451,7 @@ Visible production truth beats a clean but silent system.
 | Stack/vendors | **L3** / author |
 | Query design | **L4** |
 | Wire errors clients see | **L5** |
-| Tests | **L7** |
+| Data contracts clients/producers exchange | **L5** |
+| Tests and deterministic pre-ship assertions | **L7** |
 | PII/secrets policy depth | **L8** |
+| Backfill and rollout choreography | **L9** |
