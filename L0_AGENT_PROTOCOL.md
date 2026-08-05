@@ -332,7 +332,7 @@ Before calling the work done:
 4. Lint/types — clean if applicable
 5. Summary — written, with test/lint evidence
 6. Handoff — STATUS updated or cleared; PR description if review-ready
-7. Git — on correct base lineage; PR not a mega-diff; branch deletable after merge
+7. Git — on correct base lineage; PR not a mega-diff; branches deleted (not reused) after merge
 
 If a check fails, fix or shrink the change. Do not expand scope to polish distant code.
 
@@ -456,7 +456,7 @@ exception.
 - [ ] Tests not worse vs baseline; bugfix/behavior change covered per L7; lint/types clean if available
 - [ ] Short summary delivered with test/lint evidence
 - [ ] Small, purposeful PR when review-ready; description filled
-- [ ] After merge: feature branch treated as deleted; next work from fresh base
+- [ ] After merge: feature branches (and umbrella slices) deleted — not reused; next work from fresh base
 
 ---
 
