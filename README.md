@@ -57,7 +57,7 @@ Adapter details: [`adapters/README.md`](./adapters/README.md)
 | Language / framework / storage | `L3_LANGUAGE_AND_FRAMEWORK.md` |
 | Schema / migrations / money / time | `L4_DATA_MODEL.md` |
 | HTTP / events / DTOs / internal transport | `L5_API_AND_CONTRACTS.md` |
-| Logs / metrics / traces / DB health | `L6_OBSERVABILITY.md` |
+| Logs / metrics / traces / DB health / runtime data health and lineage | `L6_OBSERVABILITY.md` |
 | Testing / TDD / factories | `L7_TESTING.md` |
 | Auth / PII / secrets / IDOR | `L8_SECURITY_AND_SECRETS.md` |
 | Expand/contract, flags, deploy | `L9_CHANGE_AND_RELEASE.md` |

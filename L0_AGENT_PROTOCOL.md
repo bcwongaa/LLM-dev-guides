@@ -35,7 +35,7 @@ or running parallel workstreams. A solo one-file fix does not need it.
 | Language, framework, storage defaults | **L3** |
 | Schema, migrations, data invariants | **L4** |
 | HTTP/events/contracts | **L5** |
-| Logs/metrics/traces | **L6** |
+| Logs/metrics/traces, DB health, runtime data health/lineage | **L6** |
 | What/how to test | **L7** |
 | Auth, PII, secrets | **L8** |
 | Flags, expand/contract, prod deploy choreography | **L9** |
@@ -146,7 +146,7 @@ Open the **smallest** set of guides that match the task. Missing file → see
 | Language / framework / storage choice or bans | **L3** |
 | Schema, migrations, keys, nullability, money/time | **L4** |
 | HTTP/events/DTOs, versioning, wire errors | **L5** |
-| Logs, metrics, traces, DB health, early APM | **L6** |
+| Logs, metrics, traces, DB health, runtime data health/lineage, early APM | **L6** |
 | What to test, TDD, pyramid, factories, flakes | **L7** |
 | Auth boundaries, PII, secrets, IDOR, supply chain | **L8** |
 | Flags, expand/contract, rollback, deploy safety | **L9** (`L9_CHANGE_AND_RELEASE.md`) |

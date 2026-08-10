@@ -23,7 +23,7 @@ Inside the suite repo itself, use `.`
 | Language / framework / storage | `GUIDES_ROOT/L3_LANGUAGE_AND_FRAMEWORK.md` |
 | Schema / migrations / money / time | `GUIDES_ROOT/L4_DATA_MODEL.md` |
 | HTTP / events / DTOs / versioning | `GUIDES_ROOT/L5_API_AND_CONTRACTS.md` |
-| Logs / metrics / traces | `GUIDES_ROOT/L6_OBSERVABILITY.md` |
+| Logs / metrics / traces / runtime data health and lineage | `GUIDES_ROOT/L6_OBSERVABILITY.md` |
 | Testing / TDD / factories / legacy pins | `GUIDES_ROOT/L7_TESTING.md` |
 | Auth / PII / secrets / IDOR | `GUIDES_ROOT/L8_SECURITY_AND_SECRETS.md` |
 | Flags / expand-contract / deploy | `GUIDES_ROOT/L9_CHANGE_AND_RELEASE.md` |

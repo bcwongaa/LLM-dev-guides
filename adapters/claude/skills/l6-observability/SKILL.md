@@ -1,6 +1,6 @@
 ---
 name: l6-observability
-description: "Use when adding or changing logs, metrics, traces, DB health visibility, or early APM setup."
+description: "Use when adding or changing logs, metrics, traces, DB health, runtime data health/lineage, or early APM setup."
 ---
 
 # Pointer skill — no law lives here

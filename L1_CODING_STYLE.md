@@ -798,8 +798,9 @@ Consistent structure across every log line (default shape for this suite):
 Stdout for informational, stderr for errors. No logging framework **required by L1** —
 projects may use a platform agent or structured logs when L6/project demands it.
 
-**Observability policy** (levels, request ids, metrics, traces, DB health, greenfield APM):
-**L6** (`L6_OBSERVABILITY.md`). This section is the default **line shape** only.
+**Observability policy** (levels, request ids, metrics, traces, DB health, runtime data
+health/lineage, greenfield APM): **L6** (`L6_OBSERVABILITY.md`). This section is the
+default **line shape** only.
 
 ---
 
