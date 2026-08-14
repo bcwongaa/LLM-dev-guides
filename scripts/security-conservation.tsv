@@ -1,0 +1,20 @@
+# heading	owner_file	must_contain
+scope	guides/security/RULES.md	Secrets handling
+complete	guides/security/RULES.md	server-authorized
+secrets	guides/security/RULES.md	Secrets never belong in git
+authentication	guides/security/RULES.md	Never treat body/query
+authorization	guides/security/RULES.md	every sensitive action
+idor	guides/security/RULES.md	must be scoped
+pii	guides/security/RULES.md	Collect the minimum
+passwords	guides/security/RULES.md	Never store plaintext
+injection	guides/security/RULES.md	Parameterized queries
+ssrf	guides/security/RULES.md	Do not fetch user-controlled URLs
+deps	guides/security/RULES.md	waiting ~3 days
+admin	guides/security/RULES.md	Audit log
+webhooks	guides/security/RULES.md	verify signatures
+ask	guides/security/RULES.md	New auth system
+anti-patterns	guides/security/RULES.md	admin power via obscurity
+intentional	guides/security/RULES.md	Denying by default
+when-to-break	guides/security/RULES.md	controlled exception
+done	guides/security/RULES.md	Security-sensitive tests
+relationship	guides/security/RULES.md	../protocol/RULES.md

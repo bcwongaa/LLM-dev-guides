@@ -1,0 +1,31 @@
+# heading	owner_file	must_contain
+scope	guides/code-style/RULES.md	any code you write
+complete	guides/code-style/RULES.md	not worse
+table-of-contents	guides/code-style/RULES.md	one level
+one-kind-of-work	guides/code-style/RULES.md	pure domain logic
+sequential-first	guides/code-style/RULES.md	Sequential first
+name-first	guides/code-style/RULES.md	Second-instance
+helpers	guides/code-style/RULES.md	Where helpers live
+underscore-prefix	guides/code-style/RULES.md	OOP languages only
+naming-get	guides/code-style/RULES.md	ensureGet
+null-vs-absent	guides/code-style/RULES.md	Null vs absent
+construction	guides/code-style/RULES.md	Explicit construction
+typed-update	guides/code-style/RULES.md	Typed update
+conversion	guides/code-style/RULES.md	entity boundaries
+get-ensureget	guides/code-style/RULES.md	absence is a bug
+errors	guides/code-style/RULES.md	Errors where detected
+annotations	guides/code-style/RULES.md	Annotate opaque
+comments	guides/code-style/RULES.md	anchor weirdness
+file-order	guides/code-style/RULES.md	File order
+when-to-break	guides/code-style/RULES.md	When to break
+never	guides/code-style/RULES.md	catch (e) { throw e }
+intentional	guides/code-style/RULES.md	fire-and-forget
+tests-pointer	guides/code-style/RULES.md	../testing/RULES.md
+cache-pointer	guides/code-style/RULES.md	guides/architecture/RULES.md
+data-pointer	guides/code-style/RULES.md	guides/data/RULES.md
+obs-pointer	guides/code-style/RULES.md	guides/observability/RULES.md
+caching	guides/architecture/RULES.md	stale-while-revalidate
+polling	guides/architecture/RULES.md	bounded
+dispatch	guides/architecture/RULES.md	named constant
+two-tier	guides/data/RULES.md	Two tiers
+log-format	guides/observability/RULES.md	[timestamp][context] message

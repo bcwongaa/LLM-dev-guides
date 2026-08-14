@@ -1,0 +1,29 @@
+# heading	owner_file	must_contain
+scope	guides/release/RULES.md	Deploy vs migrate ordering
+in-scope	guides/release/RULES.md	Hotfix minimum bar
+out-of-scope	guides/release/RULES.md	On-call pages / SLO burn math
+complete	guides/release/RULES.md	laptop-only build
+expand-contract	guides/release/RULES.md	default for prod schema
+order	guides/release/RULES.md	Expand   — additive schema
+api	guides/release/RULES.md	Expand contract → migrate clients → remove old
+flags	guides/release/RULES.md	primary control system
+rollback	guides/release/RULES.md	often impossible
+environments	guides/release/RULES.md	same build artifact
+agents	guides/release/RULES.md	Human ships prod
+hotfix	guides/release/RULES.md	no silent data destruction
+checklist	guides/release/RULES.md	not yet contracted
+destructive-extras	guides/release/RULES.md	Data-loss / irreversibility statement
+anti-patterns	guides/release/RULES.md	breaking DDL + breaking code in one deploy
+intentional	guides/release/RULES.md	Multiple deploys for one
+when-to-break	guides/release/RULES.md	single-shot cutover
+done	guides/release/RULES.md	did not self-ship prod
+relationship	guides/release/RULES.md	../decisions/RULES.md
+orchestration-pointer	guides/release/RULES.md	../orchestration/RULES.md
+protocol-pointer	guides/release/RULES.md	../protocol/RULES.md
+data-pointer	guides/release/RULES.md	../data/RULES.md
+contracts-pointer	guides/release/RULES.md	../contracts/RULES.md
+security-pointer	guides/release/RULES.md	../security/RULES.md
+observability-pointer	guides/release/RULES.md	../observability/RULES.md
+voice-goal	guides/release/REFERENCE.md	one-shot migrations
+voice-orchestration-path	guides/release/REFERENCE.md	../orchestration/REFERENCE.md
+voice-testing-path	guides/release/REFERENCE.md	../testing/REFERENCE.md

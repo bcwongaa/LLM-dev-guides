@@ -1,15 +1,15 @@
-# Claude Code hooks — enforcement for the checkable L0 rules
+# Claude Code hooks — enforcement for the checkable protocol rules
 
-Working templates, not law. They convert three mechanically checkable L0 rules from
+Working templates, not law. They convert three mechanically checkable protocol rules from
 prose into enforced gates:
 
-| Hook | L0 rule enforced | Script |
+| Hook | Protocol rule enforced | Script |
 |---|---|---|
 | SessionStart | Read `docs/agent/STATUS.md` if present (bootstrap step 4) | `session-start-status.sh` |
 | PreToolUse (Edit/Write) | Feature work on a branch, not the protected base | `pre-edit-branch-guard.sh` |
 | Stop | Tests not worse before declaring done | `stop-test-gate.sh` |
 
-Hooks **supplement** L0 — the definition of done still applies in full.
+Hooks **supplement** protocol — the definition of done still applies in full.
 
 ## Install (consumer repo)
 
@@ -33,7 +33,7 @@ Set them in `.claude/settings.json` under `"env"` (see the fragment).
 
 ## Notes
 
-- Trunk-only projects (L0 “project documents a different branch model”): set
+- Trunk-only projects (protocol “project documents a different branch model”): set
   `GUIDES_ALLOW_BASE_EDITS=1` instead of deleting the hook — the intent stays visible.
 - The Stop gate exits quietly when `stop_hook_active` is already set, so it cannot loop.
 - Keep scripts boring and fast; they run on every matching event.

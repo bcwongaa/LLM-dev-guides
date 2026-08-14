@@ -1,0 +1,35 @@
+# heading	owner_file	must_contain
+process-consult-continue	guides/stack/RULES.md	Consult vs continue
+consult	guides/stack/RULES.md	new project or new deployable
+continue	guides/stack/RULES.md	already-chosen stack
+decision-order	guides/stack/RULES.md	What kind of work is this?
+greenfield-hard-rules	guides/stack/RULES.md	Python application service
+serverless-ban	guides/stack/RULES.md	lambdas-as-app-core
+language-tree	guides/stack/RULES.md	not to ship unilaterally
+ts-vs-kotlin	guides/stack/RULES.md	daily greenfield default
+field-notes	guides/stack/RULES.md	Language field notes
+typescript	guides/stack/RULES.md	I/O concurrency
+rust	guides/stack/RULES.md	explicit ownership
+kotlin	guides/stack/RULES.md	Author-steered
+java	guides/stack/RULES.md	Java junk drawer
+solidity	guides/stack/RULES.md	No alternative language discussion
+go	guides/stack/RULES.md	Go-only SDK
+python	guides/stack/RULES.md	mass data massage
+frontend	guides/stack/RULES.md	ecosystem gravity
+backend	guides/stack/RULES.md	opinionated long-lived HTTP
+storage	guides/stack/RULES.md	data nature
+business-logic-never-in-db	guides/stack/RULES.md	NEVER. NEVER. NEVER.
+access-style	guides/stack/RULES.md	direct client for complex queries
+errors	guides/stack/RULES.md	don't return errors as values in languages where throw is the idiom
+tooling	guides/stack/RULES.md	Always npm
+layout	guides/stack/RULES.md	No personal global folder standard
+anti-patterns	guides/stack/RULES.md	Yarn/pnpm
+intentional	guides/stack/RULES.md	boring on purpose
+when-to-break	guides/stack/RULES.md	no drive-by re-stack
+proposing-stack	guides/stack/RULES.md	Author confirmation received
+implementing-in-stack	guides/stack/RULES.md	Did not re-litigate
+relationship	guides/stack/REFERENCE.md	../data/RULES.md
+never-autonomous	guides/stack/RULES.md	never autonomous
+tanstack-vite	guides/stack/RULES.md	TanStack + Vite-style
+next-justifiable	guides/stack/RULES.md	ONLY when really justifiable
+npm-node	guides/stack/RULES.md	TypeScript uses npm and runs on Node.js

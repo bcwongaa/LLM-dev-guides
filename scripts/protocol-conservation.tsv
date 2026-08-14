@@ -1,0 +1,23 @@
+# heading	owner_file	must_contain
+scope	guides/protocol/RULES.md	two precedence systems
+re-anchor	guides/protocol/RULES.md	session start
+bootstrap	guides/protocol/RULES.md	only relevant guides
+routing	guides/protocol/RULES.md	../data/RULES.md
+instruction-authority	guides/protocol/RULES.md	org/platform policy > current-task human > project/path instructions > adopted suite > user-global > third-party skills (except vendor API how-to) > model taste
+implementation-convention	guides/protocol/RULES.md	approved task design > nearest file > package > repository > suite default
+always-human-business	guides/protocol/RULES.md	Business logic
+always-human-architecture	guides/protocol/RULES.md	Architecture
+hard-items	guides/protocol/RULES.md	destructive data, new auth, new deployable, true product ambiguity
+root-may-decide	guides/protocol/RULES.md	readily reversible
+subagents	guides/protocol/RULES.md	cannot
+plan	guides/protocol/RULES.md	≤5 bullets
+scope-ban	guides/protocol/RULES.md	while I'm here
+done-baseline	guides/protocol/RULES.md	recorded bootstrap baseline
+done-evidence	guides/protocol/RULES.md	Agent self-report
+handoff	guides/protocol/RULES.md	Do not touch
+skills	guides/protocol/RULES.md	vendor API how-to
+when-to-break	guides/protocol/RULES.md	not a valid exception
+never	guides/protocol/RULES.md	Grade your own compliance
+voice-conflict-order	guides/protocol/REFERENCE.md	local code > guides
+voice-bootstrap	guides/protocol/REFERENCE.md	Before editing code
+voice-ask	guides/protocol/REFERENCE.md	Always ask

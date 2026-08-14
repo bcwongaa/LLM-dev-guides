@@ -1,0 +1,31 @@
+# heading	owner_file	must_contain
+goal	guides/testing/REFERENCE.md	comes from the right tests
+scope	guides/testing/RULES.md	not a runner tutorial
+complete	guides/testing/RULES.md	Not worse is necessary but not sufficient
+priority	guides/testing/RULES.md	Every bugfix gets a test
+tdd	guides/testing/RULES.md	TDD is important
+greenfield	guides/testing/RULES.md	Greenfield: tests first
+divide-and-conquer	guides/testing/RULES.md	each unit or logical engine in isolation
+pyramid	guides/testing/RULES.md	E2E / visual
+visual-e2e	guides/testing/RULES.md	Only when a UI exists
+playwright-ui-only	guides/testing/RULES.md	Playwright or project equivalent
+mocks	guides/testing/RULES.md	Never use production data stores
+coverage-snapshots-flakes	guides/testing/RULES.md	## 6. Coverage, snapshots, flakes
+coverage	guides/testing/RULES.md	No global coverage % target
+snapshots	guides/testing/RULES.md	Snapshots / goldens
+flakes	guides/testing/RULES.md	fix or delete — never ignore
+structure	guides/testing/RULES.md	## 7. Structure
+names	guides/testing/RULES.md	recent_trade_is_not_stale
+factories	guides/testing/RULES.md	Private factory functions
+isolation	guides/testing/RULES.md	must not depend on run order
+brownfield	guides/testing/RULES.md	Pin current behavior first
+minimum-harness	guides/testing/RULES.md	Minimum viable harness
+agents	guides/testing/RULES.md	repro test
+anti-patterns	guides/testing/RULES.md	large untested domain core
+intentional	guides/testing/RULES.md	No coverage gate in CI
+when-to-break	guides/testing/RULES.md	never prod
+done	guides/testing/RULES.md	characterization pins written before the change
+relationship	guides/testing/RULES.md	../contracts/RULES.md
+voice-goal	guides/testing/REFERENCE.md	Testing is part of building
+voice-factory-example	guides/testing/REFERENCE.md	function makeOrder
+voice-flake-manners	guides/testing/REFERENCE.md	failing test with worse manners
