@@ -1,0 +1,26 @@
+# heading	owner_file	must_contain
+scope	guides/observability/RULES.md	Minimum bars for logs
+complete	guides/observability/RULES.md	correlation/request id
+greenfield	guides/observability/RULES.md	instrument early
+logs	guides/observability/RULES.md	Prefer **metrics**
+logs-shape	guides/observability/RULES.md	structured / JSON
+logs-levels	guides/observability/RULES.md	Off in production
+logs-secrets	guides/observability/RULES.md	raw session material
+correlation	guides/observability/RULES.md	every log line
+metrics	guides/observability/RULES.md	No metric spam
+tracing	guides/observability/RULES.md	Multi-service
+db-pool	guides/observability/RULES.md	Pool saturation
+data-obs	guides/observability/RULES.md	when the data can be wrong while the system is up
+data-obs-conditional	guides/observability/RULES.md	Apply it conditionally
+five-capabilities	guides/observability/RULES.md	not five universal boxes
+pipeline-monitor	guides/observability/RULES.md	silent monitor
+actionable	guides/observability/RULES.md	What the check costs
+layer-boundaries	guides/observability/RULES.md	Runtime freshness
+health	guides/observability/RULES.md	liveness vs readiness
+agents	guides/observability/RULES.md	What agents must do
+anti-patterns	guides/observability/RULES.md	greenfield with no metrics
+intentional	guides/observability/RULES.md	Looks wrong
+when-to-break	guides/observability/RULES.md	When to break
+done	guides/observability/RULES.md	monitor execution failures
+relationship	guides/observability/RULES.md	../stack/RULES.md
+log-line-shape	guides/observability/RULES.md	[timestamp][context] message

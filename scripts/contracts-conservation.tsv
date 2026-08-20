@@ -1,0 +1,25 @@
+# heading	owner_file	must_contain
+scope	guides/contracts/RULES.md	light authn/authz at the boundary
+complete	guides/contracts/RULES.md	no second envelope
+transport	guides/contracts/RULES.md	Transport: external vs internal
+external	guides/contracts/RULES.md	public/browser gRPC
+internal	guides/contracts/RULES.md	HTTP JSON between internal services is usually a poor default
+rest-json	guides/contracts/RULES.md	boring REST/JSON
+dtos	guides/contracts/RULES.md	DTOs are not domain or DB models
+validate	guides/contracts/RULES.md	Validate at the boundary
+errors	guides/contracts/RULES.md	house-wide error DTO
+success	guides/contracts/RULES.md	Success bodies
+versioning	guides/contracts/RULES.md	Prefer additive, non-breaking change
+idempotency	guides/contracts/RULES.md	Idempotency and retries
+pagination	guides/contracts/RULES.md	No single house mandate
+identifiers	guides/contracts/RULES.md	Identifiers on the wire
+patch	guides/contracts/RULES.md	Partial updates (PATCH)
+events	guides/contracts/RULES.md	Events and message payloads
+webhooks	guides/contracts/RULES.md	hostile until proven otherwise
+auth	guides/contracts/RULES.md	Authn / authz at the boundary
+s2s	guides/contracts/RULES.md	Service-to-service contracts
+anti-patterns	guides/contracts/RULES.md	silent breaking field renames
+intentional	guides/contracts/RULES.md	Framework-default errors instead of RFC7807
+when-to-break	guides/contracts/RULES.md	Working clients and safe retries beat diagram purity
+done	guides/contracts/RULES.md	PATCH omitted ≠ null
+relationship	guides/contracts/REFERENCE.md	Relationship to other layers

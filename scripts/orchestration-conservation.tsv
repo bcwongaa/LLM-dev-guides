@@ -1,0 +1,17 @@
+# heading	owner_file	must_contain
+scope	guides/orchestration/RULES.md	solo one-file fix
+integration	guides/orchestration/RULES.md	develop
+feature	guides/orchestration/RULES.md	Human merges
+umbrella	guides/orchestration/RULES.md	Never reuse
+after-merge	guides/orchestration/RULES.md	merged branch is dead
+conflicts	guides/orchestration/RULES.md	Understand the other side
+isolation	guides/orchestration/RULES.md	No shared dirty worktree
+hotspots	guides/orchestration/RULES.md	lockfiles
+parent	guides/orchestration/RULES.md	GUIDES_ROOT
+checklist	guides/orchestration/RULES.md	delete
+when-to-break	guides/orchestration/RULES.md	trunk-only
+never	guides/orchestration/RULES.md	Blind conflict
+hard-items	guides/orchestration/RULES.md	destructive data, new auth, new deployable, true product ambiguity
+voice-git	guides/orchestration/REFERENCE.md	Team-style git flow
+voice-umbrella	guides/orchestration/REFERENCE.md	temporary base
+voice-brief	guides/orchestration/REFERENCE.md	## Brief

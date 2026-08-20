@@ -1,0 +1,21 @@
+# heading	owner_file	must_contain
+scope	guides/architecture/RULES.md	What pieces exist and how they are arranged
+complete	guides/architecture/RULES.md	not only a folder tree
+thinking-order	guides/architecture/RULES.md	Start from engines and the mental model
+logical-vs-physical	guides/architecture/RULES.md	clear public surfaces
+new-deployable	guides/architecture/RULES.md	None of these auto-approve
+hybrid	guides/architecture/RULES.md	Top level by business capability
+duplication	guides/architecture/RULES.md	third copy hurts
+data-ownership	guides/architecture/RULES.md	One database is OK
+frontend-backend	guides/architecture/RULES.md	very small, localhost-only
+engines-talk	guides/architecture/RULES.md	do not invent a mesh early
+always-ask	guides/architecture/RULES.md	monorepo↔multi-repo flip
+brownfield	guides/architecture/RULES.md	Existing layout wins
+anti-patterns	guides/architecture/RULES.md	scaffold microservices before the engines are named
+intentional	guides/architecture/RULES.md	Several logical engines, one deployable
+when-to-break	guides/architecture/RULES.md	Working system and clear ownership
+done	guides/architecture/RULES.md	proposed ADR
+relationship	guides/architecture/RULES.md	Standing decisions (ADRs)
+caching	guides/architecture/RULES.md	stale-while-revalidate
+polling	guides/architecture/RULES.md	Not recursive sleep
+dispatch	guides/architecture/RULES.md	key-to-handler mapping

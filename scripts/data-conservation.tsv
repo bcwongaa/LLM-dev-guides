@@ -1,0 +1,29 @@
+# heading	owner_file	must_contain
+scope	guides/data/RULES.md	how data behaves
+complete	guides/data/RULES.md	approved loss
+one-meaning	guides/data/RULES.md	One meaning per field
+null-absent-undefined	guides/data/RULES.md	no persistent `undefined`
+persistent-vs-memory	guides/data/RULES.md	mirror the external schema
+validate-boundaries	guides/data/RULES.md	trust boundaries
+invariants	guides/data/RULES.md	in the right place
+no-db-business	guides/data/RULES.md	No new business logic
+identifiers	guides/data/RULES.md	not accidental public contracts
+money-units	guides/data/RULES.md	Units, precision, and rounding
+time	guides/data/RULES.md	Time has different meanings
+normalize-json	guides/data/RULES.md	earn every JSON
+postgres-tables	guides/data/RULES.md	stable shape
+access-style	guides/data/RULES.md	Access style
+two-tier	guides/data/RULES.md	Two tiers
+postgres-special	guides/data/RULES.md	Generated identity
+mongo-shape	guides/data/RULES.md	It is JSON
+embed-vs-ref	guides/data/RULES.md	reconsider Mongo
+redis	guides/data/RULES.md	Not the system of record
+lifecycle	guides/data/RULES.md	Lifecycle, archive
+migrations	guides/data/RULES.md	change data, not just files
+transactions	guides/data/RULES.md	concurrent writers
+anti-patterns	guides/data/RULES.md	## Never
+intentional	guides/data/RULES.md	Looks wrong, is intentional
+when-to-break	guides/data/RULES.md	When to break
+done	guides/data/RULES.md	Done
+voice-two-tier	guides/data/REFERENCE.md	19. Two tiers of data access
+voice-header	guides/data/REFERENCE.md	original data-model prose
