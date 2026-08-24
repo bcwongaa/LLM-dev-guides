@@ -1,0 +1,136 @@
+{
+  "notice": "Repository-internal generator input. Not a consumer installer, package, or updater.",
+  "tools": ["claude", "codex", "grok"],
+  "instruction_authority": "org/platform policy > current-task human > project/path instructions > adopted suite > user-global > third-party skills (except vendor API how-to) > model taste",
+  "implementation_convention": "approved task design > nearest file > package > repository > suite default",
+  "bootstrap": "**Bootstrap (every task):** this file → protocol → only relevant guides → STATUS if present → test/lint baseline → plan if non-trivial → edit.",
+  "hard_items": "destructive data, new auth, new deployable, true product ambiguity",
+  "always_ask": [
+    "greenfield stack",
+    "new services",
+    "schema/API breaks",
+    "security/PII/secrets",
+    "ambiguous product intent",
+    "scope expansion"
+  ],
+  "always_ask_suite_extra": "and before rewriting author-native guide voice without review",
+  "routes": [
+    {
+      "need": "Protocol (start, ask vs decide, done, handoff)",
+      "open": "guides/protocol/RULES.md"
+    },
+    {
+      "need": "Git flow / parallel agents / subagent briefs",
+      "open": "guides/orchestration/RULES.md",
+      "note": "only when orchestrating"
+    },
+    {
+      "need": "Code shape / smells",
+      "open": "guides/code-style/RULES.md"
+    },
+    {
+      "need": "Language / framework / storage",
+      "open": "guides/stack/RULES.md"
+    },
+    {
+      "need": "Other domains",
+      "text": "remaining `guides/**` per `guides/protocol/RULES.md` routing table",
+      "consumer_text": "remaining `GUIDES_ROOT/guides/**` per `GUIDES_ROOT/guides/protocol/RULES.md` routing table"
+    },
+    {
+      "need": "ADRs",
+      "open": "guides/decisions/"
+    },
+    {
+      "need": "WIP multi-tool handoff",
+      "text": "`docs/agent/STATUS.md` (if present)"
+    }
+  ],
+  "suite_only_routes": [
+    {
+      "need": "Adapter templates",
+      "text": "`adapters/`"
+    },
+    {
+      "need": "Adopt suite in existing apps",
+      "open": "docs/USING_IN_EXISTING_REPOS.md"
+    }
+  ],
+  "consumer_extra_routes": [
+    {
+      "need": "Bugfix",
+      "text": "`GUIDES_ROOT/guides/code-style/RULES.md` + `GUIDES_ROOT/guides/testing/RULES.md` (repro test)"
+    }
+  ],
+  "skills": [
+    {
+      "id": "l1-coding-style",
+      "description": "Use for any code writing or editing: code shape, smells, naming, decomposition, error handling style, post-code style check. Applies to nearly every code task.",
+      "guide": "guides/code-style/RULES.md",
+      "task": "code-shape / style",
+      "also": "Open `REFERENCE.md` beside it for examples."
+    },
+    {
+      "id": "l2-project-bootstrap",
+      "description": "Use when shaping a system: greenfield layout, engines/modules vs deployables, folder structure, new service/package/repo proposals, shared code policy.",
+      "guide": "guides/architecture/RULES.md",
+      "task": "project structure / bootstrap"
+    },
+    {
+      "id": "l3-language-framework",
+      "description": "Use when choosing or discussing language, framework, or storage: greenfield stack proposals, new major dependency, storage selection, stack bans. Greenfield picks are never autonomous.",
+      "guide": "guides/stack/RULES.md",
+      "task": "language / framework / storage selection"
+    },
+    {
+      "id": "l4-data-model",
+      "description": "Use for schema and data work: tables, migrations, keys, nullability, invariants, money and time representation.",
+      "guide": "guides/data/RULES.md",
+      "task": "schema / migration / data-model"
+    },
+    {
+      "id": "l5-api-contracts",
+      "description": "Use for wire contracts: HTTP endpoints, events, DTOs, API versioning, wire error shapes, internal transport.",
+      "guide": "guides/contracts/RULES.md",
+      "task": "API / contract"
+    },
+    {
+      "id": "l6-observability",
+      "description": "Use when adding or changing logs, metrics, traces, DB health, runtime data health/lineage, or early APM setup.",
+      "guide": "guides/observability/RULES.md",
+      "task": "observability"
+    },
+    {
+      "id": "l7-testing",
+      "description": "Use for any behavior change, bugfix, or test work: what to test, TDD, repro tests, characterization pins for untested legacy code, factories, flakes. Every bugfix gets a test.",
+      "guide": "guides/testing/RULES.md",
+      "task": "testing"
+    },
+    {
+      "id": "l8-security-secrets",
+      "description": "Use when touching auth boundaries, permissions, PII, secrets, IDOR risks, or supply chain concerns.",
+      "guide": "guides/security/RULES.md",
+      "task": "security / secrets"
+    },
+    {
+      "id": "l9-change-release",
+      "description": "Use for rollout work: feature flags, expand/contract migrations, rollback planning, deploy safety. Human ships prod.",
+      "guide": "guides/release/RULES.md",
+      "task": "change / release"
+    }
+  ],
+  "suite": {
+    "guides_root": ".",
+    "test": "`bash scripts/check-sync.sh` (entry-file drift + routing-target check)",
+    "lint": "_(none required)_",
+    "build": "_(none required)_",
+    "preview": "read the target `guides/**` / `adapters/**` files"
+  },
+  "consumer": {
+    "guides_root": "{{GUIDES_ROOT}}",
+    "test": "`{{TEST_CMD}}`",
+    "lint": "`{{LINT_CMD}}`",
+    "build": "`{{BUILD_CMD}}`",
+    "dev": "`{{DEV_CMD}}`"
+  }
+}

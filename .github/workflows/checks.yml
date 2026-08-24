@@ -1,0 +1,25 @@
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  guides:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check guide structure and budgets
+        run: bash scripts/check-sync.sh
+
+  fixture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.x'
+      - name: Test and build scope fixture
+        run: bash evals/fixtures/scope-guard/test.sh

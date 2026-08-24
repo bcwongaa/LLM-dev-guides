@@ -1,0 +1,5 @@
+# Temporary research and raw evaluation workspaces
+/temp/
+
+# Fixture build output
+/evals/fixtures/*/bin/

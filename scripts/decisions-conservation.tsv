@@ -1,0 +1,14 @@
+# heading	owner_file	must_contain
+scope	guides/decisions/RULES.md	day-to-day implementation
+relationship	guides/decisions/RULES.md	if ADR and guide conflict
+when-to-write	guides/decisions/RULES.md	hard-to-reverse
+where	guides/decisions/RULES.md	guides/decisions/
+format	guides/decisions/RULES.md	proposed` | `accepted` | `superseded` | `deprecated
+lifecycle	guides/decisions/RULES.md	Never silently rewrite
+agent-rules	guides/decisions/RULES.md	mark accepted without author
+done	guides/decisions/RULES.md	NNNN-short-title.md
+index	guides/decisions/RULES.md	Keep an index when ADRs exist
+status	guides/decisions/TEMPLATE.md	**Status:**
+context	guides/decisions/TEMPLATE.md	## Context
+decision	guides/decisions/TEMPLATE.md	## Decision
+consequences	guides/decisions/TEMPLATE.md	## Consequences
