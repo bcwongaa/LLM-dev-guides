@@ -15,6 +15,9 @@ which guide generation a project adopted.
 
 ### Guides
 
+- Code-style §7 now binds local, field, and destructured names (named bindings): domain noun
+  on live names, type sort on fields, spoken noun on locals, canonical-name handoff
+  (`_user` → `user`, TS rendering).
 - Migrated coding-style law from `L1_CODING_STYLE.md` to `guides/code-style/{RULES.md,REFERENCE.md}`.
 - Relocated cache / bounded polling / async dispatch to `guides/architecture/`.
 - Relocated two-tier data access to `guides/data/`.

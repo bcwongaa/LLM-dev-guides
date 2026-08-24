@@ -319,6 +319,80 @@ CreateRequestDto   ← transfer object
 TradeContext       ← in-memory domain type (no suffix)
 ```
 
+### Named bindings: locals and fields
+
+The rest of §7 binds function names, type suffixes, prefixes, and constants. It does not
+reach a `val`, a field, or a destructured pair. An unguided model emits the corpus median:
+`store`, `record`, `data`, `item`, `first`. Those names work if you just wrote the surrounding
+ten lines. They fail on a grep hit, a stack frame, a blame line, a diff hunk, or a 40-line
+agent read. The next reader — human or model — never wrote the file and will not load the
+module. Names are the fragment of the theory that survives that cut.
+
+This is a **scope budget**, not a taste for long identifiers.
+
+**Class-scope wears the type.** A field is alive for every method, so the programming sort
+stays: `ledgerStore`. Never bare `store`, `service`, `db`.
+
+**Function-scope wears the spoken domain word.** `ensureGetUser` → `user`, not `userEntity`.
+One in scope, no role. Two in scope, role first: `fromAccount` / `toAccount`. Drop
+Entity/Dto/Record/Service. The unit is the domain's word (`walletIdentifier` is one noun),
+not stacked type morphemes.
+
+```
+✓  class LedgerService(private val ledgerStore: LedgerStore)
+✓  val account = ensureRecord(accountId)                  // one in scope
+✓  val fromAccount = ensureRecord(fromAccountId)          // two in scope
+✗  private val store: LedgerStore
+✗  val record = ensureRecord(accountId)
+✗  val source = ensureRecord(sourceId)                    // role, no noun
+✗  val fromExchangeAccountRecordDto = ...                 // suffixes, no information
+```
+
+**Canonical-name handoff.** A binding that exists only to produce the canonical value gives
+up the plain noun: `function f(_user) { const user = normalize(_user) }`. The `_` says "not
+the one you want"; the unprefixed name is reserved for the survivor. Not `rawUser` — the
+value is not always raw. Not `tmpUser` — that changes the meaning. Not `user_` — trailing
+sigils fight several languages. The prefixed binding dies immediately: if `_user` is still
+read at the end of the function, it was never a handoff. This is a TS rendering; elsewhere
+use the language's idiom (shadowing / rebinding). Distinct from the §6 method prefix and
+from unused-parameter `_`.
+
+**Leftover IO may stay generic.** `result` of `insertOne` returned on the next line, `res`/`data`
+of fetch, `x` in a lambda, `cache` of redis bytes. When the value lives and is a domain object,
+generic is a miss: `record` in a ledger service. When it lives as a named IO receipt, prefix it:
+`depositResult`.
+
+**Position names only after a callee that defines the order.**
+`val (firstId, secondId) = ordered(idA, idB)` is lock order. `first` / `second` before that
+named order are tuple slots.
+
+**Too long is also a miss.** `destinationWalletIdentifier` is role plus a domain noun; every
+word earns its place. `fromExchangeAccountRecordDto` is three sorts glued together. Length is
+allowed; suffix piles are not.
+
+**Match the file.** If the DTO already says `destination`, locals say `destination…`. A fresh
+file may use domain speech (`fromAccount`). Uniqueness is not a goal — do not invent a second
+vocabulary to make a grep unique. Brownfield: rename `store` only in lines the fix already
+touches (never-list override, §When to break); leave the rest of the file alone.
+
+Worked miss (compliant with every other §7 sub-rule, still wrong):
+
+```
+class LedgerService(private val store: LedgerStore) {
+    fun deposit(accountId: AccountId, amount: Money) {
+        val record = ensureRecord(accountId)
+        store.put(record.copy(...))
+    }
+    fun transfer(sourceId: AccountId, destinationId: AccountId, amount: Money) {
+        val source = ensureRecord(sourceId)
+        val destination = ensureRecord(destinationId)
+    }
+}
+```
+
+`store.put(record.copy(...))` on a blame line is a riddle. The type that would answer is one
+declaration up, which is the line the fragment dropped.
+
 ### Preserve typos and casing in external schemas
 
 When a typo ships in a persistent schema (DB field, API contract), it stays in all new code
@@ -810,6 +884,9 @@ and the fix stays within the lines already being changed.
 
 ✗ const result = doThing()
    ...and result is never read; either use it or don't capture it
+
+✗ store.put(record.copy(...))
+   a domain object named generically; the line does not survive a jump-in read
 ```
 
 ---
@@ -822,3 +899,10 @@ fire-and-forget — silent failure risk is accepted. Don't add error handling to
 call sites.
 
 **Casing and typo mismatches at the entity layer.** See §7. These are load-bearing.
+
+**Leftover IO named `result` and returned on the next line.** That binding is not a domain
+object. Do not rename it to invent a noun. Unused capture of `result` is still banned (see
+never-list).
+
+**Idiomatic `it` and 1–2 line lambda params.** Nobody jumps into a one-liner. Loop indices
+`i, j, k` are positions, and everyone knows it.

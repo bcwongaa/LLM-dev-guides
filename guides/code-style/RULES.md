@@ -68,6 +68,20 @@ Skip in Rust, Go, and module-privacy languages — visibility is the signal.
 
 **Role suffixes `[suite-default]`:** `OrderEntity`, `StatusEnum`, `CreateRequestDto`. In-memory domain types: no suffix (`TradeContext`).
 
+**Named bindings `[suite-default]`.** Live names carry a domain noun. Fields keep the type sort (`ledgerStore`). Locals drop Entity/Dto/Record/Service; add a role when the noun repeats (`fromAccount`). Leftover IO may be generic (`result` returned next line). Position names (`first`/`second`) only after a callee that defines the order. Uninformative suffixes also miss. `it` / `i,j,k` / short lambda params exempt.
+
+```
+✓  ledgerStore.put(fromAccount.copy(...))
+✗  store.put(record.copy(...))
+```
+
+**Canonical-name handoff `[suite-default]`.** TS; elsewhere follow the language.
+
+```
+✓  function f(_user) { const user = normalize(_user) }
+✗  _user stays live · tmpUser · user_
+```
+
 **External schema typos/casing `[suite-default]`.** Keep them in the entity layer. Translate at the boundary (§11). Document the first appearance.
 
 ## 8. Null vs absent `[suite-default]`
@@ -148,6 +162,7 @@ Brownfield: net-new files follow this guide; edits match the file’s dominant p
 ✗ return new Error(...)
 ✗ if (someAsyncCall()) { ... }    // missing await; Promise is always truthy
 ✗ const result = doThing()        // unused capture
+✗ store.put(record.copy(...))     // domain object, generic name
 ```
 
 ## Looks wrong, is intentional `[suite-default]`
@@ -155,3 +170,7 @@ Brownfield: net-new files follow this guide; edits match the file’s dominant p
 Broadcast/publish results are **fire-and-forget**. Do not add error handling at those call sites.
 
 Entity-layer casing/typo mismatches with the live schema are load-bearing (§7).
+
+Leftover IO `result` returned on the next line is not a domain name.
+
+Idiomatic `it` and 1–2 line lambda params are not jump-in targets (§7).
