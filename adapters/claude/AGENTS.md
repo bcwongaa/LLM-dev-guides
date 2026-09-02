@@ -19,6 +19,7 @@ Inside the suite repo itself, use `.`
 |---|---|
 | Bugfix | `GUIDES_ROOT/guides/code-style/RULES.md` + `GUIDES_ROOT/guides/testing/RULES.md` (repro test) |
 | Protocol (start, ask vs decide, done, handoff) | `GUIDES_ROOT/guides/protocol/RULES.md` |
+| Section index for any guide (read ranges, not whole files) | `GUIDES_ROOT/guides/<domain>/INDEX.tsv` |
 | Git flow / parallel agents / subagent briefs | `GUIDES_ROOT/guides/orchestration/RULES.md` (only when orchestrating) |
 | Code shape / smells | `GUIDES_ROOT/guides/code-style/RULES.md` |
 | Language / framework / storage | `GUIDES_ROOT/guides/stack/RULES.md` |

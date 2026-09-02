@@ -5,7 +5,7 @@ description: "Branching, PR flow, parallel agents, subagent briefs, conflicts, h
 
 Law: `GUIDES_ROOT/guides/orchestration/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-Examples live in `REFERENCE.md` beside it.
+`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
 
 7-15     Integration base
 16-21    Feature work

@@ -128,6 +128,9 @@ governance_files=(
   .github/workflows/checks.yml
   scripts/check-size.sh
   scripts/check-index.py
+  scripts/conservation-baseline.txt
+  guides/protocol/INDEX.tsv
+  guides/code-style/INDEX.tsv
   scripts/size-baseline.tsv
   evals/README.md
   evals/fixtures/scope-guard/go.mod
@@ -269,6 +272,11 @@ for s in adapters/claude/skills/*/SKILL.md; do
     || err "$s: missing section line-range index (granular routing)"
 done
 
+for g in guides/*/RULES.md; do
+  d="$(dirname "$g")"
+  [ -f "$d/INDEX.tsv" ] || err "$d: missing generated INDEX.tsv (tool-neutral section index)"
+done
+
 # Every claimed range must actually point at the section it names. Independent of
 # the generator on purpose: gen-adapters --check only proves the generator agrees
 # with itself, this proves the shipped numbers are true.
@@ -292,6 +300,28 @@ for f in adapters/claude/skills/README.md adapters/claude/NOTES.md; do
     err "$f: install glob still assumes deleted l* skill prefix"
   fi
 done
+
+# --- 10. conservation needle strength (ratchet) ------------------------------
+# A needle that appears all over the corpus ('Done', 'cannot') passes trivially and
+# proves nothing about where the law lives. Existing ones are baselined; new ones fail.
+weak="$(python3 - <<'EOF'
+from pathlib import Path
+rows=[]
+for tsv in sorted(Path('scripts').glob('*-conservation.tsv')):
+    for line in tsv.read_text().splitlines():
+        if line.strip() and not line.startswith('#'):
+            p=line.split('\t')
+            if len(p)==3: rows.append(tuple(p))
+allg=[p.read_text() for p in Path('guides').rglob('*.md')]
+print(sum(1 for r in rows if sum(1 for t in allg if r[2] in t) > 3))
+EOF
+)"
+baseline="$(grep -v '^#' scripts/conservation-baseline.txt | tr -d '[:space:]')"
+if [ "$weak" -gt "$baseline" ]; then
+  err "conservation: $weak needles too generic to localize law, baseline is $baseline (strengthen the new one)"
+elif [ "$weak" -lt "$baseline" ]; then
+  echo "note: conservation weak-needle count improved ($baseline -> $weak); lower scripts/conservation-baseline.txt"
+fi
 
 if [ "$fail" -ne 0 ]; then
   echo "check-sync: FAILED" >&2

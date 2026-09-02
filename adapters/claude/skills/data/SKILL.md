@@ -5,7 +5,7 @@ description: "Schema, migrations, keys, nullability, invariants, money, time, Po
 
 Law: `GUIDES_ROOT/guides/data/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-Examples live in `REFERENCE.md` beside it.
+`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
 
 9-16   1. One meaning per field
 17-20  2. Validate at trust boundaries

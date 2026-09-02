@@ -116,6 +116,60 @@ def check_skill(skill_md: Path) -> None:
             err(f"{rel}: {law} section {ht!r} at line {hl} is missing from the index")
 
 
+def check_index_tsv(tsv: Path) -> int:
+    """Verify guides/<domain>/INDEX.tsv against the guide files it indexes."""
+    rel = tsv.relative_to(ROOT)
+    domain = tsv.parent
+    rows = 0
+    seen: dict[str, set[int]] = {}
+    for lineno, line in enumerate(tsv.read_text().splitlines(), start=1):
+        if line.startswith("#") or line.startswith("file\t") or not line.strip():
+            continue
+        parts = line.split("\t")
+        if len(parts) != 6:
+            err(f"{rel}:{lineno}: expected 6 tab-separated fields, got {len(parts)}")
+            continue
+        fname, start_s, end_s, bytes_s, tag, title = parts
+        rows += 1
+        target = domain / fname
+        if not target.is_file():
+            err(f"{rel}:{lineno}: indexes {fname}, which does not exist")
+            continue
+        lines = target.read_text().splitlines()
+        try:
+            start, end, claimed_bytes = int(start_s), int(end_s), int(bytes_s)
+        except ValueError:
+            err(f"{rel}:{lineno}: non-numeric start/end/bytes")
+            continue
+        if not 1 <= start <= len(lines) or end > len(lines) or end < start:
+            err(f"{rel}:{lineno}: range {start}-{end} invalid for {fname} (1-{len(lines)})")
+            continue
+        real = lines[start - 1]
+        if not real.startswith("## "):
+            err(f"{rel}:{lineno}: {fname}:{start} is not a heading, it is {real.strip()[:40]!r}")
+            continue
+        raw = real[3:].strip()
+        real_title = TAG_RE.sub("", raw)
+        if real_title != title:
+            err(f"{rel}:{lineno}: {fname}:{start} is {real_title!r}, not {title!r}")
+        tag_m = TAG_RE.search(raw)
+        real_tag = tag_m.group(0).strip().strip("`[]") if tag_m else ""
+        if real_tag != tag:
+            err(f"{rel}:{lineno}: tag is {real_tag!r} in the guide, indexed as {tag!r}")
+        actual_bytes = len("\n".join(lines[start - 1 : end]))
+        if actual_bytes != claimed_bytes:
+            err(f"{rel}:{lineno}: claims {claimed_bytes}B, section is {actual_bytes}B")
+        seen.setdefault(fname, set()).add(start)
+
+    # No section may be missing from the index. Use the fence-aware parser: a `## `
+    # inside a ```markdown block is a template example, not a section.
+    for fname, starts in seen.items():
+        for n, title in headings_of(domain / fname):
+            if n not in starts:
+                err(f"{rel}: {fname} section {title!r} at line {n} is missing from the index")
+    return rows
+
+
 def main() -> int:
     skills = sorted(SKILLS.glob("*/SKILL.md"))
     if not skills:
@@ -123,6 +177,10 @@ def main() -> int:
         return 1
     for s in skills:
         check_skill(s)
+    tsvs = sorted((ROOT / "guides").glob("*/INDEX.tsv"))
+    if not tsvs:
+        err("no guides/*/INDEX.tsv found")
+    index_rows = sum(check_index_tsv(t) for t in tsvs)
     total = sum(
         1
         for s in skills
@@ -132,7 +190,10 @@ def main() -> int:
     if failures:
         print(f"check-index: FAILED ({len(failures)} false claims)", file=sys.stderr)
         return 1
-    print(f"check-index: OK ({total} line ranges verified across {len(skills)} skills)")
+    print(
+        f"check-index: OK ({total} skill ranges across {len(skills)} skills, "
+        f"{index_rows} index rows across {len(tsvs)} guides)"
+    )
     return 0
 
 

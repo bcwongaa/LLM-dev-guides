@@ -5,7 +5,7 @@ description: "Language, framework, storage, or major dependency choice. Greenfie
 
 Law: `GUIDES_ROOT/guides/stack/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-Examples live in `REFERENCE.md` beside it.
+`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
 
 7-14     Consult vs continue
 15-18    Decision order

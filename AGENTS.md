@@ -15,6 +15,7 @@ GUIDES_ROOT=.
 | Need | Open |
 |---|---|
 | Protocol (start, ask vs decide, done, handoff) | `guides/protocol/RULES.md` |
+| Section index for any guide (read ranges, not whole files) | `guides/<domain>/INDEX.tsv` |
 | Git flow / parallel agents / subagent briefs | `guides/orchestration/RULES.md` (only when orchestrating) |
 | Code shape / smells | `guides/code-style/RULES.md` |
 | Language / framework / storage | `guides/stack/RULES.md` |

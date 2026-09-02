@@ -24,6 +24,11 @@
       "open": "guides/protocol/RULES.md"
     },
     {
+      "need": "Section index for any guide (read ranges, not whole files)",
+      "text": "`guides/<domain>/INDEX.tsv`",
+      "consumer_text": "`GUIDES_ROOT/guides/<domain>/INDEX.tsv`"
+    },
+    {
       "need": "Git flow / parallel agents / subagent briefs",
       "open": "guides/orchestration/RULES.md",
       "note": "only when orchestrating"

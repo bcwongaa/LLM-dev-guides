@@ -5,7 +5,7 @@ description: "Auth, permissions, PII, secrets, IDOR and tenancy, injection, SSRF
 
 Law: `GUIDES_ROOT/guides/security/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-Examples live in `REFERENCE.md` beside it.
+`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
 
 9-12     Complete
 13-21    1. Secrets

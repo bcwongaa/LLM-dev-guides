@@ -5,7 +5,7 @@ description: "HTTP endpoints, events, DTOs, versioning, pagination, idempotency,
 
 Law: `GUIDES_ROOT/guides/contracts/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-Examples live in `REFERENCE.md` beside it.
+`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
 
 9-12     Complete
 13-22    1. Transport: external vs internal

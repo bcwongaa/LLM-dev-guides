@@ -5,7 +5,7 @@ description: "Feature flags, expand/contract migrations, rollback, deploy safety
 
 Law: `GUIDES_ROOT/guides/release/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-Examples live in `REFERENCE.md` beside it.
+`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
 
 9-12     Relocated — do not restate
 13-16    Complete

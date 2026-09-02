@@ -1,0 +1,5 @@
+# Conservation needles too generic to localize law (present in >3 guide files).
+# A needle like 'Done' or 'cannot' passes trivially and proves nothing.
+# This is a RATCHET: the count may fall, never rise. Strengthen or drop needles
+# to lower it; do not raise it to make a new weak needle pass.
+38

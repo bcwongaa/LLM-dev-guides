@@ -8,6 +8,30 @@ which guide generation a project adopted.
 
 ### Retrieval
 
+- Moved the generated section index out of the Claude adapter into `guides/<domain>/INDEX.tsv`,
+  so Codex and Grok reach it too. Adapters carry no tool-neutral data (`AGENTS.md` hard ban).
+- Indexed `REFERENCE.md` (221 KB, 213 sections) alongside `RULES.md`; skills route to it via
+  `INDEX.tsv` instead of naming the whole file.
+- Indexed `guides/protocol/` — the always-loaded, four-times-re-read file previously had no
+  granular access despite being the largest per-task context cost.
+- `[suite-default]` / `[common]` tags became a queryable `INDEX.tsv` column instead of prose
+  metadata that nothing consumed.
+- Made the heading parser fence-aware; 7 `## ` lines inside ```markdown template blocks in
+  `REFERENCE.md` would otherwise have shifted every following range.
+- Added `scripts/check-index.py`: verifies every claimed range against the guides with a
+  parser independent of the generator (564 claims). `gen-adapters --check` alone only proves
+  the generator agrees with itself.
+
+### Governance
+
+- Added per-section budgets (1900 B RULES, 7800 B REFERENCE) sourced from the verified
+  `INDEX.tsv` byte column — the section is what a task reads, so the per-file 8 KB cap is now
+  only a sprawl backstop.
+- Added budgets for `SKILL.md` (1800 B), `INDEX.tsv` (4096 B), and skill descriptions
+  (1400 B, the always-in-context cost).
+- Added a conservation-needle strength ratchet: 38 of 290 needles are too generic to localize
+  law ('Done', 'cannot'); the count may fall, never rise.
+
 - Pointer-skills now route to guide **sections**, not whole files: each `SKILL.md` carries a
   generated line-range index of its guide's `## ` headings, read via `Read(offset, limit)`.
 - Sharded the index per domain rather than one global index, so a session loads only the
