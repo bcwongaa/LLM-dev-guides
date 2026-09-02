@@ -127,6 +127,7 @@ governance_files=(
   CHANGELOG.md
   .github/workflows/checks.yml
   scripts/check-size.sh
+  scripts/check-index.py
   scripts/size-baseline.tsv
   evals/README.md
   evals/fixtures/scope-guard/go.mod
@@ -267,6 +268,15 @@ for s in adapters/claude/skills/*/SKILL.md; do
   grep -qE '^[0-9]+-[0-9]+[[:space:]]' "$s" \
     || err "$s: missing section line-range index (granular routing)"
 done
+
+# Every claimed range must actually point at the section it names. Independent of
+# the generator on purpose: gen-adapters --check only proves the generator agrees
+# with itself, this proves the shipped numbers are true.
+if [ -f scripts/check-index.py ]; then
+  python3 scripts/check-index.py || fail=1
+else
+  err "scripts/check-index.py: missing"
+fi
 
 # Every non-protocol guide is reachable from exactly one skill.
 for g in guides/*/RULES.md; do

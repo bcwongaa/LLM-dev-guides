@@ -267,13 +267,21 @@ SECTION_TAG_RE = re.compile(r"\s*`\[[a-z-]+\]`\s*$")
 
 
 def guide_sections(guide_rel: str) -> list[tuple[int, int, str]]:
-    """Line ranges for every `## ` section, so skills route to sections not files."""
+    """Line ranges for every `## ` section, so skills route to sections not files.
+
+    Fence-aware: a `## ` line inside a ``` block is example text, not a heading.
+    """
     lines = (ROOT / guide_rel).read_text().splitlines()
-    heads = [
-        (n, SECTION_TAG_RE.sub("", mt.group(1)))
-        for n, line in enumerate(lines, start=1)
-        if (mt := HEADING_RE.match(line))
-    ]
+    heads: list[tuple[int, str]] = []
+    in_fence = False
+    for n, line in enumerate(lines, start=1):
+        if line.lstrip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        if mt := HEADING_RE.match(line):
+            heads.append((n, SECTION_TAG_RE.sub("", mt.group(1))))
     return [
         (start, heads[i + 1][0] - 1 if i + 1 < len(heads) else len(lines), title)
         for i, (start, title) in enumerate(heads)
