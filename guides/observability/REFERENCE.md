@@ -236,7 +236,7 @@ signals are normally enough.
 ✗  every table and column monitored because "data observability is mandatory"
 ```
 
-### Five useful capabilities, not five universal boxes
+## Data observability: five useful capabilities, not five universal boxes
 
 Freshness, volume, schema, content distribution, and lineage are a useful coverage model.
 Apply the capabilities that match the failure modes; do not treat their names as vendor or
@@ -274,7 +274,7 @@ orchestrator, query engine, or data tool already emits. Table/dataset-level line
 good default; require field-level lineage only when it materially changes root-cause or
 impact analysis. A hand-maintained diagram with no update path is not trustworthy lineage.
 
-### Pipeline and monitor health still matter
+## Data observability: pipeline and monitor health still matter
 
 The five capabilities do not replace ordinary execution signals. A meaningful data path
 also exposes, as applicable:
@@ -288,7 +288,7 @@ also exposes, as applicable:
 Use fixed rules for known invariants and historical/anomaly baselines for variable patterns.
 Do not make anomaly detection the only way to catch a fact the business already knows.
 
-### Keep signals actionable, safe, and affordable
+## Data observability: keep signals actionable, safe, and affordable
 
 For each monitored dataset or path, know:
 
@@ -311,7 +311,7 @@ For each monitored dataset or path, know:
 ✗  monitoring query exports sensitive rows into a general-purpose log sink
 ```
 
-### Layer boundaries
+## Data observability: layer boundaries
 
 | Concern | Owner |
 |---|---|

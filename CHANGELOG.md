@@ -22,9 +22,25 @@ which guide generation a project adopted.
   parser independent of the generator (564 claims). `gen-adapters --check` alone only proves
   the generator agrees with itself.
 
+### Guides
+
+- Split `orchestration/REFERENCE.md` "Parent / subagent authority (detail)" (7761 B, 10x the
+  median section) at its safety seam: the escalation chain stays one unit (5595 B) because
+  partial reads of interlocking authority rules are worse than a long read, while the two
+  parts with no safety coupling — brief/result templates (815 B) and orchestrator checklist
+  (1347 B) — became addressable sections. Fetching the brief template no longer costs 7761 B.
+
+- Split `observability/REFERENCE.md` §7 "Data observability" (7190 B, 5-10x its siblings) into
+  five sections. Unlike the orchestration authority chain this is a taxonomy of independent
+  capabilities, and each subsection already restates its own guard, so partial reads cost
+  waste rather than a safety gap. The conditional gate ("do not require a five-signal platform
+  for every CRUD table") stays attached to the definition; max section 7190 -> 2876.
+- Promoted subsection titles carry the "Data observability:" topic prefix so they stay
+  self-describing as index labels and do not collide with "Relationship to other layers".
+
 ### Governance
 
-- Added per-section budgets (1900 B RULES, 7800 B REFERENCE) sourced from the verified
+- Added per-section budgets (1900 B RULES, 6552 B REFERENCE) sourced from the verified
   `INDEX.tsv` byte column — the section is what a task reads, so the per-file 8 KB cap is now
   only a sprawl backstop.
 - Added budgets for `SKILL.md` (1800 B), `INDEX.tsv` (4096 B), and skill descriptions

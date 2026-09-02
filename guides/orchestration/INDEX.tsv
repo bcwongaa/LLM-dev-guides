@@ -15,7 +15,9 @@ RULES.md	94	99	346	suite-default	When to break
 RULES.md	100	113	454		Never
 REFERENCE.md	21	146	6502		Team-style git flow
 REFERENCE.md	147	209	3152		Parallel agents and subagents
-REFERENCE.md	210	379	7761		Parent / subagent authority (detail)
+REFERENCE.md	210	318	5595		Parent / subagent authority (detail)
+REFERENCE.md	319	351	815		Subagent brief and result templates
+REFERENCE.md	352	379	1347		Orchestrator checklist
 REFERENCE.md	380	400	1373		Anti-patterns (orchestration)
 REFERENCE.md	401	410	424		When to break these rules
 REFERENCE.md	411	418	316		Relationship to other layers

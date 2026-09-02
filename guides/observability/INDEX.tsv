@@ -24,7 +24,11 @@ REFERENCE.md	125	145	696		3. Correlation / request IDs
 REFERENCE.md	146	168	771		4. Metrics (minimum bar)
 REFERENCE.md	169	183	499		5. Tracing
 REFERENCE.md	184	205	917		6. Database and pool health
-REFERENCE.md	206	326	7190		7. Data observability: when the data can be wrong while the system is up
+REFERENCE.md	206	238	1830		7. Data observability: when the data can be wrong while the system is up
+REFERENCE.md	239	276	2876		Data observability: five useful capabilities, not five universal boxes
+REFERENCE.md	277	290	721		Data observability: pipeline and monitor health still matter
+REFERENCE.md	291	313	1195		Data observability: keep signals actionable, safe, and affordable
+REFERENCE.md	314	326	640		Data observability: layer boundaries
 REFERENCE.md	327	347	716		8. Health: liveness vs readiness
 REFERENCE.md	348	364	961		9. What agents must do
 REFERENCE.md	365	387	936		10. Anti-patterns
