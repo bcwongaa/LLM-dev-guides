@@ -1,10 +1,13 @@
 # Changelog
 
-This repository uses generation labels rather than semantic versioning. Shared-law changes,
-path migrations, and evaluation results are recorded here so an agent or maintainer can tell
-which guide generation a project adopted.
+Releases are marked by git tag (`v0.1`, `v0.2`, …). **Generation labels** (`v1`, `v2`) mark
+law generations, and move only when shared law changes — a release may leave the generation
+untouched. Shared-law changes, path migrations, and evaluation results are recorded here so an
+agent or maintainer can tell which guide generation a project adopted.
 
-## Unreleased — v2
+## v0.2.1 — 2026-09-02 (generation v2)
+
+Retrieval and governance only; no shared law changed, so the generation stays v2.
 
 ### Retrieval
 
@@ -59,6 +62,8 @@ which guide generation a project adopted.
   (the always-in-context cost).
 - `check-sync.sh` now fails on stale line ranges, L-numbered skill ids, guides routed by
   zero or multiple skills, and install globs assuming the old prefix.
+
+## v0.2 — 2026-09-02 (generation v2)
 
 ### Governance
 
