@@ -374,6 +374,13 @@ def check(m: dict) -> int:
     if errors:
         for e in errors:
             print(f"FAIL: {e}", file=sys.stderr)
+        if any("drifted" in e or "missing" in e for e in errors):
+            print(
+                "\nThese files are GENERATED. You edited a guide or the manifest without\n"
+                "regenerating. Fix:  python3 scripts/gen-adapters.py --write\n"
+                "Never hand-edit SKILL.md or INDEX.tsv. See docs/MAINTAINING_GUIDES.md",
+                file=sys.stderr,
+            )
         print("gen-adapters --check: FAILED", file=sys.stderr)
         return 1
     print(f"gen-adapters --check: OK ({len(expected)} generated files)")

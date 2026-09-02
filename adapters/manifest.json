@@ -63,6 +63,10 @@
     {
       "need": "Adopt suite in existing apps",
       "open": "docs/USING_IN_EXISTING_REPOS.md"
+    },
+    {
+      "need": "Change the guides themselves (regenerate, budgets, splitting)",
+      "open": "docs/MAINTAINING_GUIDES.md"
     }
   ],
   "consumer_extra_routes": [

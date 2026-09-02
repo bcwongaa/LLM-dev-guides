@@ -188,6 +188,14 @@ def main() -> int:
         if CLAIM_RE.match(line)
     )
     if failures:
+        print(
+            "\nA line range no longer matches the section it names. If you edited a guide,\n"
+            "the index is simply stale — regenerate it:\n"
+            "    python3 scripts/gen-adapters.py --write\n"
+            "If it is already regenerated, the claim is genuinely wrong; see\n"
+            "docs/MAINTAINING_GUIDES.md before hand-editing anything.",
+            file=sys.stderr,
+        )
         print(f"check-index: FAILED ({len(failures)} false claims)", file=sys.stderr)
         return 1
     print(

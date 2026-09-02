@@ -9,6 +9,15 @@ agent or maintainer can tell which guide generation a project adopted.
 
 Retrieval and governance only; no shared law changed, so the generation stays v2.
 
+### Contributor docs
+
+- Added `docs/MAINTAINING_GUIDES.md`: what is generated, when to regenerate, the budgets and
+  why the section ones matter, how to decide whether a section may be split, and the
+  conservation-needle rules. Routed from `AGENTS.md`.
+- `gen-adapters --check` and `check-index.py` now print the remedy in their failure output
+  (`python3 scripts/gen-adapters.py --write`) instead of only reporting drift — editing a
+  guide without regenerating was six cryptic errors and no stated fix.
+
 ### Retrieval
 
 - Moved the generated section index out of the Claude adapter into `guides/<domain>/INDEX.tsv`,

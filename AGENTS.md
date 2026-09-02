@@ -22,6 +22,7 @@ GUIDES_ROOT=.
 | Other domains | remaining `guides/**` per `guides/protocol/RULES.md` routing table |
 | Adapter templates | `adapters/` |
 | Adopt suite in existing apps | `docs/USING_IN_EXISTING_REPOS.md` |
+| Change the guides themselves (regenerate, budgets, splitting) | `docs/MAINTAINING_GUIDES.md` |
 | ADRs | `guides/decisions/` |
 | WIP multi-tool handoff | `docs/agent/STATUS.md` (if present) |
 

@@ -97,6 +97,7 @@ routed=(
   guides/decisions/REFERENCE.md
   guides/decisions/TEMPLATE.md
   docs/USING_IN_EXISTING_REPOS.md
+  docs/MAINTAINING_GUIDES.md
   adapters/README.md
   adapters/claude/AGENTS.md
   adapters/claude/CLAUDE.md
