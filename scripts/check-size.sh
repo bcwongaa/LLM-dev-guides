@@ -6,6 +6,8 @@ cd "$(dirname "$0")/.."
 
 ROOT_MAX_BYTES=12288
 RULES_MAX_BYTES=8192
+SKILL_MAX_BYTES=1800
+SKILL_DESC_MAX_BYTES=1400
 BASELINE_FILE=scripts/size-baseline.tsv
 fail=0
 
@@ -64,6 +66,21 @@ while IFS= read -r f; do
   printf '%-48s %10s %10s %10s\n' "$f" "$bytes" "$RULES_MAX_BYTES" "$lines"
   [ "$bytes" -le "$RULES_MAX_BYTES" ] || err "$f: $bytes bytes exceeds RULES.md budget $RULES_MAX_BYTES"
 done < <(find guides -type f -name RULES.md -print 2>/dev/null | sort)
+
+# Pointer-skill bodies load on match; keep each one cheap.
+while IFS= read -r f; do
+  bytes="$(file_bytes "$f")"
+  lines="$(file_lines "$f")"
+  printf '%-48s %10s %10s %10s\n' "$f" "$bytes" "$SKILL_MAX_BYTES" "$lines"
+  [ "$bytes" -le "$SKILL_MAX_BYTES" ] || err "$f: $bytes bytes exceeds SKILL.md budget $SKILL_MAX_BYTES"
+done < <(find adapters/claude/skills -type f -name SKILL.md -print 2>/dev/null | sort)
+
+# Descriptions sit in context for every session whether or not a skill fires.
+desc_bytes="$(cat adapters/claude/skills/*/SKILL.md 2>/dev/null \
+  | grep -E '^(name|description):' | wc -c | tr -d ' ')"
+printf '%-48s %10s %10s %10s\n' "effective:skill-descriptions" "$desc_bytes" "$SKILL_DESC_MAX_BYTES" "-"
+[ "$desc_bytes" -le "$SKILL_DESC_MAX_BYTES" ] \
+  || err "skill descriptions: $desc_bytes bytes exceeds always-in-context budget $SKILL_DESC_MAX_BYTES"
 
 if [ "$fail" -ne 0 ]; then
   echo 'check-size: FAILED' >&2

@@ -6,6 +6,20 @@ which guide generation a project adopted.
 
 ## Unreleased — v2
 
+### Retrieval
+
+- Pointer-skills now route to guide **sections**, not whole files: each `SKILL.md` carries a
+  generated line-range index of its guide's `## ` headings, read via `Read(offset, limit)`.
+- Sharded the index per domain rather than one global index, so a session loads only the
+  shard it matched and added guides never cost more per lookup.
+- Renamed skill ids from the deleted `l1`–`l9` numbering to domain names matching
+  `guides/<domain>/`; fixed the `skills/l*` install globs the rename broke.
+- Added pointer-skills for `orchestration` and `decisions`, which previously had none.
+- Added `check-size.sh` budgets: 1800 B per `SKILL.md`, 1400 B for all skill descriptions
+  (the always-in-context cost).
+- `check-sync.sh` now fails on stale line ranges, L-numbered skill ids, guides routed by
+  zero or multiple skills, and install globs assuming the old prefix.
+
 ### Governance
 
 - Added deterministic context-size measurement and migration baselines.

@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -261,25 +262,42 @@ This project is run with **permissions bypassed** (no interactive tool-approval 
     return GENERATED_HEADER + "@AGENTS.md\n\n" + body
 
 
+HEADING_RE = re.compile(r"^##\s+(.*?)\s*$")
+SECTION_TAG_RE = re.compile(r"\s*`\[[a-z-]+\]`\s*$")
+
+
+def guide_sections(guide_rel: str) -> list[tuple[int, int, str]]:
+    """Line ranges for every `## ` section, so skills route to sections not files."""
+    lines = (ROOT / guide_rel).read_text().splitlines()
+    heads = [
+        (n, SECTION_TAG_RE.sub("", mt.group(1)))
+        for n, line in enumerate(lines, start=1)
+        if (mt := HEADING_RE.match(line))
+    ]
+    return [
+        (start, heads[i + 1][0] - 1 if i + 1 < len(heads) else len(lines), title)
+        for i, (start, title) in enumerate(heads)
+    ]
+
+
 def render_skill(m: dict, skill: dict) -> str:
-    also = f" {skill['also']}" if skill.get("also") else ""
+    sections = guide_sections(skill["guide"])
+    width = max(len(f"{s}-{e}") for s, e, _ in sections)
+    rows = "\n".join(f"{s}-{e}".ljust(width) + f"  {title}" for s, e, title in sections)
     return (
         f"---\n"
         f"name: {skill['id']}\n"
         f"description: \"{skill['description']}\"\n"
         f"---\n"
         f"\n"
-        f"# Pointer skill — no law lives here\n"
+        f"Law: `GUIDES_ROOT/{skill['guide']}` (`GUIDES_ROOT` from `AGENTS.md`).\n"
+        f"Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.\n"
+        f"Examples live in `REFERENCE.md` beside it.\n"
         f"\n"
-        f"Before doing {skill['task']} work in this repo, "
-        f"**Read `GUIDES_ROOT/{skill['guide']}`** (resolve\n"
-        f"`GUIDES_ROOT` from the repo's `AGENTS.md`; Claude loads that file via "
-        f"`@AGENTS.md`) and follow it.{also}\n"
+        f"{rows}\n"
         f"\n"
-        f"- This skill only routes; the guide file is the law. Do not paraphrase it from memory.\n"
-        f"- Local codebase convention and the guide both outrank anything this skill could say.\n"
-        f"- Protocol (bootstrap, scope ban, done bar) still applies: "
-        f"`GUIDES_ROOT/guides/protocol/RULES.md`.\n"
+        f"Guide and local convention outrank this skill; never paraphrase law from memory.\n"
+        f"Protocol still applies: `GUIDES_ROOT/guides/protocol/RULES.md`.\n"
     )
 
 

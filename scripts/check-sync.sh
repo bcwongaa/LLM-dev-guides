@@ -208,7 +208,7 @@ route_files=(
   adapters/claude/AGENTS.md
   adapters/codex/AGENTS.md
   adapters/grok/AGENTS.md
-  adapters/claude/skills/l1-coding-style/SKILL.md
+  adapters/claude/skills/code-style/SKILL.md
 )
 for f in "${route_files[@]}"; do
   grep -qF 'guides/code-style/RULES.md' "$f" || err "$f: missing route to guides/code-style/RULES.md"
@@ -252,6 +252,36 @@ Wrapper methods for common CRUD
 millisecond-precision UTC
 EOF
 fi
+
+# --- 9. granular pointer-skills ---------------------------------------------
+# Skills are domain-named and carry a line-range index so Claude reads sections,
+# not whole guides. The deleted L0-L10 numbering must not come back.
+for d in adapters/claude/skills/*/; do
+  base="$(basename "$d")"
+  case "$base" in
+    l[0-9]*) err "$d: outdated L-numbered skill id; skills are domain-named" ;;
+  esac
+done
+
+for s in adapters/claude/skills/*/SKILL.md; do
+  grep -qE '^[0-9]+-[0-9]+[[:space:]]' "$s" \
+    || err "$s: missing section line-range index (granular routing)"
+done
+
+# Every non-protocol guide is reachable from exactly one skill.
+for g in guides/*/RULES.md; do
+  domain="$(basename "$(dirname "$g")")"
+  [ "$domain" = protocol ] && continue
+  hits="$(grep -lF "guides/$domain/RULES.md" adapters/claude/skills/*/SKILL.md 2>/dev/null | wc -l | tr -d ' ')"
+  [ "$hits" = 1 ] || err "guides/$domain/RULES.md: routed by $hits skills (want exactly 1)"
+done
+
+# Install globs must not assume the old l* prefix.
+for f in adapters/claude/skills/README.md adapters/claude/NOTES.md; do
+  if grep -qF 'skills/l*' "$f"; then
+    err "$f: install glob still assumes deleted l* skill prefix"
+  fi
+done
 
 if [ "$fail" -ne 0 ]; then
   echo "check-sync: FAILED" >&2
