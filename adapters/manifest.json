@@ -1,9 +1,13 @@
 {
   "notice": "Repository-internal generator input. Not a consumer installer, package, or updater.",
-  "tools": ["claude", "codex", "grok"],
+  "tools": [
+    "claude",
+    "codex",
+    "grok"
+  ],
   "instruction_authority": "org/platform policy > current-task human > project/path instructions > adopted suite > user-global > third-party skills (except vendor API how-to) > model taste",
   "implementation_convention": "approved task design > nearest file > package > repository > suite default",
-  "bootstrap": "**Bootstrap (every task):** this file → protocol → only relevant guides → STATUS if present → test/lint baseline → plan if non-trivial → edit.",
+  "bootstrap": "**Bootstrap (every task):** this file \u2192 protocol \u2192 only relevant guides \u2192 STATUS if present \u2192 test/lint baseline \u2192 plan if non-trivial \u2192 edit.",
   "hard_items": "destructive data, new auth, new deployable, true product ambiguity",
   "always_ask": [
     "greenfield stack",
@@ -18,6 +22,11 @@
     {
       "need": "Protocol (start, ask vs decide, done, handoff)",
       "open": "guides/protocol/RULES.md"
+    },
+    {
+      "need": "Section index for any guide (read ranges, not whole files)",
+      "text": "`guides/<domain>/INDEX.tsv`",
+      "consumer_text": "`GUIDES_ROOT/guides/<domain>/INDEX.tsv`"
     },
     {
       "need": "Git flow / parallel agents / subagent briefs",
@@ -54,6 +63,10 @@
     {
       "need": "Adopt suite in existing apps",
       "open": "docs/USING_IN_EXISTING_REPOS.md"
+    },
+    {
+      "need": "Change the guides themselves (regenerate, budgets, splitting)",
+      "open": "docs/MAINTAINING_GUIDES.md"
     }
   ],
   "consumer_extra_routes": [
@@ -64,59 +77,59 @@
   ],
   "skills": [
     {
-      "id": "l1-coding-style",
-      "description": "Use for any code writing or editing: code shape, smells, naming, decomposition, error handling style, post-code style check. Applies to nearly every code task.",
+      "id": "code-style",
       "guide": "guides/code-style/RULES.md",
-      "task": "code-shape / style",
-      "also": "Open `REFERENCE.md` beside it for examples."
+      "description": "Code shape, naming, decomposition, helpers, error placement, comments. Nearly every code edit."
     },
     {
-      "id": "l2-project-bootstrap",
-      "description": "Use when shaping a system: greenfield layout, engines/modules vs deployables, folder structure, new service/package/repo proposals, shared code policy.",
+      "id": "architecture",
       "guide": "guides/architecture/RULES.md",
-      "task": "project structure / bootstrap"
+      "description": "System layout: modules vs deployables, folders, new service or package, data ownership, caching."
     },
     {
-      "id": "l3-language-framework",
-      "description": "Use when choosing or discussing language, framework, or storage: greenfield stack proposals, new major dependency, storage selection, stack bans. Greenfield picks are never autonomous.",
+      "id": "stack",
       "guide": "guides/stack/RULES.md",
-      "task": "language / framework / storage selection"
+      "description": "Language, framework, storage, or major dependency choice. Greenfield picks are never autonomous."
     },
     {
-      "id": "l4-data-model",
-      "description": "Use for schema and data work: tables, migrations, keys, nullability, invariants, money and time representation.",
+      "id": "data",
       "guide": "guides/data/RULES.md",
-      "task": "schema / migration / data-model"
+      "description": "Schema, migrations, keys, nullability, invariants, money, time, Postgres/Mongo/Redis."
     },
     {
-      "id": "l5-api-contracts",
-      "description": "Use for wire contracts: HTTP endpoints, events, DTOs, API versioning, wire error shapes, internal transport.",
+      "id": "contracts",
       "guide": "guides/contracts/RULES.md",
-      "task": "API / contract"
+      "description": "HTTP endpoints, events, DTOs, versioning, pagination, idempotency, wire error shapes."
     },
     {
-      "id": "l6-observability",
-      "description": "Use when adding or changing logs, metrics, traces, DB health, runtime data health/lineage, or early APM setup.",
+      "id": "observability",
       "guide": "guides/observability/RULES.md",
-      "task": "observability"
+      "description": "Logs, metrics, traces, request IDs, DB and pool health, data-health checks."
     },
     {
-      "id": "l7-testing",
-      "description": "Use for any behavior change, bugfix, or test work: what to test, TDD, repro tests, characterization pins for untested legacy code, factories, flakes. Every bugfix gets a test.",
+      "id": "testing",
       "guide": "guides/testing/RULES.md",
-      "task": "testing"
+      "description": "What to test, TDD, repro tests, pyramid, mocks, flakes, legacy pins. Every bugfix gets a test."
     },
     {
-      "id": "l8-security-secrets",
-      "description": "Use when touching auth boundaries, permissions, PII, secrets, IDOR risks, or supply chain concerns.",
+      "id": "security",
       "guide": "guides/security/RULES.md",
-      "task": "security / secrets"
+      "description": "Auth, permissions, PII, secrets, IDOR and tenancy, injection, SSRF, supply chain."
     },
     {
-      "id": "l9-change-release",
-      "description": "Use for rollout work: feature flags, expand/contract migrations, rollback planning, deploy safety. Human ships prod.",
+      "id": "release",
       "guide": "guides/release/RULES.md",
-      "task": "change / release"
+      "description": "Feature flags, expand/contract migrations, rollback, deploy safety, hotfix. Human ships prod."
+    },
+    {
+      "id": "orchestration",
+      "guide": "guides/orchestration/RULES.md",
+      "description": "Branching, PR flow, parallel agents, subagent briefs, conflicts, hotspot serialization."
+    },
+    {
+      "id": "decisions",
+      "guide": "guides/decisions/RULES.md",
+      "description": "ADRs: when one is required, format, lifecycle, where they live."
     }
   ],
   "suite": {

@@ -1,10 +1,78 @@
 # Changelog
 
-This repository uses generation labels rather than semantic versioning. Shared-law changes,
-path migrations, and evaluation results are recorded here so an agent or maintainer can tell
-which guide generation a project adopted.
+Releases are marked by git tag (`v0.1`, `v0.2`, …). **Generation labels** (`v1`, `v2`) mark
+law generations, and move only when shared law changes — a release may leave the generation
+untouched. Shared-law changes, path migrations, and evaluation results are recorded here so an
+agent or maintainer can tell which guide generation a project adopted.
 
-## Unreleased — v2
+## v0.2.1 — 2026-09-02 (generation v2)
+
+Retrieval and governance only; no shared law changed, so the generation stays v2.
+
+### Contributor docs
+
+- Added `docs/MAINTAINING_GUIDES.md`: what is generated, when to regenerate, the budgets and
+  why the section ones matter, how to decide whether a section may be split, and the
+  conservation-needle rules. Routed from `AGENTS.md`.
+- `gen-adapters --check` and `check-index.py` now print the remedy in their failure output
+  (`python3 scripts/gen-adapters.py --write`) instead of only reporting drift — editing a
+  guide without regenerating was six cryptic errors and no stated fix.
+
+### Retrieval
+
+- Moved the generated section index out of the Claude adapter into `guides/<domain>/INDEX.tsv`,
+  so Codex and Grok reach it too. Adapters carry no tool-neutral data (`AGENTS.md` hard ban).
+- Indexed `REFERENCE.md` (221 KB, 213 sections) alongside `RULES.md`; skills route to it via
+  `INDEX.tsv` instead of naming the whole file.
+- Indexed `guides/protocol/` — the always-loaded, four-times-re-read file previously had no
+  granular access despite being the largest per-task context cost.
+- `[suite-default]` / `[common]` tags became a queryable `INDEX.tsv` column instead of prose
+  metadata that nothing consumed.
+- Made the heading parser fence-aware; 7 `## ` lines inside ```markdown template blocks in
+  `REFERENCE.md` would otherwise have shifted every following range.
+- Added `scripts/check-index.py`: verifies every claimed range against the guides with a
+  parser independent of the generator (564 claims). `gen-adapters --check` alone only proves
+  the generator agrees with itself.
+
+### Guides
+
+- Split `orchestration/REFERENCE.md` "Parent / subagent authority (detail)" (7761 B, 10x the
+  median section) at its safety seam: the escalation chain stays one unit (5595 B) because
+  partial reads of interlocking authority rules are worse than a long read, while the two
+  parts with no safety coupling — brief/result templates (815 B) and orchestrator checklist
+  (1347 B) — became addressable sections. Fetching the brief template no longer costs 7761 B.
+
+- Split `observability/REFERENCE.md` §7 "Data observability" (7190 B, 5-10x its siblings) into
+  five sections. Unlike the orchestration authority chain this is a taxonomy of independent
+  capabilities, and each subsection already restates its own guard, so partial reads cost
+  waste rather than a safety gap. The conditional gate ("do not require a five-signal platform
+  for every CRUD table") stays attached to the definition; max section 7190 -> 2876.
+- Promoted subsection titles carry the "Data observability:" topic prefix so they stay
+  self-describing as index labels and do not collide with "Relationship to other layers".
+
+### Governance
+
+- Added per-section budgets (1900 B RULES, 6552 B REFERENCE) sourced from the verified
+  `INDEX.tsv` byte column — the section is what a task reads, so the per-file 8 KB cap is now
+  only a sprawl backstop.
+- Added budgets for `SKILL.md` (1800 B), `INDEX.tsv` (4096 B), and skill descriptions
+  (1400 B, the always-in-context cost).
+- Added a conservation-needle strength ratchet: 38 of 290 needles are too generic to localize
+  law ('Done', 'cannot'); the count may fall, never rise.
+
+- Pointer-skills now route to guide **sections**, not whole files: each `SKILL.md` carries a
+  generated line-range index of its guide's `## ` headings, read via `Read(offset, limit)`.
+- Sharded the index per domain rather than one global index, so a session loads only the
+  shard it matched and added guides never cost more per lookup.
+- Renamed skill ids from the deleted `l1`–`l9` numbering to domain names matching
+  `guides/<domain>/`; fixed the `skills/l*` install globs the rename broke.
+- Added pointer-skills for `orchestration` and `decisions`, which previously had none.
+- Added `check-size.sh` budgets: 1800 B per `SKILL.md`, 1400 B for all skill descriptions
+  (the always-in-context cost).
+- `check-sync.sh` now fails on stale line ranges, L-numbered skill ids, guides routed by
+  zero or multiple skills, and install globs assuming the old prefix.
+
+## v0.2 — 2026-09-02 (generation v2)
 
 ### Governance
 

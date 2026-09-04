@@ -31,9 +31,10 @@ cp /path/to/LLM-dev-guides/adapters/claude/CLAUDE.md ./CLAUDE.md
 Files stay the canon; these add on-demand routing and enforcement:
 
 ```bash
-# pointer-skills: auto-route tasks to the right guide (see skills/README.md)
+# pointer-skills: auto-route tasks to the right guide *section* (see skills/README.md)
 mkdir -p .claude/skills
-cp -R /path/to/LLM-dev-guides/adapters/claude/skills/l* .claude/skills/
+find /path/to/LLM-dev-guides/adapters/claude/skills -mindepth 1 -maxdepth 1 -type d \
+  -exec cp -R {} .claude/skills/ \;
 
 # hooks: STATUS injection, protected-branch edit guard, stop-time test gate
 # (see hooks/README.md for settings.fragment.json merge + env vars)

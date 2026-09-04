@@ -6,6 +6,11 @@ cd "$(dirname "$0")/.."
 
 ROOT_MAX_BYTES=12288
 RULES_MAX_BYTES=8192
+SKILL_MAX_BYTES=1800
+SECTION_MAX_BYTES=1900
+REF_SECTION_MAX_BYTES=6552
+INDEX_MAX_BYTES=4096
+SKILL_DESC_MAX_BYTES=1400
 BASELINE_FILE=scripts/size-baseline.tsv
 fail=0
 
@@ -64,6 +69,41 @@ while IFS= read -r f; do
   printf '%-48s %10s %10s %10s\n' "$f" "$bytes" "$RULES_MAX_BYTES" "$lines"
   [ "$bytes" -le "$RULES_MAX_BYTES" ] || err "$f: $bytes bytes exceeds RULES.md budget $RULES_MAX_BYTES"
 done < <(find guides -type f -name RULES.md -print 2>/dev/null | sort)
+
+# Pointer-skill bodies load on match; keep each one cheap.
+while IFS= read -r f; do
+  bytes="$(file_bytes "$f")"
+  lines="$(file_lines "$f")"
+  printf '%-48s %10s %10s %10s\n' "$f" "$bytes" "$SKILL_MAX_BYTES" "$lines"
+  [ "$bytes" -le "$SKILL_MAX_BYTES" ] || err "$f: $bytes bytes exceeds SKILL.md budget $SKILL_MAX_BYTES"
+done < <(find adapters/claude/skills -type f -name SKILL.md -print 2>/dev/null | sort)
+
+# Descriptions sit in context for every session whether or not a skill fires.
+desc_bytes="$(cat adapters/claude/skills/*/SKILL.md 2>/dev/null \
+  | grep -E '^(name|description):' | wc -c | tr -d ' ')"
+printf '%-48s %10s %10s %10s\n' "effective:skill-descriptions" "$desc_bytes" "$SKILL_DESC_MAX_BYTES" "-"
+[ "$desc_bytes" -le "$SKILL_DESC_MAX_BYTES" ] \
+  || err "skill descriptions: $desc_bytes bytes exceeds always-in-context budget $SKILL_DESC_MAX_BYTES"
+
+# Per-section budgets. With line-range retrieval the SECTION is what a task reads,
+# so this is the real context cost; the per-file cap above is only a sprawl backstop.
+# Byte counts come from INDEX.tsv, which check-index.py verifies against the guides.
+awk -F'\t' -v rmax="$SECTION_MAX_BYTES" -v xmax="$REF_SECTION_MAX_BYTES" '
+  /^#/ { next } $1 == "file" { next } NF < 6 { next }
+  { lim = ($1 == "RULES.md") ? rmax : xmax
+    if ($4 + 0 > lim)
+      printf "FAIL: %s %s:%s (%s) %s bytes exceeds section budget %s\n",
+             FILENAME, $1, $2, $6, $4, lim > "/dev/stderr" }
+' guides/*/INDEX.tsv 2>/tmp/sectionfail
+if [ -s /tmp/sectionfail ]; then cat /tmp/sectionfail >&2; fail=1; fi
+rm -f /tmp/sectionfail
+
+while IFS= read -r f; do
+  bytes="$(file_bytes "$f")"
+  lines="$(file_lines "$f")"
+  printf '%-48s %10s %10s %10s\n' "$f" "$bytes" "$INDEX_MAX_BYTES" "$lines"
+  [ "$bytes" -le "$INDEX_MAX_BYTES" ] || err "$f: $bytes bytes exceeds INDEX.tsv budget $INDEX_MAX_BYTES"
+done < <(find guides -type f -name INDEX.tsv -print 2>/dev/null | sort)
 
 if [ "$fail" -ne 0 ]; then
   echo 'check-size: FAILED' >&2

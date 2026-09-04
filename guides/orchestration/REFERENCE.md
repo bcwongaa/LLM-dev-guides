@@ -316,7 +316,7 @@ mid-flight without a channel. Use the brief template below.
 ✗  Parent spawns writer with no merge target (“just push somewhere”)
 ```
 
-### Subagent brief and result templates
+## Subagent brief and result templates
 
 Copy/adapt these in the parent prompt or STATUS. Keep short.
 
@@ -349,7 +349,7 @@ Copy/adapt these in the parent prompt or STATUS. Keep short.
 - Do not touch still holds: yes/no
 ```
 
-### Orchestrator checklist
+## Orchestrator checklist
 
 When one agent **plans and delegates** (tech-lead / orchestrator role):
 

@@ -15,12 +15,14 @@ GUIDES_ROOT=.
 | Need | Open |
 |---|---|
 | Protocol (start, ask vs decide, done, handoff) | `guides/protocol/RULES.md` |
+| Section index for any guide (read ranges, not whole files) | `guides/<domain>/INDEX.tsv` |
 | Git flow / parallel agents / subagent briefs | `guides/orchestration/RULES.md` (only when orchestrating) |
 | Code shape / smells | `guides/code-style/RULES.md` |
 | Language / framework / storage | `guides/stack/RULES.md` |
 | Other domains | remaining `guides/**` per `guides/protocol/RULES.md` routing table |
 | Adapter templates | `adapters/` |
 | Adopt suite in existing apps | `docs/USING_IN_EXISTING_REPOS.md` |
+| Change the guides themselves (regenerate, budgets, splitting) | `docs/MAINTAINING_GUIDES.md` |
 | ADRs | `guides/decisions/` |
 | WIP multi-tool handoff | `docs/agent/STATUS.md` (if present) |
 

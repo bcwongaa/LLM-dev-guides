@@ -97,6 +97,7 @@ routed=(
   guides/decisions/REFERENCE.md
   guides/decisions/TEMPLATE.md
   docs/USING_IN_EXISTING_REPOS.md
+  docs/MAINTAINING_GUIDES.md
   adapters/README.md
   adapters/claude/AGENTS.md
   adapters/claude/CLAUDE.md
@@ -127,6 +128,10 @@ governance_files=(
   CHANGELOG.md
   .github/workflows/checks.yml
   scripts/check-size.sh
+  scripts/check-index.py
+  scripts/conservation-baseline.txt
+  guides/protocol/INDEX.tsv
+  guides/code-style/INDEX.tsv
   scripts/size-baseline.tsv
   evals/README.md
   evals/fixtures/scope-guard/go.mod
@@ -208,7 +213,7 @@ route_files=(
   adapters/claude/AGENTS.md
   adapters/codex/AGENTS.md
   adapters/grok/AGENTS.md
-  adapters/claude/skills/l1-coding-style/SKILL.md
+  adapters/claude/skills/code-style/SKILL.md
 )
 for f in "${route_files[@]}"; do
   grep -qF 'guides/code-style/RULES.md' "$f" || err "$f: missing route to guides/code-style/RULES.md"
@@ -251,6 +256,72 @@ MAX_ATTEMPTS
 Wrapper methods for common CRUD
 millisecond-precision UTC
 EOF
+fi
+
+# --- 9. granular pointer-skills ---------------------------------------------
+# Skills are domain-named and carry a line-range index so Claude reads sections,
+# not whole guides. The deleted L0-L10 numbering must not come back.
+for d in adapters/claude/skills/*/; do
+  base="$(basename "$d")"
+  case "$base" in
+    l[0-9]*) err "$d: outdated L-numbered skill id; skills are domain-named" ;;
+  esac
+done
+
+for s in adapters/claude/skills/*/SKILL.md; do
+  grep -qE '^[0-9]+-[0-9]+[[:space:]]' "$s" \
+    || err "$s: missing section line-range index (granular routing)"
+done
+
+for g in guides/*/RULES.md; do
+  d="$(dirname "$g")"
+  [ -f "$d/INDEX.tsv" ] || err "$d: missing generated INDEX.tsv (tool-neutral section index)"
+done
+
+# Every claimed range must actually point at the section it names. Independent of
+# the generator on purpose: gen-adapters --check only proves the generator agrees
+# with itself, this proves the shipped numbers are true.
+if [ -f scripts/check-index.py ]; then
+  python3 scripts/check-index.py || fail=1
+else
+  err "scripts/check-index.py: missing"
+fi
+
+# Every non-protocol guide is reachable from exactly one skill.
+for g in guides/*/RULES.md; do
+  domain="$(basename "$(dirname "$g")")"
+  [ "$domain" = protocol ] && continue
+  hits="$(grep -lF "guides/$domain/RULES.md" adapters/claude/skills/*/SKILL.md 2>/dev/null | wc -l | tr -d ' ')"
+  [ "$hits" = 1 ] || err "guides/$domain/RULES.md: routed by $hits skills (want exactly 1)"
+done
+
+# Install globs must not assume the old l* prefix.
+for f in adapters/claude/skills/README.md adapters/claude/NOTES.md; do
+  if grep -qF 'skills/l*' "$f"; then
+    err "$f: install glob still assumes deleted l* skill prefix"
+  fi
+done
+
+# --- 10. conservation needle strength (ratchet) ------------------------------
+# A needle that appears all over the corpus ('Done', 'cannot') passes trivially and
+# proves nothing about where the law lives. Existing ones are baselined; new ones fail.
+weak="$(python3 - <<'EOF'
+from pathlib import Path
+rows=[]
+for tsv in sorted(Path('scripts').glob('*-conservation.tsv')):
+    for line in tsv.read_text().splitlines():
+        if line.strip() and not line.startswith('#'):
+            p=line.split('\t')
+            if len(p)==3: rows.append(tuple(p))
+allg=[p.read_text() for p in Path('guides').rglob('*.md')]
+print(sum(1 for r in rows if sum(1 for t in allg if r[2] in t) > 3))
+EOF
+)"
+baseline="$(grep -v '^#' scripts/conservation-baseline.txt | tr -d '[:space:]')"
+if [ "$weak" -gt "$baseline" ]; then
+  err "conservation: $weak needles too generic to localize law, baseline is $baseline (strengthen the new one)"
+elif [ "$weak" -lt "$baseline" ]; then
+  echo "note: conservation weak-needle count improved ($baseline -> $weak); lower scripts/conservation-baseline.txt"
 fi
 
 if [ "$fail" -ne 0 ]; then
