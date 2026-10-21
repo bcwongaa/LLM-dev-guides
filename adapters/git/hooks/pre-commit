@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# git pre-commit hook: refuse commits on a protected base branch. The tool-neutral twin of the
+# Claude branch guard: it holds for Claude Code, Codex, Grok Build, and humans alike, and it also
+# catches edits made through a shell, which tool hooks never see.
+#
+# Install: cp "$GUIDES_ROOT"/adapters/git/hooks/pre-commit .git/hooks/ && chmod +x .git/hooks/pre-commit
+# Override for a documented trunk-only or hotfix flow: GUIDES_ALLOW_BASE_EDITS=1 git commit ...
+set -uo pipefail
+
+[ "${GUIDES_ALLOW_BASE_EDITS:-0}" = "1" ] && exit 0
+branch="$(git branch --show-current 2>/dev/null || true)"
+[ -n "$branch" ] || exit 0   # detached HEAD (rebase, CI) — allow
+
+for p in ${GUIDES_PROTECTED_BRANCHES:-main master develop dev}; do
+  if [ "$branch" = "$p" ]; then
+    echo "pre-commit: refusing to commit on protected base branch '$branch'." >&2
+    echo "Protocol: feature work happens on a branch off the integration base (guides/orchestration/RULES.md)." >&2
+    echo "Create one: git switch -c feat/short-name. Trunk-only or hotfix override: GUIDES_ALLOW_BASE_EDITS=1." >&2
+    exit 1
+  fi
+done
+exit 0

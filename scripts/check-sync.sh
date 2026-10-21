@@ -6,7 +6,7 @@
 #   1. Shared law lines match across maps: instruction authority, implementation convention,
 #      bootstrap, hard items; Claude wrappers import AGENTS.md; consumer copies are identical
 #   2. Every guide domain is complete: RULES, REFERENCE, conservation needles, one skill
-#   3. Hook scripts are executable, parse, and pass their behavior tests
+#   3. Hook scripts (Claude and git) are executable, parse, and pass their behavior tests
 #   4. Governance, evaluation, and CI files exist
 #   5. Size policy (check-size.py), generated files (gen-adapters --check), index truth
 #      (check-index.py)
@@ -53,7 +53,7 @@ for g in guides/*/RULES.md; do
   [ -f "$d/REFERENCE.md" ] || err "$d: missing REFERENCE.md"
   [ -f "scripts/$domain-conservation.tsv" ] || err "$d: missing scripts/$domain-conservation.tsv"
   [ "$domain" = protocol ] && continue
-  hits="$(grep -lF "guides/$domain/RULES.md" adapters/claude/skills/*/SKILL.md 2>/dev/null | wc -l | tr -d ' ')"
+  hits="$(grep -lF "guides/$domain/RULES.md" adapters/skills/*/SKILL.md 2>/dev/null | wc -l | tr -d ' ')"
   [ "$hits" = 1 ] || err "guides/$domain/RULES.md: routed by $hits skills (want exactly 1)"
 done
 for f in guides/decisions/TEMPLATE.md docs/USING_IN_EXISTING_REPOS.md docs/MAINTAINING_GUIDES.md adapters/README.md; do
@@ -65,7 +65,9 @@ for h in adapters/claude/hooks/*.sh; do
   [ -x "$h" ] || err "$h: not executable"
   bash -n "$h" || err "$h: bash syntax error"
 done
+[ -x adapters/git/hooks/pre-commit ] || err "adapters/git/hooks/pre-commit: not executable"
 bash adapters/claude/hooks/test.sh || fail=1
+bash adapters/git/test.sh || fail=1
 
 # --- 4. governance, evaluation, CI ---------------------------------------------
 for f in CHANGELOG.md .github/workflows/checks.yml adapters/manifest.json scripts/conservation-baseline.txt \

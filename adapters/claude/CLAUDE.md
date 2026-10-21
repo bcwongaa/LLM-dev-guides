@@ -11,7 +11,7 @@ This project is run with **permissions bypassed** (no interactive tool-approval 
 
 ## Claude-only notes
 
-- **Pointer-skills:** install `GUIDES_ROOT/adapters/claude/skills/` into `.claude/skills/` — one thin skill per domain that tells Claude to read the right guide. No law lives in the skills.
+- **Pointer-skills:** install `GUIDES_ROOT/adapters/skills/` into `.claude/skills/` — one thin skill per domain that tells Claude which guide sections to read. No law lives in the skills.
 - **Hooks:** install `GUIDES_ROOT/adapters/claude/hooks/` per its README — SessionStart injects STATUS, PreToolUse blocks edits on the protected base branch, Stop runs the Test command. Hooks enforce local gates; they do not replace protocol definition of done.
 - Optional path-scoped rules: `.claude/rules/*.md` — **project facts only**, not a fork of code-style / stack.
 - Prefer MCP / project tools already configured; do not add new global tooling without asking.

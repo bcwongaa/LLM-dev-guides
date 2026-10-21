@@ -120,7 +120,7 @@ def tool_limit_failures() -> list[str]:
                 f"{agents.relative_to(ROOT)}: {size} B; Codex reads at most {AGENTS_CHAIN_MAX_BYTES} B "
                 "across the whole AGENTS.md chain and silently truncates the rest"
             )
-    for skill in sorted((ROOT / "adapters").glob("*/skills/*/SKILL.md")):
+    for skill in sorted((ROOT / "adapters" / "skills").glob("*/SKILL.md")):
         for line in skill.read_text().splitlines():
             if line.startswith("description:"):
                 desc = line.split(":", 1)[1].strip().strip('"')

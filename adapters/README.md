@@ -56,16 +56,23 @@ See each adapter’s `NOTES.md` for tool-specific flags.
 |---|---|
 | `AGENTS.md` | Yes — Codex + Grok + Claude (via `@AGENTS.md`) read the same map |
 | `CLAUDE.md` | Claude-native import wrapper; not a second map |
-| `claude/skills/` | Claude-native pointer-skills (route tasks to domain guides; no law inside) |
+| `skills/` | Pointer-skills for every tool (Agent Skills format; route tasks to guide sections; no law inside) |
 | `claude/hooks/` | Claude-native enforcement hooks (STATUS inject, branch guard, test gate) |
+| `git/hooks/pre-commit` | Tool-neutral: refuses commits on a protected base branch, for any agent or human |
 | `.claude/rules/` | Optional Claude path-scoped stubs — project-specific, not required by this suite |
 
-Skills/hooks are **Claude-only leverage on shared law**: the guide files remain the single
-canon; Codex and Grok read the same files via `AGENTS.md`. Parity applies to the law's
-content, not to tool mechanics.
+Pointer-skills ship for all three tools in the Agent Skills format (install paths in
+`skills/README.md`). The hooks under `claude/hooks/` are Claude-native; the git pre-commit
+guard holds for every tool. The guide files remain the single canon, and parity applies to
+the law's content; tool mechanics may differ.
 
-Grok also loads `CLAUDE.md` if present. Treat that file as Claude mechanics. Grok’s law
-is `AGENTS.md`.
+Grok also loads `CLAUDE.md` if present, as plain text, and reads `.claude/rules/*.md` and
+`.claude/skills/`. Treat `CLAUDE.md` as Claude mechanics; Grok's law is `AGENTS.md`.
+
+Claude Code 2.1.277 and later read `AGENTS.md` by themselves when a repo has no `CLAUDE.md`.
+When both exist, Claude loads only `CLAUDE.md` by default, which is why the wrapper imports
+`AGENTS.md`. Install the wrapper when the repo already has a `CLAUDE.md` or wants the Claude
+mechanics; `AGENTS.md` alone is enough otherwise.
 
 ## Generating adapters (this repo only)
 

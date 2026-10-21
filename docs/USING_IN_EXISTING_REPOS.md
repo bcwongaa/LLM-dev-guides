@@ -50,7 +50,11 @@ Pick one pattern. All work; pick what fits git and team habits.
 In adapters: `GUIDES_ROOT=../LLM-dev-guides`
 
 **Pros:** no vendoring; always pull latest.  
-**Cons:** path differs per machine; CI agents need the suite checked out too.
+**Cons:** path differs per machine; CI agents need the suite checked out too. Cloud agents
+(Codex cloud, Claude Code on the web, GitHub's Copilot coding agent) only see the app repo:
+use B or C whenever one works on it. Local Claude Code outside bypass mode prompts on every
+read outside the project; add `"permissions": {"additionalDirectories": ["../LLM-dev-guides"]}`
+to `.claude/settings.json`, or start it with `--add-dir ../LLM-dev-guides`.
 
 ### B. Git submodule
 
@@ -121,12 +125,19 @@ Then edit **`AGENTS.md` only**:
 
 Grok also loads `CLAUDE.md` if present. That file is Claude mechanics plus an import
 Grok does not expand. Grok’s law is `AGENTS.md` — do not copy suite law into `CLAUDE.md`
-to “keep them in sync.”
+to “keep them in sync.” Grok also reads `.claude/rules/*.md`, so project facts placed there
+reach it too.
 
-**Claude Code only (optional but recommended):** install the pointer-skills and
-enforcement hooks from `adapters/claude/skills/` and `adapters/claude/hooks/` (see each
-README). Skills route tasks to the right domain guide automatically; hooks enforce STATUS
-reading, branch isolation, and the test gate mechanically.
+Codex reads at most 32 KiB across the whole `AGENTS.md` chain, nested package files
+included, and silently cuts the rest. The root map is about 3.4 KB; keep nested ones short.
+
+**Optional but recommended, every tool:** install the pointer-skills from `adapters/skills/`
+(`.claude/skills/` for Claude Code and Grok Build, `.agents/skills/` for Codex; see its
+README) and the git pre-commit guard from `adapters/git/hooks/`. Skills route tasks to the
+right guide sections; the guard refuses commits on the protected base branch.
+
+**Claude Code only:** the enforcement hooks in `adapters/claude/hooks/` inject STATUS, guard
+edits on the base branch, and gate stops on tests not being worse than at session start.
 
 ---
 

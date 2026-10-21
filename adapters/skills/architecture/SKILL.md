@@ -4,8 +4,8 @@ description: "System layout: modules vs deployables, folders, new service or pac
 ---
 
 Law: `GUIDES_ROOT/guides/architecture/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
-Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-`INDEX.tsv` beside it indexes the REFERENCE files the same way.
+Read **only** the line ranges you need. Claude: `Read(path, offset=START, limit=END-START+1)`.
+Shell: `sed -n 'START,ENDp' path`. `INDEX.tsv` beside it indexes the REFERENCE files the same way.
 
 1-6    (preamble)
 7-10   Complete
