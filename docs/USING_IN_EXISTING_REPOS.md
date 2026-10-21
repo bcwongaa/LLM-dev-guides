@@ -176,7 +176,7 @@ brief and result templates*.
 be briefed with `GUIDES_ROOT`, protocol (or equivalent), owned paths, decisions already made, and
 “escalate always-ask to parent.” Nested children escalate to their **direct** spawner only;
 only the root asks the human. Hard items (destructive data, new auth, new deployable,
-product ambiguity) must not be rubber-stamped by a parent.
+product ambiguity) plus business logic and architecture must not be rubber-stamped by a parent.
 
 Project may override base branch names in its adapter if different.
 

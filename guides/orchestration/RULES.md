@@ -74,7 +74,7 @@ Protocol owns the authority rules. This file is the mechanic:
 - Every write child is briefed with: `GUIDES_ROOT`, protocol path, owned/forbidden paths, **branch base + merge target**, decisions already made, escalate-to-parent. A three-line “go implement X” with no protocol is a parent failure.
 - Default child base = integration base. Heavy = live umbrella tip; merge target = umbrella.
 - Nested children escalate to the **direct spawner** only. Only the root talks to the human.
-- Parent owns decisions it approves. Hard items (destructive data, new auth, new deployable, true product ambiguity) are not rubber-stamped.
+- Parent owns decisions it approves. Hard items (destructive data, new auth, new deployable, true product ambiguity) plus business logic and architecture are not rubber-stamped.
 
 Brief and result templates: REFERENCE.
 

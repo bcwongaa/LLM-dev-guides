@@ -35,6 +35,7 @@ for f in "${agents_maps[@]}" guides/protocol/RULES.md; do
 done
 for f in "${agents_maps[@]}" guides/protocol/RULES.md guides/orchestration/RULES.md; do
   grep -qiF "$HARD" "$f" || err "$f: hard-items list missing or drifted ('$HARD')"
+  grep -qF 'business logic and architecture' "$f" || err "$f: hard items must also name business logic and architecture"
 done
 for f in CLAUDE.md adapters/claude/CLAUDE.md; do
   grep -qF '@AGENTS.md' "$f" || err "$f: missing @AGENTS.md import"
@@ -119,6 +120,16 @@ On miss: compute, store, return
 MAX_ATTEMPTS
 Wrapper methods for common CRUD
 millisecond-precision UTC
+EOF
+
+# Retired law must not come back through a REFERENCE section read on its own.
+while IFS= read -r retired; do
+  hits="$(grep -rlF "$retired" guides docs 2>/dev/null)"
+  [ -z "$hits" ] || err "retired v1 law '$retired' restated in: $hits"
+done <<'EOF'
+local code > guides >
+adapters use this exact line
+bugfix with no repro test
 EOF
 
 # A needle like 'Done' or 'cannot' appears all over the corpus, passes trivially, and proves

@@ -382,6 +382,10 @@ Rationale and examples: [`REFERENCE-naming.md`](REFERENCE-naming.md) §12.
 
 ## 13. Errors are raised where they're detected
 
+**Language idiom first.** Go returns `error` and Rust returns `Result`: follow that (stack
+guide, *Errors*). This section is the rule where a language has no preferred error mechanism,
+and it is already the idiom of throw languages (TS, Java, Kotlin).
+
 Errors are thrown in the layer that detects the problem — not bubbled up to a top-level
 handler for translation. The handler/controller layer stays thin: it delegates and returns.
 
@@ -400,13 +404,16 @@ class OrderService {
 ✗
 class OrderController {
   async cancel(req, res) {
-    const order = await this.service.getOrder(req.params.id)
-    if (!order) return res.status(404).send('not found')          // translation
+    const order = await this.service.ensureGetOrder(req.params.id)
     if (order.status === 'shipped') return res.status(409).send('...') // translation
     ...
   }
 }
 ```
+
+The defect is the business rule (`shipped` → `409`) checked in the controller instead of raised
+by the service that knows it. An entry-point existence check (`404` / `400`) is not
+translation: it is §12's `get` at the boundary (`REFERENCE-naming.md` §12).
 
 **Two anti-patterns specifically:**
 
@@ -415,7 +422,7 @@ class OrderController {
 try { doThing() } catch (e) { throw e }
 // does nothing — error propagates identically without it
 
-✗ returning errors as values
+✗ returning errors as values (in a throw language)
 function process(x): Result | Error {
   if (bad(x)) return new Error('...')
   return new Result(...)
@@ -428,6 +435,18 @@ Throw. Don't return errors. Don't catch-and-rethrow.
 **Error message style:** plain, user-facing sentences for domain errors. Internal invariant
 violations (programmer errors) can be terser and more technical — they shouldn't surface to
 users anyway.
+
+**Each throw site identifies itself.** A generated Kotlin ledger threw
+`CurrencyMismatch("Currency does not match the account")` from deposit, withdraw,
+transfer-source, and transfer-destination. Four sites, one string: the log line cannot say which
+check failed, and the stack trace becomes the only witness. Give each site its own message, or
+carry the data that tells the sites apart:
+
+```
+✓ throw CurrencyMismatch(accountId, expected = account.currency, actual = amount.currency)
+✓ throw TransferSourceCurrencyMismatch(sourceAccountId)
+✗ throw CurrencyMismatch("Currency does not match the account")   // same text from four call sites
+```
 
 ---
 
@@ -608,7 +627,7 @@ and the fix stays within the lines already being changed.
    no-op — the error propagates identically without it
 
 ✗ return new Error(...)
-   errors should be thrown, never returned as values
+   in throw languages, errors are thrown, never returned as values (Go / Rust: follow the idiom)
 
 ✗ if (someAsyncCall()) { ... }
    missing await — the Promise object is always truthy

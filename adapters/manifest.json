@@ -1,7 +1,7 @@
 {
   "notice": "Repository-internal generator input. Not a consumer installer, package, or updater.",
   "version": "unreleased",
-  "generation": "v2",
+  "generation": "v3",
   "tools": [
     "claude",
     "codex",

@@ -9,29 +9,29 @@ RULES.md	7	10	206	suite-default	Re-anchor
 RULES.md	11	27	785	suite-default	Bootstrap
 RULES.md	28	49	947	suite-default	Routing
 RULES.md	50	59	478	suite-default	Instruction authority
-RULES.md	60	74	667	suite-default	Implementation convention
-RULES.md	75	99	1385	suite-default	Always human
-RULES.md	100	110	406	suite-default	Subagents
-RULES.md	111	118	491	suite-default	Plan / scope
-RULES.md	119	131	768	suite-default	Done
-RULES.md	132	139	587	common	Handoff / skills / entry
-RULES.md	140	145	469	suite-default	When to break
-RULES.md	146	155	397		Never
-REFERENCE.md	1	22	1007		(preamble)
-REFERENCE.md	23	59	1437		Scope of this guide
-REFERENCE.md	60	91	996		Conflict order
-REFERENCE.md	92	114	875		Multi-tool entry
-REFERENCE.md	115	142	1249		Bootstrap ritual
-REFERENCE.md	143	175	1540		Guide routing table
-REFERENCE.md	176	195	765		Missing layers
-REFERENCE.md	196	248	2344		Ask vs decide (conservative)
-REFERENCE.md	249	275	1330		Local convention (how to find it, and the brownfield tie-breaker)
-REFERENCE.md	276	294	440		Plan before code
-REFERENCE.md	295	315	737		Scope discipline (hard ban)
-REFERENCE.md	316	349	1607		Definition of done
-REFERENCE.md	350	397	1159		Handoff (multi-tool / multi-session)
-REFERENCE.md	398	419	873		Third-party skills
-REFERENCE.md	420	440	1104		Anti-patterns
-REFERENCE.md	441	453	884		When to break the rules
-REFERENCE.md	454	471	1105		Done checklist (for work under this protocol)
-REFERENCE.md	472	482	511		Relationship to other layers
+RULES.md	60	76	864	suite-default	Implementation convention
+RULES.md	77	101	1385	suite-default	Always human
+RULES.md	102	112	406	suite-default	Subagents
+RULES.md	113	120	491	suite-default	Plan / scope
+RULES.md	121	133	768	suite-default	Done
+RULES.md	134	141	587	common	Handoff / skills / entry
+RULES.md	142	147	469	suite-default	When to break
+RULES.md	148	157	402		Never
+REFERENCE.md	1	17	701		(preamble)
+REFERENCE.md	18	54	1437		Scope of this guide
+REFERENCE.md	55	89	1229		Conflict order
+REFERENCE.md	90	112	875		Multi-tool entry
+REFERENCE.md	113	140	1249		Bootstrap ritual
+REFERENCE.md	141	173	1540		Guide routing table
+REFERENCE.md	174	193	765		Missing layers
+REFERENCE.md	194	251	2720		Ask vs decide (conservative)
+REFERENCE.md	252	280	1473		Local convention (how to find it, and the brownfield tie-breaker)
+REFERENCE.md	281	299	440		Plan before code
+REFERENCE.md	300	320	737		Scope discipline (hard ban)
+REFERENCE.md	321	354	1607		Definition of done
+REFERENCE.md	355	402	1159		Handoff (multi-tool / multi-session)
+REFERENCE.md	403	424	873		Third-party skills
+REFERENCE.md	425	445	1104		Anti-patterns
+REFERENCE.md	446	458	911		When to break the rules
+REFERENCE.md	459	476	1105		Done checklist (for work under this protocol)
+REFERENCE.md	477	487	511		Relationship to other layers

@@ -40,7 +40,7 @@ This project is run with **always-approve / full auto / permissions bypassed**. 
 
 Still **always ask** for: greenfield stack, new services, schema/API breaks, security/PII/secrets, ambiguous product intent, scope expansion — and before rewriting author-native guide voice without review — **if you are the root session**.
 
-**If you are a subagent:** you **cannot** ask the human. Escalate always-ask items to your **parent** (options + recommendation). Parent decides or escalates; hard items (destructive data, new auth, new deployable, true product ambiguity) go human via root. See protocol.
+**If you are a subagent:** you **cannot** ask the human. Escalate always-ask items to your **parent** (options + recommendation). Parent decides or escalates; hard items (destructive data, new auth, new deployable, true product ambiguity) plus business logic and architecture go human via root. See protocol.
 
 Permissionless ≠ autonomous product or architecture decisions.
 

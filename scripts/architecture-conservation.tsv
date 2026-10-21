@@ -19,3 +19,4 @@ relationship	guides/architecture/RULES.md	Standing decisions (ADRs)
 caching	guides/architecture/RULES.md	stale-while-revalidate
 polling	guides/architecture/RULES.md	Not recursive sleep
 dispatch	guides/architecture/RULES.md	key-to-handler mapping
+duplication-scope	guides/architecture/RULES.md	Across modules or packages, duplicate a small helper

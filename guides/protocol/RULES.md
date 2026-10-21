@@ -65,6 +65,8 @@ approved task design > nearest file > package > repository > suite default
 
 Discovery: read 2–3 sibling files. Prefer the most recently merged code in that area when styles compete.
 
+Section tags: `[suite-default]` is the author’s preference and yields to local convention; `[common]` is practice nearly everyone follows; `[project-example]` illustrates a rule and is not one.
+
 **Overrides nearby code:** correctness, safety, explicit project law, and the suite never-list. Net-new files follow the suite. Edits match the file unless the pattern is on the never-list and the fix stays in lines already being changed. Do not sweep the rest.
 
 ```
@@ -149,7 +151,7 @@ Breaking always-human on business logic, architecture, greenfield stack, or secu
 ✗ Skip protocol · restate guide law in adapters/STATUS · open every guide
 ✗ Invent missing layers · drive-by refactors
 ✗ Autonomous greenfield stack, architecture, or business-rule pick
-✗ “Tests not worse” with no baseline · bugfix with no repro test
+✗ “Tests not worse” with no baseline · bugfix with no regression test
 ✗ Treat a never-list smell as local convention
 ✗ Grade your own compliance by saying you followed the guides
 ```

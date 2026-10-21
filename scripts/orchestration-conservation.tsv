@@ -15,3 +15,4 @@ hard-items	guides/orchestration/RULES.md	destructive data, new auth, new deploya
 voice-git	guides/orchestration/REFERENCE.md	Team-style git flow
 voice-umbrella	guides/orchestration/REFERENCE.md	temporary base
 voice-brief	guides/orchestration/REFERENCE.md	## Brief
+hard-items-business	guides/orchestration/RULES.md	plus business logic and architecture are not rubber-stamped

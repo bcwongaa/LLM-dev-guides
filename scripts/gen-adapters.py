@@ -205,7 +205,8 @@ def render_agents(m: dict, *, suite: bool) -> str:
         "",
         "**If you are a subagent:** you **cannot** ask the human. Escalate always-ask "
         "items to your **parent** (options + recommendation). Parent decides or "
-        f"escalates; hard items ({hard}) go human via root. See protocol.",
+        f"escalates; hard items ({hard}) plus business logic and architecture go human via root. "
+        "See protocol.",
         "",
         "Permissionless ≠ autonomous product or architecture decisions.",
         "",

@@ -5,9 +5,35 @@ law generations, and move only when shared law changes — a release may leave t
 untouched. Shared-law changes, path migrations, and evaluation results are recorded here so an
 agent or maintainer can tell which guide generation a project adopted.
 
-## Unreleased (generation v2)
+## Unreleased (generation v3)
 
-Governance and retrieval only; no shared law changed.
+### Shared law (generation v3)
+
+Each change resolves a contradiction between two guides, or between a RULES file and its
+REFERENCE, in the direction the author chose.
+
+- code-style §13: follow the language's own error idiom first (Go `error`, Rust `Result`); §13
+  is the rule where a language has none. A Go or Rust bugfix loads code-style but not stack,
+  where the carve-out used to live alone.
+- code-style §13: each throw site identifies itself, by its own message or by data on the
+  error. Identical messages from sibling sites hide which check failed.
+- code-style REFERENCE §13: the wrong-way example no longer marks an entry-point `404` as
+  translation, which §12 shows as correct; the defect shown is the `409` business rule.
+- code-style §4 and architecture: extract on the second copy within one module and the change
+  in hand; across modules or packages, duplicate until the third copy hurts.
+- code-style Complete: changed behavior has its own test, as testing already required.
+- stack: database logic allowed is data §3's list (read-only views, side-effect-free
+  projections, generated columns), replacing stack's narrower one.
+- protocol never-list: "bugfix with no regression test". Testing keeps repro-first when
+  practical.
+- Hard items: the `AGENTS.md` maps, orchestration, and the adoption guide now also name
+  business logic and architecture, as protocol already did. The orchestration example where a
+  parent picked the stack for a new worker now shows that as wrong.
+- protocol: defines the section tags `[suite-default]`, `[common]`, `[project-example]`.
+- protocol REFERENCE: "Conflict order", "Ask vs decide", "Local convention", and "When to
+  break" now match RULES. `check-sync.sh` bans the retired v1 phrases anywhere under `guides/`
+  and `docs/`, because a REFERENCE section read on its own never sees a file-level disclaimer.
+
 
 ### Governance
 

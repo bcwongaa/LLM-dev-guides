@@ -229,7 +229,7 @@ Rules:
    - **Decide** for the subagent (guides + task intent + local code), and resume the
      subagent with an explicit decision; or
    - **Ask the human** when the parent would have asked anyway (greenfield stack, destructive
-     data, security model, true product ambiguity).
+     data, security model, business logic, architecture, true product ambiguity).
 3. **Parent must not launder responsibility** — “the subagent chose Mongo” is invalid. The
    parent owns decisions it approved for subagents.
 4. **Write decisions down** (STATUS, PR, or brief handoff) so other agents/subagents do not
@@ -238,14 +238,17 @@ Rules:
    - destructive or irreversible **data** loss;
    - **new auth model** / security boundary change;
    - **new deployable** / multi-repo split;
-   - true **product ambiguity** the user task does not settle.
+   - true **product ambiguity** the user task does not settle;
+   - **business logic** / product semantics (discount rules, who is owed what);
+   - **architecture**: a new major boundary.
    On those, parent asks the human even when unblocking a subagent. Other ask-list items
    (routine scope edge, non-destructive dual-write design within an approved feature) the
    parent may decide from guides + task.
 
 ```
-✓  Subagent: “Need stack for new worker — options A/B; recommend B per stack. Parent decide.”
-✓  Parent: decides B from guides + user goal, or asks human if still ambiguous
+✓  Subagent: “Two fixture shapes fit this test — options A/B; recommend B per testing. Parent decide.”
+✓  Parent: decides B from guides + task, or asks the human if it turns out to be a hard item
+✗  Parent picks the stack for a new worker — a new deployable is architecture; ask the human
 ✓  Parent: subagent wants DROP COLUMN — parent asks human, does not auto-approve
 ✗  Subagent silently scaffolds a new service and new DB because it “had to progress”
 ✗  Parent rubber-stamps destructive migration “to unblock” the child
