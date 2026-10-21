@@ -65,7 +65,7 @@
       "open": "docs/USING_IN_EXISTING_REPOS.md"
     },
     {
-      "need": "Change the guides themselves (regenerate, budgets, splitting)",
+      "need": "Change the guides themselves (regenerate, size policy, splitting)",
       "open": "docs/MAINTAINING_GUIDES.md"
     }
   ],

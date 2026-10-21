@@ -1,1 +1,8 @@
-# path	maximum_bytes_during_v2_migration
+# Per-kind size stats for the outlier bar (mean + 1.5 SD). Recalculated only when a
+# release is cut, so splitting a big file does not drop the bar for every other file.
+# Regenerate at release time: python3 scripts/check-size.py --rebaseline <tag>
+# release	kind	n	mean_bytes	sd_bytes	mean_lines	sd_lines
+v0.2.1	rules	12	7600	1165	127	24
+v0.2.1	reference	12	18416	7918	445	191
+v0.2.1	docs	46	1594	1995	38	44
+v0.2.1	code	44	2170	3183	50	82

@@ -5,8 +5,9 @@ description: "Branching, PR flow, parallel agents, subagent briefs, conflicts, h
 
 Law: `GUIDES_ROOT/guides/orchestration/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
+`INDEX.tsv` beside it indexes the REFERENCE files the same way.
 
+1-6      (preamble)
 7-15     Integration base
 16-21    Feature work
 22-39    Umbrella (heavy work only)
@@ -19,5 +20,6 @@ Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`
 94-99    When to break
 100-113  Never
 
-Guide and local convention outrank this skill; never paraphrase law from memory.
+RULES wins over REFERENCE on any conflict. Guide and local convention outrank this skill;
+never paraphrase law from memory.
 Protocol still applies: `GUIDES_ROOT/guides/protocol/RULES.md`.

@@ -8,7 +8,7 @@
 #   3. Hard-items list phrase matches across AGENTS.md maps and protocol/orchestration
 #   4. Every file routed by the entry maps exists on disk
 #   5. Hook scripts are executable and pass bash -n
-#   6. v2 governance, size-budget, evaluation, fixture, and CI artifacts exist
+#   6. v2 governance, size-policy, evaluation, fixture, and CI artifacts exist
 #   7. Descriptive-guide cutover: new paths exist, old L0–L10 files are gone,
 #      maps do not name deleted filenames, category ownership holds
 #   8. Generated adapters/roots match scripts/gen-adapters.py --check
@@ -127,7 +127,7 @@ governance_files=(
   .gitignore
   CHANGELOG.md
   .github/workflows/checks.yml
-  scripts/check-size.sh
+  scripts/check-size.py
   scripts/check-index.py
   scripts/conservation-baseline.txt
   guides/protocol/INDEX.tsv
@@ -176,10 +176,10 @@ done
 
 grep -qF '/temp/' .gitignore 2>/dev/null || err ".gitignore: /temp/ rule missing"
 
-if [ -x scripts/check-size.sh ]; then
-  bash scripts/check-size.sh || fail=1
+if [ -f scripts/check-size.py ]; then
+  python3 scripts/check-size.py || fail=1
 else
-  err "scripts/check-size.sh: missing or not executable"
+  err "scripts/check-size.py: missing"
 fi
 
 if [ -f scripts/gen-adapters.py ]; then
@@ -203,9 +203,6 @@ fi
 [ ! -e L8_SECURITY_AND_SECRETS.md ] || err "L8_SECURITY_AND_SECRETS.md must be removed; law lives under guides/security/"
 [ ! -e L9_CHANGE_AND_RELEASE.md ] || err "L9_CHANGE_AND_RELEASE.md must be removed; law lives under guides/release/"
 [ ! -e L10_DECISIONS ] || err "L10_DECISIONS/ must be removed; law lives under guides/decisions/"
-if grep -v '^#' scripts/size-baseline.tsv | grep -q .; then
-  err "scripts/size-baseline.tsv: migration baseline must be empty after L2–L10 cutover"
-fi
 
 route_files=(
   AGENTS.md

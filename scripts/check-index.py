@@ -20,6 +20,8 @@ SKILLS = ROOT / "adapters" / "claude" / "skills"
 CLAIM_RE = re.compile(r"^(\d+)-(\d+)\s+(\S.*?)\s*$")
 LAW_RE = re.compile(r"^Law: `GUIDES_ROOT/(\S+?)`")
 TAG_RE = re.compile(r"\s*`\[[a-z-]+\]`\s*$")
+GLUED_RE = re.compile(r"\S\s+## [A-Z0-9`]")
+PREAMBLE = "(preamble)"
 
 failures: list[str] = []
 
@@ -30,7 +32,8 @@ def err(msg: str) -> None:
 
 
 def headings_of(guide: Path) -> list[tuple[int, str]]:
-    """Independent heading parse: `## ` at top level, ignoring fenced code blocks."""
+    """Independent heading parse: `## ` at top level, ignoring fenced code blocks. Lines before
+    the first heading form a synthetic (preamble) section, so scope lines stay reachable."""
     out: list[tuple[int, str]] = []
     fenced = False
     for n, line in enumerate(guide.read_text().splitlines(), start=1):
@@ -42,7 +45,15 @@ def headings_of(guide: Path) -> list[tuple[int, str]]:
             continue
         if line.startswith("## "):
             out.append((n, TAG_RE.sub("", line[3:].strip())))
+        elif GLUED_RE.search(line):
+            err(f"{guide.relative_to(ROOT)}:{n}: '## ' heading glued to preceding text; it must start its own line")
+    if out and out[0][0] > 1:
+        out.insert(0, (1, PREAMBLE))
     return out
+
+
+def section_bytes(lines: list[str], start: int, end: int) -> int:
+    return len("\n".join(lines[start - 1 : end]).encode("utf-8"))
 
 
 def check_skill(skill_md: Path) -> None:
@@ -87,6 +98,14 @@ def check_skill(skill_md: Path) -> None:
             continue
         if end > eof:
             err(f"{where}: end line {end} past EOF of {law} ({eof})")
+            continue
+
+        if title == PREAMBLE:
+            if start != 1:
+                err(f"{where}: the preamble must start at line 1")
+            expected_end = actual[1][0] - 1 if len(actual) > 1 else eof
+            if end != expected_end:
+                err(f"{where}: preamble should end at {expected_end}, not {end}")
             continue
 
         # The claimed start must BE the heading it names.
@@ -145,21 +164,31 @@ def check_index_tsv(tsv: Path) -> int:
             err(f"{rel}:{lineno}: range {start}-{end} invalid for {fname} (1-{len(lines)})")
             continue
         real = lines[start - 1]
-        if not real.startswith("## "):
+        if title == PREAMBLE:
+            if start != 1 or tag:
+                err(f"{rel}:{lineno}: preamble row must start at line 1 and carry no tag")
+        elif not real.startswith("## "):
             err(f"{rel}:{lineno}: {fname}:{start} is not a heading, it is {real.strip()[:40]!r}")
             continue
-        raw = real[3:].strip()
-        real_title = TAG_RE.sub("", raw)
-        if real_title != title:
-            err(f"{rel}:{lineno}: {fname}:{start} is {real_title!r}, not {title!r}")
-        tag_m = TAG_RE.search(raw)
-        real_tag = tag_m.group(0).strip().strip("`[]") if tag_m else ""
-        if real_tag != tag:
-            err(f"{rel}:{lineno}: tag is {real_tag!r} in the guide, indexed as {tag!r}")
-        actual_bytes = len("\n".join(lines[start - 1 : end]))
+        else:
+            raw = real[3:].strip()
+            real_title = TAG_RE.sub("", raw)
+            if real_title != title:
+                err(f"{rel}:{lineno}: {fname}:{start} is {real_title!r}, not {title!r}")
+            tag_m = TAG_RE.search(raw)
+            real_tag = tag_m.group(0).strip().strip("`[]") if tag_m else ""
+            if real_tag != tag:
+                err(f"{rel}:{lineno}: tag is {real_tag!r} in the guide, indexed as {tag!r}")
+        actual_bytes = section_bytes(lines, start, end)
         if actual_bytes != claimed_bytes:
             err(f"{rel}:{lineno}: claims {claimed_bytes}B, section is {actual_bytes}B")
         seen.setdefault(fname, set()).add(start)
+
+    # Every guide file in the domain must be indexed: a split-off REFERENCE-*.md that the
+    # index skips is unreachable by range reads.
+    for guide in sorted(domain.glob("RULES*.md")) + sorted(domain.glob("REFERENCE*.md")):
+        if guide.name not in seen:
+            err(f"{rel}: {guide.name} exists but has no rows in the index")
 
     # No section may be missing from the index. Use the fence-aware parser: a `## `
     # inside a ```markdown block is a template example, not a section.

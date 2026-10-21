@@ -45,27 +45,58 @@ a new skill must earn its description.
 **Show a `## ` line as an example** → put it in a fenced block. The parsers are fence-aware
 and will not mistake it for a section. Seven such headings already exist in `REFERENCE.md`.
 
-## Budgets (`scripts/check-size.sh`)
+## Size policy (`scripts/check-size.py`)
 
-| What | Limit | Why |
-|---|---|---|
-| Root maps (`AGENTS.md` + `CLAUDE.md`) | 12288 B | loaded every session |
-| `RULES.md` file | 8192 B | sprawl backstop only |
-| `RULES.md` **section** | 1900 B | **the real cost — what a task reads** |
-| `REFERENCE.md` section | 6552 B | ratchet |
-| `SKILL.md` | 1800 B | loads on match |
-| All skill descriptions | 1400 B | in context every session |
-| `INDEX.tsv` | 4096 B | read to select sections |
+Fixed byte budgets got gamed. Under an 8192 B cap every `RULES.md` ended at 8191 B, squeezed to
+fit instead of written to be read. Any number we publish becomes a target, so the check flags
+files that are big **for their kind**, and the fix it asks for is a topic split, not fewer bytes.
 
-The **section** budgets are the ones that matter. With line-range retrieval nobody reads a
-whole file, so a per-file cap only stops sprawl — and a cap you can live at becomes a target
-(every `RULES.md` once sat at 8191 B).
+Every text file outside `temp/` is measured in bytes and in lines, against its kind:
 
-The `REFERENCE.md` and conservation limits are **ratchets**: set just above today's maximum
-so nothing grows. Lower them when you improve something; never raise one to make a new
-violation pass. If a section is over budget, split it — see below.
+| Kind | Files | Soft cap | Hard cap |
+|---|---|---|---|
+| rules | `guides/*/RULES*.md` | 8 KB, 500 lines | 16 KB, 1,600 lines |
+| reference | `guides/*/REFERENCE*.md` | 20 KB, 500 lines | 40 KB, 1,600 lines |
+| docs | every other `.md` | 20 KB, 500 lines | 40 KB, 1,600 lines |
+| code | everything else | 20 KB, 500 lines | 40 KB, 1,600 lines |
 
-## Splitting a section
+For each metric:
+
+- **Over the soft cap only:** a tolerated outlier. It is printed as a note and does not fail.
+- **Over the soft cap and over mean + 1.5 SD of its kind:** fails. Split it by topic, or ask the author.
+- **Over the hard cap:** fails as a repo-wide refactor signal. Stop and ask the author.
+
+Why these numbers:
+
+- The byte hard caps sit at Codex's single-read window: it returns at most 10,000 tokens of
+  shell output, about 40 KB. Past that, a whole-file read silently loses part of the file.
+  RULES are tighter on bytes because Codex and Grok read them whole on every task.
+- The line hard cap, 1,600 lines, is a brake on drift set well above today's largest file. It
+  is not a read window: Grok's read tool returns 1,000 lines per call, so a longer file takes
+  two reads.
+- 1.5 SD is simple to explain and catches the biggest one or two files of a kind.
+- The mean and SD come from `scripts/size-baseline.tsv`, computed from the files at the last
+  release tag. They are not live: live stats drop the bar every time a big file is split, so
+  fixing one file would fail the next one.
+
+Two limits come from the tools themselves and always fail when exceeded: each `AGENTS.md` stays
+within 32 KiB, because Codex reads at most that across the whole `AGENTS.md` chain, and each skill
+description stays within 1,024 characters, the Agent Skills spec limit.
+
+**When a size check fails,** split by topic or ask the author. Never compress wording, drop
+examples, or join lines to get under a number. Text squeezed to fit is the failure this policy
+exists to prevent.
+
+**When cutting a release,** tag it, then run `python3 scripts/check-size.py --rebaseline <tag>`
+and commit the new baseline. A new baseline can fail a file that passed before. Split that file
+in the same PR, or ask the author.
+
+## Splitting a file or section
+
+A `REFERENCE.md` can split by topic into `REFERENCE-<topic>.md` beside it, for example
+`guides/code-style/REFERENCE-naming.md`. The generator indexes every `RULES*.md` and
+`REFERENCE*.md` in the domain. Leave a `— moved` stub heading in the original file, so section
+numbers still line up with `RULES.md`.
 
 Size alone is not the test. Ask **what a partial read costs**:
 

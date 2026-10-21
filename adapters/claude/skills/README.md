@@ -36,17 +36,11 @@ The skill bodies reference `GUIDES_ROOT/...` — they resolve it from the repo's
 `AGENTS.md` (Claude loads that file via `@AGENTS.md`), so no per-repo editing is
 needed as long as `GUIDES_ROOT` is set there.
 
-## Budgets
+## Size
 
-`check-size.sh` gates two separate costs:
-
-| Budget | Limit | Why |
-|---|---|---|
-| Each `SKILL.md` | 1800 B | loads on match |
-| All `name:` + `description:` lines | 1400 B | in context every session, match or not |
-
-The second is the one that scales badly — every new skill taxes every session, so a
-new skill has to earn its description.
+`scripts/check-size.py` holds each skill description to the 1,024-character limit of the Agent
+Skills spec. Descriptions sit in context every session whether or not a skill fires, so every
+new skill taxes every session and has to earn its description.
 
 ## Rules
 
