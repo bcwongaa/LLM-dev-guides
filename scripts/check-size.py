@@ -25,13 +25,15 @@ OUTLIER_SD = 1.5
 
 KB = 1024
 # kind: (soft bytes, soft lines, hard bytes, hard lines)
-# Hard caps sit at the smallest single-read window of the first-class tools (Grok's read tool
-# stops at 1,000 lines, Codex's shell at 10,000 tokens), so any file can be read whole in one call.
+# The byte hard caps sit at Codex's single-read window (10,000 tokens of shell output, about 40 KB).
+# The 1,600-line hard cap is the author's brake on drift, well above today's largest file; it is
+# not a read window (Grok's read tool returns 1,000 lines per call).
+HARD_LINES = 1600
 CAPS = {
-    "rules": (8 * KB, 500, 16 * KB, 1000),
-    "reference": (20 * KB, 500, 40 * KB, 1000),
-    "docs": (20 * KB, 500, 40 * KB, 1000),
-    "code": (20 * KB, 500, 40 * KB, 1000),
+    "rules": (8 * KB, 500, 16 * KB, HARD_LINES),
+    "reference": (20 * KB, 500, 40 * KB, HARD_LINES),
+    "docs": (20 * KB, 500, 40 * KB, HARD_LINES),
+    "code": (20 * KB, 500, 40 * KB, HARD_LINES),
 }
 # Limits the tools enforce, not ours: Codex reads at most 32 KiB across the AGENTS.md chain;
 # the Agent Skills spec caps a skill description at 1,024 characters.
