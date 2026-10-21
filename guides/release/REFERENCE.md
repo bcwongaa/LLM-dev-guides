@@ -174,7 +174,7 @@ not “run down.sql and pray” (../data/REFERENCE.md).
 **Human ships prod.** Agent prepares the plan and the change set. Project CI may auto-deploy
 non-prod; that does not grant prod autonomy.
 
-Matches ../protocol/REFERENCE.md: schema/API breaks, security, scope expansion — ask.
+Matches ../protocol/RULES.md: schema/API breaks, security, scope expansion — ask.
 
 ---
 

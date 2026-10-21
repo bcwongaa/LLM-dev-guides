@@ -12,16 +12,16 @@ RULES.md	40	43	187	suite-default	After merge
 RULES.md	44	51	411	common	Conflicts
 RULES.md	52	57	386	suite-default	Isolation
 RULES.md	58	68	375	suite-default	Hotspots — serialize
-RULES.md	69	80	807	suite-default	Parent / child
+RULES.md	69	80	844	suite-default	Parent / child
 RULES.md	81	93	711	suite-default	Orchestrator checklist
 RULES.md	94	99	354	suite-default	When to break
 RULES.md	100	113	478		Never
 REFERENCE.md	1	20	891		(preamble)
 REFERENCE.md	21	146	6658		Team-style git flow
 REFERENCE.md	147	209	3192		Parallel agents and subagents
-REFERENCE.md	210	318	5727		Parent / subagent authority (detail)
-REFERENCE.md	319	351	829		Subagent brief and result templates
-REFERENCE.md	352	379	1373		Orchestrator checklist
-REFERENCE.md	380	400	1383		Anti-patterns (orchestration)
-REFERENCE.md	401	410	432		When to break these rules
-REFERENCE.md	411	418	324		Relationship to other layers
+REFERENCE.md	210	321	6002		Parent / subagent authority (detail)
+REFERENCE.md	322	354	829		Subagent brief and result templates
+REFERENCE.md	355	382	1373		Orchestrator checklist
+REFERENCE.md	383	403	1383		Anti-patterns (orchestration)
+REFERENCE.md	404	413	432		When to break these rules
+REFERENCE.md	414	421	324		Relationship to other layers

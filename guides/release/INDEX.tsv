@@ -27,7 +27,7 @@ REFERENCE.md	80	98	597		2. API and behavior rollout
 REFERENCE.md	99	130	1142		3. Feature flags and runtime config
 REFERENCE.md	131	149	690		4. Rollback reality
 REFERENCE.md	150	164	530		5. Environments and artifacts
-REFERENCE.md	165	180	668		6. What agents may do vs must ask
+REFERENCE.md	165	180	664		6. What agents may do vs must ask
 REFERENCE.md	181	195	502		7. Hotfix / emergency
 REFERENCE.md	196	214	575		8. Release checklist (non-destructive)
 REFERENCE.md	215	230	453		9. Anti-patterns

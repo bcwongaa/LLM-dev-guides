@@ -33,3 +33,4 @@ never-autonomous	guides/stack/RULES.md	never autonomous
 tanstack-vite	guides/stack/RULES.md	TanStack + Vite-style
 next-justifiable	guides/stack/RULES.md	ONLY when really justifiable
 npm-node	guides/stack/RULES.md	TypeScript uses npm and runs on Node.js
+db-allowed	guides/stack/RULES.md	allows (constraints, indexes, FKs, read-only views

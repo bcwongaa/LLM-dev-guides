@@ -1,12 +1,7 @@
 # Protocol — reference
 
-Binding surface: [`RULES.md`](RULES.md). This file keeps the original protocol prose and examples.
-
-v2 changes already binding in RULES (do not treat the older one-liner below as the live order):
-
-- Instruction authority and implementation convention are **two systems**.
-- Business logic and architecture always reach the human.
-- Roots may decide routine reversible schema/API/scope only when the RULES criteria all hold.
+Binding surface: [`RULES.md`](RULES.md). RULES wins on any conflict. This file keeps the protocol
+prose and examples.
 
 
 How any coding agent works in a repo that uses these guides. Shared ritual for Grok,
@@ -59,26 +54,29 @@ here.
 
 ## Conflict order
 
-When instructions disagree, apply this order (highest wins):
+Two separate orders answer two separate questions.
+
+**Instruction authority** decides whose instruction wins when instructions disagree (highest
+first):
 
 ```
-1. Local codebase convention (existing code, project CLAUDE.md / AGENTS.md project facts)
-2. These guides (relevant domain RULES), when the relevant layer file exists
-3. User-global tool files (~/.claude/CLAUDE.md, ~/.codex, ~/.grok prefs)
-4. Third-party skills — except pure vendor API usage (see Skills)
-5. Model default taste
+org/platform policy > current-task human > project/path instructions > adopted suite > user-global > third-party skills (except vendor API how-to) > model taste
 ```
 
-One-line form (adapters use this exact line):
+**Implementation convention** decides which pattern new code follows in brownfield work:
 
 ```
-local code > guides > user-global tool files > third-party skills (except pure vendor API how-to) > model taste
+approved task design > nearest file > package > repository > suite default
 ```
 
 User-global files (personal `~/.claude/CLAUDE.md` and equivalents) are **personal
 defaults**: they win over skills and taste, but in a repo that adopts this suite the
-suite’s law and the local codebase win over them. Personal tooling habits stay; personal
-style/process rules yield.
+suite’s law and the project’s instructions win over them. Personal tooling habits stay;
+personal style/process rules yield.
+
+Nearby code does not win everything: correctness, safety, explicit project law, and the
+suite never-list override it (see [Local convention](#local-convention-how-to-find-it-and-the-brownfield-tie-breaker)).
+The v1 single order, which put local code above the guides on everything, is retired.
 
 Also always:
 
@@ -201,6 +199,7 @@ Do **not** decide alone:
 
 | Area | Examples |
 |---|---|
+| Business logic / product semantics | Discount rules, who is owed what |
 | Greenfield stack | New language, framework, major library platform |
 | New service / major boundary | New deployable, new package that splits the system |
 | Schema / data breaks | Migrations with expand risk, renames, destructive changes |
@@ -208,6 +207,10 @@ Do **not** decide alone:
 | Security / secrets / PII | Auth model, permission changes, secret handling |
 | Ambiguous product intent | Unclear acceptance criteria, conflicting user signals |
 | Scope expansion | Anything outside the original task |
+
+**Root may decide** a routine schema/API/scope detail only when all of these hold: acceptance
+criteria are clear; no new business rule or architecture; backward-compatible or readily
+reversible; rollback and verification are concrete; still inside task scope.
 
 ### May decide without asking
 
@@ -239,7 +242,7 @@ When unsure whether something is on the ask list: **ask** (if you can talk to th
    task intent, or escalates. The parent owns decisions it approves — no blaming the child.
 3. **Hard items always reach the human via the root**: destructive/irreversible data loss,
    new auth model / security boundary, new deployable / multi-repo split, true product
-   ambiguity. Parents must not rubber-stamp these.
+   ambiguity — plus business logic and architecture. Parents must not rubber-stamp these.
 4. Nested children escalate to their **direct spawner** only; only the root talks to the
    human.
 5. Peer sessions (each talking to the human) still ask the human directly.
@@ -248,13 +251,15 @@ When unsure whether something is on the ask list: **ask** (if you can talk to th
 
 ## Local convention (how to find it, and the brownfield tie-breaker)
 
-“Local code wins” needs a procedure in repos with mixed history:
+The implementation-convention order needs a procedure in repos with mixed history:
 
 **Discovery:** before writing in an unfamiliar area, read **2–3 sibling files** nearest
 the edit (same folder, then same package). Prefer the **most recently merged** code in
 that area as the live convention when styles compete.
 
-**Tie-breakers** (highest wins): nearest file > package > repo; newer > older.
+**Tie-breakers** (highest wins): approved task design > nearest file > package > repository >
+suite default; newer > older. Correctness, safety, explicit project law, and the never-list
+override nearby code.
 
 **When the local convention is itself an code-style anti-pattern:**
 
@@ -446,8 +451,8 @@ blind conflict resolution): see `../orchestration/REFERENCE.md`.
 - **Project documents a different branch model** (e.g. trunk-only) — follow **local** git convention; keep small PRs and conflict understanding anyway.
 - **No test command exists** — the baseline step is skipped, not faked; say so in the summary (and see testing on minimum harnesses before larger work).
 
-Breaking “always ask” on greenfield stack or security without a human is **not** a valid
-exception.
+Breaking always-human on business logic, architecture, greenfield stack, or security without a
+human is **not** a valid exception.
 
 ---
 

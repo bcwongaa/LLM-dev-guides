@@ -36,7 +36,7 @@ No universal folder tree. **Top level by business capability / engine** (or `web
 
 ## Prefer duplication `[suite-default]`
 
-Do **not** start `packages/shared` for domain types, utils, and common services. Duplicate a small helper until the **third copy hurts**. Thin boring infra only when the stack already expects it. Unavoidable share = **smallest** surface (type or pure function), not a domain service layer. Prefer explicit contracts (`../contracts/RULES.md`) over a grab-bag package. Same deployable: other module's **public API**, not private files.
+Do **not** start `packages/shared` for domain types, utils, and common services. Across modules or packages, duplicate a small helper until the **third copy hurts**; within one module, code-style’s second-copy rule applies. Thin boring infra only when the stack already expects it. Unavoidable share = **smallest** surface (type or pure function), not a domain service layer. Prefer explicit contracts (`../contracts/RULES.md`) over a grab-bag package. Same deployable: other module's **public API**, not private files.
 
 ## Data ownership `[suite-default]`
 

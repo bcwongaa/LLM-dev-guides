@@ -80,11 +80,11 @@ Pick from **data nature**, not fashion.
 
 ```
 NO business logic in the DB.
-NO SQL functions / stored procedures implementing domain rules.
+NO stored procedures or triggers implementing domain rules.
 NEVER. NEVER. NEVER.
 ```
 
-Allowed: constraints / integrity. Not: workflows, pricing, state machines, PL/pgSQL.
+Allowed: what [data §3](../data/RULES.md) allows (constraints, indexes, FKs, read-only views, side-effect-free projections, generated columns). Not: workflows, pricing, state machines, mutating PL/pgSQL.
 
 ### Access style `[suite-default]`
 

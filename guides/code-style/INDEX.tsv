@@ -5,11 +5,11 @@
 # RULES files are binding law; REFERENCE files are rationale. RULES wins on any conflict.
 file	start	end	bytes	tag	section
 RULES.md	1	6	324		(preamble)
-RULES.md	7	14	474	suite-default	Complete / post-code
+RULES.md	7	14	556	suite-default	Complete / post-code
 RULES.md	15	25	330	suite-default	1. Table of contents
 RULES.md	26	29	195	suite-default	2. One kind of work
 RULES.md	30	33	217	common	3. Sequential first
-RULES.md	34	43	484	suite-default	4. Name-first decomposition
+RULES.md	34	43	601	suite-default	4. Name-first decomposition
 RULES.md	44	54	422	suite-default	5. Where helpers live
 RULES.md	55	60	267	suite-default	6. `_` prefix
 RULES.md	61	86	1469		7. Naming
@@ -18,14 +18,14 @@ RULES.md	91	94	209	suite-default	9. Explicit construction defaults
 RULES.md	95	98	109	suite-default	10. Typed update objects
 RULES.md	99	102	250	suite-default	11. Conversion at entity boundaries
 RULES.md	103	115	603	suite-default	12. `get` / `ensureGet`
-RULES.md	116	128	343	suite-default	13. Errors where detected
-RULES.md	129	132	294	suite-default	14. Annotate opaque bindings
-RULES.md	133	138	274	common	15. Comments
-RULES.md	139	145	453		Relocated — do not restate
-RULES.md	146	149	88	common	File order
-RULES.md	150	157	539	suite-default	When to break
-RULES.md	158	167	282		Never
-RULES.md	168	176	375	suite-default	Looks wrong, is intentional
+RULES.md	116	133	864	suite-default	13. Errors where detected
+RULES.md	134	137	294	suite-default	14. Annotate opaque bindings
+RULES.md	138	143	274	common	15. Comments
+RULES.md	144	150	453		Relocated — do not restate
+RULES.md	151	154	88	common	File order
+RULES.md	155	162	539	suite-default	When to break
+RULES.md	163	172	322		Never
+RULES.md	173	181	375	suite-default	Looks wrong, is intentional
 REFERENCE.md	1	18	913		(preamble)
 REFERENCE.md	19	29	554		Scope of this guide
 REFERENCE.md	30	41	519		What "complete" means
@@ -42,19 +42,19 @@ REFERENCE.md	292	325	1307		9. Explicit defaults at construction
 REFERENCE.md	326	349	596		10. Typed update objects
 REFERENCE.md	350	376	965		11. Conversion at entity boundaries
 REFERENCE.md	377	382	130		12. The `get` / `ensureGet` pattern — moved
-REFERENCE.md	383	433	1382		13. Errors are raised where they're detected
-REFERENCE.md	434	470	1230		14. Explicit type annotations on let-bindings (strongly-typed languages)
-REFERENCE.md	471	533	2229		15. Comments anchor weirdness, nothing else
-REFERENCE.md	534	540	285		16. Caching: stale-while-revalidate — moved
-REFERENCE.md	541	545	239		17. Polling for async job results — moved
-REFERENCE.md	546	550	219		18. Async job dispatch via central mapping — moved
-REFERENCE.md	551	555	173		19. Two tiers of data access — moved
-REFERENCE.md	556	565	391		20. Tests → testing
-REFERENCE.md	566	571	302		21. Log format — moved
-REFERENCE.md	572	577	106		File ordering
-REFERENCE.md	578	603	1362		When to break these rules
-REFERENCE.md	604	624	521		Anti-patterns: never do these
-REFERENCE.md	625	639	788		Intentional patterns that may look like mistakes
+REFERENCE.md	383	452	2494		13. Errors are raised where they're detected
+REFERENCE.md	453	489	1230		14. Explicit type annotations on let-bindings (strongly-typed languages)
+REFERENCE.md	490	552	2229		15. Comments anchor weirdness, nothing else
+REFERENCE.md	553	559	285		16. Caching: stale-while-revalidate — moved
+REFERENCE.md	560	564	239		17. Polling for async job results — moved
+REFERENCE.md	565	569	219		18. Async job dispatch via central mapping — moved
+REFERENCE.md	570	574	173		19. Two tiers of data access — moved
+REFERENCE.md	575	584	391		20. Tests → testing
+REFERENCE.md	585	590	302		21. Log format — moved
+REFERENCE.md	591	596	106		File ordering
+REFERENCE.md	597	622	1362		When to break these rules
+REFERENCE.md	623	643	565		Anti-patterns: never do these
+REFERENCE.md	644	658	788		Intentional patterns that may look like mistakes
 REFERENCE-naming.md	1	6	299		(preamble)
 REFERENCE-naming.md	7	143	6059		7. Naming
 REFERENCE-naming.md	144	284	5784		12. The `get` / `ensureGet` pattern

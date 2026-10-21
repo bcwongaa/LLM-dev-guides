@@ -30,3 +30,7 @@ polling	guides/architecture/RULES.md	bounded
 dispatch	guides/architecture/RULES.md	named constant
 two-tier	guides/data/RULES.md	Two tiers
 log-format	guides/observability/RULES.md	[timestamp][context] message
+errors-language-idiom	guides/code-style/RULES.md	Follow the language’s own error idiom first
+errors-throw-site	guides/code-style/RULES.md	Each throw site identifies itself
+second-instance-scope	guides/code-style/RULES.md	within one module and the change in hand
+complete-behavior-test	guides/code-style/RULES.md	changed behavior has its own test

@@ -21,14 +21,14 @@ Shell: `sed -n 'START,ENDp' path`. `INDEX.tsv` beside it indexes the REFERENCE f
 95-98    10. Typed update objects
 99-102   11. Conversion at entity boundaries
 103-115  12. `get` / `ensureGet`
-116-128  13. Errors where detected
-129-132  14. Annotate opaque bindings
-133-138  15. Comments
-139-145  Relocated — do not restate
-146-149  File order
-150-157  When to break
-158-167  Never
-168-176  Looks wrong, is intentional
+116-133  13. Errors where detected
+134-137  14. Annotate opaque bindings
+138-143  15. Comments
+144-150  Relocated — do not restate
+151-154  File order
+155-162  When to break
+163-172  Never
+173-181  Looks wrong, is intentional
 
 RULES wins over REFERENCE on any conflict. Guide and local convention outrank this skill;
 never paraphrase law from memory.

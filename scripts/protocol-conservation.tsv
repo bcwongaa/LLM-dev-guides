@@ -18,6 +18,7 @@ handoff	guides/protocol/RULES.md	Do not touch
 skills	guides/protocol/RULES.md	vendor API how-to
 when-to-break	guides/protocol/RULES.md	not a valid exception
 never	guides/protocol/RULES.md	Grade your own compliance
-voice-conflict-order	guides/protocol/REFERENCE.md	local code > guides
+voice-conflict-order	guides/protocol/REFERENCE.md	Two separate orders answer two separate questions
 voice-bootstrap	guides/protocol/REFERENCE.md	Before editing code
 voice-ask	guides/protocol/REFERENCE.md	Always ask
+section-tags	guides/protocol/RULES.md	`[project-example]` illustrates a rule and is not one

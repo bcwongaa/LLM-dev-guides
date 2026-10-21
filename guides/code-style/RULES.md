@@ -6,7 +6,7 @@ Binding code-shape law. Rationale and examples: [`REFERENCE.md`](REFERENCE.md); 
 
 ## Complete / post-code `[suite-default]`
 
-Done when: intended behavior works; tests pass or are **not worse** than the pre-edit baseline; touched code matches this guide (no new listed anti-patterns). Not perfect. Do not fix nearby smells.
+Done when: intended behavior works; tests pass or are **not worse** than the pre-edit baseline; changed behavior has its own test ([`../testing/RULES.md`](../testing/RULES.md)); touched code matches this guide (no new listed anti-patterns). Not perfect. Do not fix nearby smells.
 
 Before done: tests not worse; **never** change out-of-scope code; style only on touched code; stop.
 
@@ -37,7 +37,7 @@ Name before writing the body. Honest name needs “and”/“or” → split.
 
 One-sentence outcome, not a procedure. If the summary is a procedure, it is an orchestrator — each step is a named helper.
 
-**Second-instance rule:** extract on the second copy, not the third.
+**Second-instance rule:** within one module and the change in hand, extract on the second copy, not the third. Across modules or packages, architecture’s *prefer duplication* applies.
 
 **Don’t over-extract.** A 90-line function that respects §1–§2 is fine. Fake seams and five-parameter helpers are worse. Cognitive load, not line count.
 
@@ -115,13 +115,18 @@ Trade-off: drops compiler null-tracking at the call site. Honest name + trivial 
 
 ## 13. Errors where detected `[suite-default]`
 
+Follow the language’s own error idiom first: Go `error`, Rust `Result` (stack *Errors*). Where a language has no preferred way, this section is the rule; in throw languages (TS, Java, Kotlin) it is the idiom anyway.
+
 Throw in the detecting layer. Controllers delegate and return.
 
 Domain errors: plain user-facing sentences. Programmer invariant failures: terse/technical.
 
+Each throw site identifies itself: its own message, or data on the error (`AccountNotFound(accountId)`). One message thrown from sibling sites hides which check failed.
+
 ```
 ✗ try { doThing() } catch (e) { throw e }
-✗ return new Error('...')
+✗ return new Error('...')            // throw language
+✗ CurrencyMismatch("Currency does not match the account") from deposit, withdraw, both transfer legs
 ```
 
 Throw. Don’t return errors. Don’t catch-and-rethrow.
@@ -159,7 +164,7 @@ Brownfield: net-new files follow this guide; edits match the file’s dominant p
 
 ```
 ✗ try { ... } catch (e) { throw e }
-✗ return new Error(...)
+✗ return new Error(...)          // where throwing is the idiom
 ✗ if (someAsyncCall()) { ... }    // missing await; Promise is always truthy
 ✗ const result = doThing()        // unused capture
 ✗ store.put(record.copy(...))     // domain object, generic name

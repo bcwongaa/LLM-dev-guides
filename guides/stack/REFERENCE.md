@@ -277,12 +277,13 @@ Pick storage from **data nature**, not fashion.
 
 ```
 NO business logic in the DB.
-NO SQL functions / stored procedures implementing domain rules.
+NO stored procedures or triggers implementing domain rules.
 NEVER. NEVER. NEVER.
 ```
 
 - **Allowed in DB:** persistence, constraints, keys, nullability, referential integrity —
-  facts about data shape and integrity.
+  facts about data shape and integrity — plus what the data guide allows: read-only views,
+  side-effect-free projections, generated columns (`../data/RULES.md` §3).
 - **Not allowed in DB:** workflows, pricing rules, state machines, “if status then …”
   domain behavior, app orchestration disguised as PL/pgSQL.
 
