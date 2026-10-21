@@ -5,8 +5,9 @@ description: "Logs, metrics, traces, request IDs, DB and pool health, data-healt
 
 Law: `GUIDES_ROOT/guides/observability/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
+`INDEX.tsv` beside it indexes the REFERENCE files the same way.
 
+1-6      (preamble)
 7-10     Complete
 11-21    1. Greenfield: instrument early
 22-39    2. Logs
@@ -22,5 +23,6 @@ Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`
 107-110  When to break
 111-113  Done
 
-Guide and local convention outrank this skill; never paraphrase law from memory.
+RULES wins over REFERENCE on any conflict. Guide and local convention outrank this skill;
+never paraphrase law from memory.
 Protocol still applies: `GUIDES_ROOT/guides/protocol/RULES.md`.

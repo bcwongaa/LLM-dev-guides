@@ -5,6 +5,41 @@ law generations, and move only when shared law changes — a release may leave t
 untouched. Shared-law changes, path migrations, and evaluation results are recorded here so an
 agent or maintainer can tell which guide generation a project adopted.
 
+## Unreleased (generation v2)
+
+Governance and retrieval only; no shared law changed.
+
+### Governance
+
+- Replaced the fixed byte budgets with a size policy: a soft cap, an outlier bar at mean + 1.5 SD
+  of the file's kind, and a hard cap at the smallest single-read window of the first-class tools
+  (1,000 lines, 40 KB). The fixed caps had become targets: every `RULES.md` sat at 8191 B of
+  8192 B. Stats come from the last release, not live, so splitting one file does not fail the
+  next. Policy and reasons: `docs/MAINTAINING_GUIDES.md`. `check-size.sh` became
+  `check-size.py`, and `scripts/size-baseline.tsv` now holds the per-kind stats.
+- Dropped the per-section, `SKILL.md`, `INDEX.tsv`, and description-total budgets. The limits
+  the tools enforce remain: 32 KiB per `AGENTS.md` (Codex) and 1,024 characters per skill
+  description (Agent Skills).
+
+### Retrieval
+
+- The `INDEX.tsv` bytes column counted characters, not bytes. The guides are dense with 3-byte
+  `✓ ✗ → —`, so 320 of 397 rows were low; one orchestration section was 6658 B, not 6502 B.
+- Indexed the preamble before each file's first heading. Each guide's scope line lives there and
+  was unreachable by range reads.
+- `INDEX.tsv` headers show the shell read form (`sed -n 'START,ENDp'`) next to Claude's, and
+  state that RULES wins over REFERENCE on any conflict. Skills say the same.
+- `guides/data/RULES.md` "Complete" heading was glued to the end of the scope line, so the data
+  done bar was missing from the index and the data skill. `check-index.py` now fails on a `## `
+  heading glued to text.
+
+### Guides
+
+- Split code-style REFERENCE §7 Naming and §12 `get` / `ensureGet` into
+  `guides/code-style/REFERENCE-naming.md`, by topic. The generator indexes `REFERENCE-*.md`.
+- Strengthened the `naming-get` conservation needle from `ensureGet`, which the split's stub
+  made too generic.
+
 ## v0.2.1 — 2026-09-02 (generation v2)
 
 Retrieval and governance only; no shared law changed, so the generation stays v2.

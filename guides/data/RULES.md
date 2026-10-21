@@ -2,7 +2,9 @@
 
 Binding data-model law. Prose: [`REFERENCE.md`](REFERENCE.md).
 
-**Scope `[suite-default]`:** meaning, nullability, IDs, precision, time, invariants, Postgres/Mongo/Redis, JSON, lifecycle, migrations, transactions, two-tier access. Stack chooses the store; this file decides how data behaves. ## Complete `[suite-default]`
+**Scope `[suite-default]`:** meaning, nullability, IDs, precision, time, invariants, Postgres/Mongo/Redis, JSON, lifecycle, migrations, transactions, two-tier access. Stack chooses the store; this file decides how data behaves.
+
+## Complete `[suite-default]`
 
 One meaning per field. Local invariants as close to storage as the store allows. External / weakly typed data validated at the trust boundary. Migration preserves data or documents the approved loss. Concurrent writers cannot silently violate the invariant. Shape matches the data — no hiding relational facts in documents, JSON, or cache.
 

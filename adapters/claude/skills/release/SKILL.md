@@ -5,8 +5,9 @@ description: "Feature flags, expand/contract migrations, rollback, deploy safety
 
 Law: `GUIDES_ROOT/guides/release/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
+`INDEX.tsv` beside it indexes the REFERENCE files the same way.
 
+1-8      (preamble)
 9-12     Relocated — do not restate
 13-16    Complete
 17-38    1. Expand / contract
@@ -22,5 +23,6 @@ Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`
 135-146  Looks wrong, is intentional
 147-149  Done
 
-Guide and local convention outrank this skill; never paraphrase law from memory.
+RULES wins over REFERENCE on any conflict. Guide and local convention outrank this skill;
+never paraphrase law from memory.
 Protocol still applies: `GUIDES_ROOT/guides/protocol/RULES.md`.

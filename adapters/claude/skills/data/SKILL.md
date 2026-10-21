@@ -5,25 +5,28 @@ description: "Schema, migrations, keys, nullability, invariants, money, time, Po
 
 Law: `GUIDES_ROOT/guides/data/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
+`INDEX.tsv` beside it indexes the REFERENCE files the same way.
 
-9-16   1. One meaning per field
-17-20  2. Validate at trust boundaries
-21-28  3. Invariants in the right place
-29-32  4. Identifiers
-33-36  5. Units, precision, and rounding
-37-40  6. Time has different meanings
-41-44  7. Normalize; earn every JSON field
-45-55  8. Postgres
-56-59  9. Mongo
-60-63  10. Redis
-64-67  11. Lifecycle, archive, and deletion
-68-71  12. Migrations change data, not just files
-72-75  13. Transactions and concurrent writers
-76-86  Never
-87-90  Looks wrong, is intentional
-91-94  When to break
-95-97  Done
+1-6    (preamble)
+7-10   Complete
+11-18  1. One meaning per field
+19-22  2. Validate at trust boundaries
+23-30  3. Invariants in the right place
+31-34  4. Identifiers
+35-38  5. Units, precision, and rounding
+39-42  6. Time has different meanings
+43-46  7. Normalize; earn every JSON field
+47-57  8. Postgres
+58-61  9. Mongo
+62-65  10. Redis
+66-69  11. Lifecycle, archive, and deletion
+70-73  12. Migrations change data, not just files
+74-77  13. Transactions and concurrent writers
+78-88  Never
+89-92  Looks wrong, is intentional
+93-96  When to break
+97-99  Done
 
-Guide and local convention outrank this skill; never paraphrase law from memory.
+RULES wins over REFERENCE on any conflict. Guide and local convention outrank this skill;
+never paraphrase law from memory.
 Protocol still applies: `GUIDES_ROOT/guides/protocol/RULES.md`.

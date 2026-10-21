@@ -5,8 +5,9 @@ description: "Auth, permissions, PII, secrets, IDOR and tenancy, injection, SSRF
 
 Law: `GUIDES_ROOT/guides/security/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
+`INDEX.tsv` beside it indexes the REFERENCE files the same way.
 
+1-8      (preamble)
 9-12     Complete
 13-21    1. Secrets
 22-30    2. Authentication
@@ -25,5 +26,6 @@ Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`
 123-126  When to break
 127-129  Done
 
-Guide and local convention outrank this skill; never paraphrase law from memory.
+RULES wins over REFERENCE on any conflict. Guide and local convention outrank this skill;
+never paraphrase law from memory.
 Protocol still applies: `GUIDES_ROOT/guides/protocol/RULES.md`.

@@ -5,8 +5,9 @@ description: "Code shape, naming, decomposition, helpers, error placement, comme
 
 Law: `GUIDES_ROOT/guides/code-style/RULES.md` (`GUIDES_ROOT` from `AGENTS.md`).
 Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.
-`INDEX.tsv` beside it indexes `REFERENCE.md` the same way.
+`INDEX.tsv` beside it indexes the REFERENCE files the same way.
 
+1-6      (preamble)
 7-14     Complete / post-code
 15-25    1. Table of contents
 26-29    2. One kind of work
@@ -29,5 +30,6 @@ Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`
 158-167  Never
 168-176  Looks wrong, is intentional
 
-Guide and local convention outrank this skill; never paraphrase law from memory.
+RULES wins over REFERENCE on any conflict. Guide and local convention outrank this skill;
+never paraphrase law from memory.
 Protocol still applies: `GUIDES_ROOT/guides/protocol/RULES.md`.

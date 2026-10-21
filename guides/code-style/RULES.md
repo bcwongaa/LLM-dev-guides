@@ -1,6 +1,6 @@
 # Code style
 
-Binding code-shape law. Rationale and examples: [`REFERENCE.md`](REFERENCE.md).
+Binding code-shape law. Rationale and examples: [`REFERENCE.md`](REFERENCE.md); §7 naming and §12 `get` / `ensureGet`: [`REFERENCE-naming.md`](REFERENCE-naming.md).
 
 **Scope `[suite-default]`:** applies to **any code you write**. Where code belongs is [`../architecture/RULES.md`](../architecture/RULES.md).
 
