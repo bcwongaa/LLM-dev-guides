@@ -102,7 +102,18 @@ Keep an index when ADRs exist. Update it when ADRs are added or status changes.
 
 | ADR | Status | Title |
 |---|---|---|
-| _(none yet)_ | — | Add rows as ADRs are accepted |
+| [0001](0001-two-precedence-systems.md) | proposed | Two precedence systems |
+| [0002](0002-no-consumer-installer.md) | proposed | No consumer installer, updater, or package |
+| [0003](0003-agents-md-canonical-map.md) | proposed | AGENTS.md is the canonical thin map; maps are generated |
+| [0004](0004-size-policy.md) | proposed | Size policy instead of fixed budgets |
+| [0005](0005-no-compatibility-aliases.md) | proposed | Destructive deprecation, no compatibility aliases |
+| [0006](0006-no-playbooks.md) | proposed | No playbooks |
+| [0007](0007-cursor-out-of-v2.md) | proposed | Cursor is out of scope for v2 |
+| [0008](0008-three-first-class-tools.md) | proposed | Claude Code, Codex, and Grok Build are first-class tools |
+| [0009](0009-postgres-default-relational-store.md) | proposed | Postgres is the default relational store |
+| [0010](0010-no-python-application-services.md) | proposed | No Python application services |
+| [0011](0011-typescript-npm-node.md) | proposed | TypeScript uses npm and Node.js |
+| [0012](0012-no-business-logic-in-database.md) | proposed | No business logic in the database |
 
 ## When to break `[suite-default]`
 

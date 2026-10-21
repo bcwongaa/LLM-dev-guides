@@ -15,9 +15,9 @@ Shell: `sed -n 'START,ENDp' path`. `INDEX.tsv` beside it indexes the REFERENCE f
 66-76    Lifecycle
 77-89    Agent rules
 90-98    Done
-99-106   Index
-107-110  When to break
-111-119  Never
+99-117   Index
+118-121  When to break
+122-130  Never
 
 RULES wins over REFERENCE on any conflict. Guide and local convention outrank this skill;
 never paraphrase law from memory.

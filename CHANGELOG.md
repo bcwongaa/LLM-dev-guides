@@ -35,6 +35,15 @@ REFERENCE, in the direction the author chose.
   and `docs/`, because a REFERENCE section read on its own never sees a file-level disclaimer.
 
 
+### Decisions
+
+- Drafted ADRs 0001–0012 as `proposed`: the settled process decisions (two precedence systems, no
+  consumer installer, generated thin maps, the size policy, no compatibility aliases, no
+  playbooks, Cursor out of v2, three first-class tools) and four global stack bans (Postgres
+  default, no Python application services, npm and Node.js, no business logic in the database).
+  The v2 survey that held the process decisions' reasons no longer exists; those ADRs ask the
+  author to restate the reason before accepting.
+
 ### Governance
 
 - Replaced the fixed byte budgets with a size policy: a soft cap, an outlier bar at mean + 1.5 SD
