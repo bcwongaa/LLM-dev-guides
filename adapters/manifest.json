@@ -1,5 +1,7 @@
 {
   "notice": "Repository-internal generator input. Not a consumer installer, package, or updater.",
+  "version": "unreleased",
+  "generation": "v2",
   "tools": [
     "claude",
     "codex",
@@ -7,7 +9,7 @@
   ],
   "instruction_authority": "org/platform policy > current-task human > project/path instructions > adopted suite > user-global > third-party skills (except vendor API how-to) > model taste",
   "implementation_convention": "approved task design > nearest file > package > repository > suite default",
-  "bootstrap": "**Bootstrap (every task):** this file \u2192 protocol \u2192 only relevant guides \u2192 STATUS if present \u2192 test/lint baseline \u2192 plan if non-trivial \u2192 edit.",
+  "bootstrap": "**Bootstrap (every task):** AGENTS.md \u2192 protocol \u2192 only relevant guides \u2192 STATUS if present \u2192 test/lint baseline \u2192 plan if non-trivial \u2192 edit.",
   "hard_items": "destructive data, new auth, new deployable, true product ambiguity",
   "always_ask": [
     "greenfield stack",

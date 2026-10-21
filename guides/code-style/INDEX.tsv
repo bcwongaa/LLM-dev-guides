@@ -52,7 +52,7 @@ REFERENCE.md	551	555	173		19. Two tiers of data access — moved
 REFERENCE.md	556	565	391		20. Tests → testing
 REFERENCE.md	566	571	302		21. Log format — moved
 REFERENCE.md	572	577	106		File ordering
-REFERENCE.md	578	603	1347		When to break these rules
+REFERENCE.md	578	603	1362		When to break these rules
 REFERENCE.md	604	624	521		Anti-patterns: never do these
 REFERENCE.md	625	639	788		Intentional patterns that may look like mistakes
 REFERENCE-naming.md	1	6	299		(preamble)

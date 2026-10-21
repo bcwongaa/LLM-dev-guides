@@ -28,7 +28,7 @@ REFERENCE.md	82	145	3277		4. Language decision tree (for suggestions)
 REFERENCE.md	146	209	2917		5. Language field notes
 REFERENCE.md	210	237	1207		6. Frontend and thin glue
 REFERENCE.md	238	256	716		7. Backend frameworks
-REFERENCE.md	257	300	1894		8. Storage and where logic lives
+REFERENCE.md	257	300	1924		8. Storage and where logic lives
 REFERENCE.md	301	327	1318		9. Errors: code-style and language convention
 REFERENCE.md	328	342	516		10. Tooling and packages
 REFERENCE.md	343	353	431		11. Layout

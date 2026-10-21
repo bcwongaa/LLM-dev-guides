@@ -157,9 +157,9 @@ Mandatory sections (protocol): Goal, Done, Next, Do not touch, Open questions.
 `guides/orchestration/RULES.md` defines **team-style** flow for this suite: feature branch from
 `develop` (else `main`), small PRs, delete branch after merge, human merges base, conflicts
 via rebase + understand the other side. Parallel agents get **one branch/worktree each**;
-**serialize** lockfiles and migration chains. See orchestration: *Team-style git flow*,
-*Parallel agents and subagents*, *Orchestrator checklist*, *Subagent brief and result
-templates*.
+**serialize** lockfiles and migration chains. Detail lives in `guides/orchestration/REFERENCE.md`:
+*Team-style git flow*, *Parallel agents and subagents*, *Orchestrator checklist*, *Subagent
+brief and result templates*.
 
 **Orchestrator / delegation:** the root parent loads protocol fully; every **write** child must
 be briefed with `GUIDES_ROOT`, protocol (or equivalent), owned paths, decisions already made, and
@@ -201,8 +201,11 @@ Ask the agent (any tool):
 > you open for a schema migration, and what a subagent does on an always-ask item. Do not
 > edit code.
 
-Expect: local code > guides; data + release (and code-style for code shape); destructive → ask human (root)
-or escalate to parent (subagent); parallel writers isolated.
+Expect: both precedence lines from `AGENTS.md`, instruction authority (`org/platform policy >
+current-task human > …`) and implementation convention (`approved task design > nearest file >
+…`); data + release (and code-style for code shape); destructive → ask human (root) or escalate
+to parent (subagent); parallel writers isolated. A one-line `local code > guides` answer is the
+retired v1 order.
 
 ---
 

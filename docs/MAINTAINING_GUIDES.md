@@ -22,7 +22,7 @@ print the fix in their failure output.
 
 ## Never hand-edit these
 
-| Generated (29 files) | Edit instead |
+| Generated | Edit instead |
 |---|---|
 | `guides/*/INDEX.tsv` | the guide's `## ` headings |
 | `adapters/claude/skills/*/SKILL.md` | `adapters/manifest.json` |
@@ -43,7 +43,7 @@ sit in context **every session whether the skill fires or not**, so the whole se
 a new skill must earn its description.
 
 **Show a `## ` line as an example** → put it in a fenced block. The parsers are fence-aware
-and will not mistake it for a section. Seven such headings already exist in `REFERENCE.md`.
+and will not mistake it for a section. Several reference files already contain such examples.
 
 ## Size policy (`scripts/check-size.py`)
 
@@ -86,9 +86,8 @@ description stays within 1,024 characters, the Agent Skills spec limit.
 examples, or join lines to get under a number. Text squeezed to fit is the failure this policy
 exists to prevent.
 
-**When cutting a release,** tag it, then run `python3 scripts/check-size.py --rebaseline <tag>`
-and commit the new baseline. A new baseline can fail a file that passed before. Split that file
-in the same PR, or ask the author.
+**When cutting a release,** the baseline is recalculated (see *Cutting a release*). A new
+baseline can fail a file that passed before. Split that file in the same PR, or ask the author.
 
 ## Splitting a file or section
 
@@ -116,7 +115,17 @@ the same commit.
 
 A needle must be **specific enough to localize law**. `'Done'` appears in 23 files and proves
 nothing. `scripts/conservation-baseline.txt` ratchets the count of too-generic needles
-(currently 38); it may fall, never rise.
+(the number in that file); it may fall, never rise.
+
+## Cutting a release
+
+1. Set `version` in `adapters/manifest.json`, then `python3 scripts/gen-adapters.py --write`.
+   Consumer templates carry the version, so an adopting repo can tell what it copied.
+2. Rename the CHANGELOG `Unreleased` heading to the version. Move `generation` only if shared
+   law changed.
+3. Merge, then tag the merge commit.
+4. `python3 scripts/check-size.py --rebaseline <tag>` and commit the new baseline.
+5. Set `version` back to `unreleased` and regenerate.
 
 ## Before you push
 

@@ -26,7 +26,7 @@ GUIDES_ROOT=.
 | ADRs | `guides/decisions/` |
 | WIP multi-tool handoff | `docs/agent/STATUS.md` (if present) |
 
-**Bootstrap (every task):** this file → protocol → only relevant guides → STATUS if present → test/lint baseline → plan if non-trivial → edit.
+**Bootstrap (every task):** AGENTS.md → protocol → only relevant guides → STATUS if present → test/lint baseline → plan if non-trivial → edit.
 
 **Instruction authority:** org/platform policy > current-task human > project/path instructions > adopted suite > user-global > third-party skills (except vendor API how-to) > model taste.
 

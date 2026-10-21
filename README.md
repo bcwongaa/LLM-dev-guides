@@ -15,6 +15,8 @@ when they conflict (see protocol).
 | **`guides/`** | Protocol, orchestration, style, architecture, stack, data, contracts, observability, testing, security, release, ADRs |
 | **`adapters/`** | Generated consumer `AGENTS.md` (shared) + Claude `@AGENTS.md` wrapper; hooks stay hand-authored |
 | **`docs/USING_IN_EXISTING_REPOS.md`** | How to attach this suite to a brownfield app |
+| **`docs/MAINTAINING_GUIDES.md`** | How to change the suite: regenerating, size policy, splitting, releases |
+| **`evals/`** | Behavioral evaluation scenarios, fixtures, and result template |
 
 This repo’s own maps: root `AGENTS.md` (canonical), `CLAUDE.md` (`@AGENTS.md` + Claude mechanics).
 

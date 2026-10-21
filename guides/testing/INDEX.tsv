@@ -29,11 +29,11 @@ REFERENCE.md	114	133	845		3. Divide and conquer
 REFERENCE.md	134	156	818		4. Pyramid: unit, integration, E2E
 REFERENCE.md	157	177	841		5. Mocks, fakes, and live dependencies
 REFERENCE.md	178	206	888		6. Coverage, snapshots, flakes
-REFERENCE.md	207	253	1212		7. Test structure (names, factories, isolation)
+REFERENCE.md	207	253	1189		7. Test structure (names, factories, isolation)
 REFERENCE.md	254	282	1569		8. Brownfield: characterization tests before change
 REFERENCE.md	283	301	973		9. What agents must do
 REFERENCE.md	302	320	661		10. Anti-patterns
 REFERENCE.md	321	337	718		11. Intentional patterns that may look like mistakes
 REFERENCE.md	338	352	680		When to break these rules
 REFERENCE.md	353	366	705		Done checklist
-REFERENCE.md	367	378	676		Relationship to other layers
+REFERENCE.md	367	378	682		Relationship to other layers

@@ -595,7 +595,7 @@ loop, a contract you can't change — these may violate every rule in this docum
 fine. Leave a comment (§15) explaining why, and move on.
 
 **Brownfield code whose own convention violates this guide:** follow the tie-breaker in
-**protocol → Local convention**. Short form: net-new files follow code-style; edits inside an existing
+**protocol RULES → Implementation convention**. Short form: net-new files follow code-style; edits inside an existing
 file match that file's dominant pattern — unless the pattern is on the never-list below
 and the fix stays within the lines already being changed.
 
