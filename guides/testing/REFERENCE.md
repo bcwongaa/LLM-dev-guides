@@ -206,7 +206,7 @@ A flaky test is a failing test with worse manners. It trains people to ignore th
 
 ## 7. Test structure (names, factories, isolation)
 
-These rules used to live in [`../code-style/RULES.md`](../code-style/RULES.md) §20; **this guide owns them**.
+These rules used to live in the v1 coding-style guide (§20); **this guide owns them**.
 
 ### Names describe behavior verified
 
@@ -369,7 +369,7 @@ Working safety nets beat ritual. Dishonest tests are worse than a documented gap
 | Topic | Layer |
 |---|---|
 | Protocol / done bar / scope | [`../protocol/RULES.md`](../protocol/RULES.md) |
-| Non-test code shape (code-style §20 now points here) | [`../code-style/RULES.md`](../code-style/RULES.md) |
+| Non-test code shape (code-style REFERENCE §20 points here) | [`../code-style/RULES.md`](../code-style/RULES.md) |
 | Engines/modules testable in isolation | [`../architecture/RULES.md`](../architecture/RULES.md) |
 | Runner/tooling defaults | [`../stack/RULES.md`](../stack/RULES.md) / project |
 | Data invariants under test | [`../data/RULES.md`](../data/RULES.md) |

@@ -288,7 +288,7 @@ NEVER. NEVER. NEVER.
 
 Application code owns behavior. The database stores and protects data.
 
-### Access style (with code-style §19)
+### Access style (with data REFERENCE §19, two tiers of data access)
 
 - **Postgres:** ORM preferred for common access; typed wrappers for CRUD; **direct client
   for complex queries** the wrapper cannot express cleanly. ORM is convenience, not the

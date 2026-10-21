@@ -12,6 +12,6 @@ This project is run with **permissions bypassed** (no interactive tool-approval 
 ## Claude-only notes
 
 - **Pointer-skills:** `adapters/claude/skills/` — one thin skill per domain that tells Claude to read the right guide. No law lives in the skills.
-- **Hooks:** `adapters/claude/hooks/` — SessionStart injects STATUS, PreToolUse blocks edits on the protected base branch, Stop runs the Test command. Hooks enforce local gates; they do not replace protocol definition of done.
+- **Hooks:** `adapters/claude/hooks/` holds hook templates for consumer repos (STATUS injection, protected-branch edit guard, baseline-aware test gate). They are not installed in this repo.
 - Optional path-scoped rules: `.claude/rules/*.md` — **project facts only**, not a fork of code-style / stack.
 - Prefer MCP / project tools already configured; do not add new global tooling without asking.

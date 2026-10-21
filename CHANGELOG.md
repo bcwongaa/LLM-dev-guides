@@ -47,6 +47,22 @@ Governance and retrieval only; no shared law changed.
 - Added `adapters/claude/hooks/test.sh`, run by `check-sync.sh`. CI runs with read-only
   repository permissions.
 
+### Cleanup
+
+- Retired the one-time v2 migration checks in `check-sync.sh` (each deleted L-file by name, the
+  empty-baseline assertion, l*-skill ids, checks that `check-index.py` and `gen-adapters --check`
+  already make). One glob still keeps v1 L-files out. About 330 lines became 160, verified by
+  mutation tests.
+- Consumer templates carry `LLM-dev-guides <version> (generation <gen>)` instead of "do not edit",
+  which they must be. `adapters/manifest.json` holds `version` and `generation`;
+  `docs/MAINTAINING_GUIDES.md` gains *Cutting a release*.
+- The bootstrap line names `AGENTS.md` instead of "this file", which inside protocol pointed at
+  protocol itself.
+- The adoption smoke test expected the retired v1 `local code > guides` answer; it now expects
+  both v2 precedence lines. Fixed dangling pointers to code-style §19/§20 and "protocol → Local
+  convention". Dropped hard-coded counts from `MAINTAINING_GUIDES.md`.
+- The suite `CLAUDE.md` called the hooks active; they are consumer templates, not installed here.
+
 ### Guides
 
 - Split code-style REFERENCE §7 Naming and §12 `get` / `ensureGet` into

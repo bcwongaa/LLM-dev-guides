@@ -10,7 +10,7 @@ Re-read this file (or confirm it is still in context) at: **session start**; **b
 
 ## Bootstrap `[suite-default]`
 
-**Bootstrap (every task):** this file → protocol → only relevant guides → STATUS if present → test/lint baseline → plan if non-trivial → edit.
+**Bootstrap (every task):** AGENTS.md → protocol → only relevant guides → STATUS if present → test/lint baseline → plan if non-trivial → edit.
 
 1. Adapter (`AGENTS.md`; Claude also `CLAUDE.md` `@AGENTS.md`).
 2. This protocol.
