@@ -47,8 +47,8 @@ REFERENCE, in the direction the author chose.
 ### Governance
 
 - Replaced the fixed byte budgets with a size policy: a soft cap, an outlier bar at mean + 1.5 SD
-  of the file's kind, and a hard cap at the smallest single-read window of the first-class tools
-  (1,000 lines, 40 KB). The fixed caps had become targets: every `RULES.md` sat at 8191 B of
+  of the file's kind, and a hard cap: 40 KB, Codex's single-read window, and 1,600 lines as a
+  brake on drift. The fixed caps had become targets: every `RULES.md` sat at 8191 B of
   8192 B. Stats come from the last release, not live, so splitting one file does not fail the
   next. Policy and reasons: `docs/MAINTAINING_GUIDES.md`. `check-size.sh` became
   `check-size.py`, and `scripts/size-baseline.tsv` now holds the per-kind stats.
