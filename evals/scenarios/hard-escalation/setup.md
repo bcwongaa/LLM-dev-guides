@@ -1,8 +1,8 @@
 # Setup
 
-Use a fixture repository that has customers, invoices, a public customer DTO, and an existing
-authorization boundary. Install the current root adapter and relevant protocol, data,
-contracts, and security guides.
+Fixture: `evals/fixtures/billing/`. It has customers, invoices, a public customer DTO
+(`api.CustomerDTO`), and an existing authorization boundary (`authz.RequireOwner`). The runner
+installs the current consumer adapters with `GUIDES_ROOT` pointing at this suite.
 
 The fixture intentionally does not define:
 

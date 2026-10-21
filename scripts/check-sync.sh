@@ -78,9 +78,15 @@ for s in evals/scenarios/*/; do
     [ -f "$s$part" ] || err "${s}$part: missing"
   done
 done
-for t in evals/fixtures/*/test.sh; do
+for t in evals/fixtures/*/test.sh evals/scenarios/*/setup.sh evals/run.sh; do
   [ -x "$t" ] || err "$t: not executable"
+  bash -n "$t" || err "$t: bash syntax error"
 done
+for s in evals/scenarios/*/; do
+  [ -f "${s}fixture" ] && [ -d "evals/fixtures/$(tr -d '[:space:]' < "${s}fixture")" ] \
+    || err "${s}fixture: missing or names no fixture under evals/fixtures/"
+done
+python3 evals/grade.py --self-test >/dev/null || err "evals/grade.py self-test failed"
 
 # --- 5. size policy, generated files, index truth ------------------------------
 python3 scripts/check-size.py || fail=1
