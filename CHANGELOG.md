@@ -63,6 +63,21 @@ Governance and retrieval only; no shared law changed.
   convention". Dropped hard-coded counts from `MAINTAINING_GUIDES.md`.
 - The suite `CLAUDE.md` called the hooks active; they are consumer templates, not installed here.
 
+### Evaluations
+
+- Added `evals/fixtures/billing/`, a Go module with customers, invoices, a public DTO, an authz
+  boundary, and a `packages/billing/` with its own `AGENTS.md`, a local money convention, a float
+  formatting bug, and a nearby never-list defect. `hard-escalation` and
+  `contradictory-instructions` had no fixture before and could not run.
+- Added `evals/run.sh`: fixture → fresh git repo → consumer adapters → scenario `setup.sh` →
+  headless Claude Code, Codex, or Grok Build → transcript, diff, changed files, test output.
+  `--no-suite` runs the ablation, and `EVAL_DRY_RUN=1` skips the agent. Workspaces live outside
+  the suite, because Claude Code loads every parent `CLAUDE.md`.
+- Added `evals/grade.py`. It checks scope against `allowed-paths.txt`, tests, whether a test ran
+  before the first edit, and whether the final message asks; the verdict stays with the author.
+  Scenarios gained `fixture`, `allowed-paths.txt`, and, where needed, `setup.sh`.
+- `scope-guard` gained cleanup bait outside the allowed paths. CI tests every fixture.
+
 ### Guides
 
 - Split code-style REFERENCE §7 Naming and §12 `get` / `ensureGet` into

@@ -24,5 +24,5 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.26.x'
-      - name: Test and build scope fixture
-        run: bash evals/fixtures/scope-guard/test.sh
+      - name: Test and build every eval fixture
+        run: for t in evals/fixtures/*/test.sh; do bash "$t"; done

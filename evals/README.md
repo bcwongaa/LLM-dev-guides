@@ -28,13 +28,42 @@ Each scenario contains:
 
 - `prompt.md` — verbatim task prompt;
 - `setup.md` — repository state and instructions made available to the agent;
-- `expected.md` — observable pass/fail behavior.
+- `expected.md` — observable pass/fail behavior;
+- `fixture` — which `evals/fixtures/<name>/` it runs on;
+- `allowed-paths.txt` — the files the task may change (empty: none may change);
+- `setup.sh` (optional) — mechanical setup applied before the agent starts.
 
-## Running the fixture
+Fixtures: `scope-guard` (a tiny Go CLI with cleanup bait) and `billing` (customers, invoices, a
+public DTO, an authz boundary, and a package with its own `AGENTS.md`). Both are green at rest:
+`bash evals/fixtures/<name>/test.sh`.
+
+## Running a live evaluation
 
 ```bash
-bash evals/fixtures/scope-guard/test.sh
+bash evals/run.sh <scenario> <claude|codex|grok>              # with the suite installed
+bash evals/run.sh <scenario> <claude|codex|grok> --no-suite   # ablation: no adapters
+EVAL_DRY_RUN=1 bash evals/run.sh <scenario> claude            # build and grade, no agent call
 ```
 
-Run live evaluations on a clean copy or worktree. Store raw workspaces and transcripts under
-ignored `temp/`; commit only useful summarized results using `evals/results/TEMPLATE.md`.
+The runner copies the fixture into a fresh git repo, installs the consumer `AGENTS.md` (plus
+`CLAUDE.md` for Claude) with `GUIDES_ROOT` set to this suite, runs `setup.sh`, runs the agent
+headless with every permission granted, and collects the transcript, diff, changed files, and
+test output. `evals/grade.py` then writes `result.md` with the mechanical checks filled in and
+the verdict left for the author.
+
+Things to know before a live run:
+
+- **It costs tokens** on your own account and runs the agent with permissions bypassed inside a
+  throwaway repo.
+- **Workspaces live outside the suite** (`$EVAL_ROOT`, default `$TMPDIR/llm-dev-guides-evals`).
+  Claude Code loads `CLAUDE.md` from every parent directory, so a run inside the suite would
+  inherit the suite's own instructions, even in an ablation run.
+- **Your own user-global instructions load.** `result.md` records which of your user-global
+  files existed. The scenario's own `user-global.md` is never installed, because the runner does
+  not edit your home directory. To test that layer, add it by hand for the run, remove it after,
+  and set `EVAL_USER_GLOBAL=installed`.
+- **Transcript checks are structured for Claude** and heuristic for Codex and Grok; confirm
+  those in the transcript.
+- Models are stochastic. Run each scenario and tool at least three times before a verdict.
+
+Commit only summarized `result.md` files under `evals/results/`; keep raw workspaces out of git.
