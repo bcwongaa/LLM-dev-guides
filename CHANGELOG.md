@@ -33,6 +33,20 @@ Governance and retrieval only; no shared law changed.
   done bar was missing from the index and the data skill. `check-index.py` now fails on a `## `
   heading glued to text.
 
+### Claude hooks
+
+- The branch guard checks the worktree that holds the edited file, not the session's cwd. It
+  used to block edits to scratch, memory, and plan files outside the repo whenever the repo
+  was on `main`.
+- The Stop gate blocks only when tests got worse than the baseline recorded at session start
+  (new `stop-test-gate.sh baseline` on SessionStart `startup`), matching protocol's "not worse"
+  instead of "green". It skips runs on an unchanged tree, and treats an unfilled
+  `{{TEST_CMD}}` as unset instead of blocking every stop with exit 127.
+- Hook commands use `"$CLAUDE_PROJECT_DIR"`; relative paths broke once the session changed
+  directory.
+- Added `adapters/claude/hooks/test.sh`, run by `check-sync.sh`. CI runs with read-only
+  repository permissions.
+
 ### Guides
 
 - Split code-style REFERENCE §7 Naming and §12 `get` / `ensureGet` into
