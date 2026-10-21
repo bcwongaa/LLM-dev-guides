@@ -121,6 +121,7 @@ for h in adapters/claude/hooks/*.sh; do
   [ -x "$h" ] || err "$h: not executable"
   bash -n "$h" || err "$h: bash syntax error"
 done
+bash adapters/claude/hooks/test.sh || fail=1
 
 # --- 6. v2 governance baseline ----------------------------------------------
 governance_files=(

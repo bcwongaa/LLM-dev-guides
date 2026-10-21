@@ -39,7 +39,7 @@ find /path/to/LLM-dev-guides/adapters/claude/skills -mindepth 1 -maxdepth 1 -typ
 # hooks: STATUS injection, protected-branch edit guard, stop-time test gate
 # (see hooks/README.md for settings.fragment.json merge + env vars)
 mkdir -p .claude/hooks
-cp /path/to/LLM-dev-guides/adapters/claude/hooks/*.sh .claude/hooks/
+cp /path/to/LLM-dev-guides/adapters/claude/hooks/{session-start-status,pre-edit-branch-guard,stop-test-gate}.sh .claude/hooks/
 chmod +x .claude/hooks/*.sh
 ```
 

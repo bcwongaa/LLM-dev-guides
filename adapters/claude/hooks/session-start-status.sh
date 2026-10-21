@@ -2,6 +2,7 @@
 # SessionStart hook: inject docs/agent/STATUS.md (and per-workstream STATUS files)
 # into context so WIP handoff is never silently skipped (protocol bootstrap).
 set -euo pipefail
+cd "${CLAUDE_PROJECT_DIR:-.}"
 
 dir="docs/agent"
 [ -d "$dir" ] || exit 0
