@@ -25,7 +25,7 @@ print the fix in their failure output.
 | Generated | Edit instead |
 |---|---|
 | `guides/*/INDEX.tsv` | the guide's `## ` headings |
-| `adapters/claude/skills/*/SKILL.md` | `adapters/manifest.json` |
+| `adapters/skills/*/SKILL.md` | `adapters/manifest.json` |
 | `AGENTS.md`, `CLAUDE.md`, `adapters/*/AGENTS.md` | `adapters/manifest.json` |
 
 A hand-edit survives locally and dies in CI. `--write` overwrites it.

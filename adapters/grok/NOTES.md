@@ -30,6 +30,14 @@ Grok also loads `CLAUDE.md` if present. That file is now Claude-only mechanics p
 law into `CLAUDE.md` to “keep them in sync.”
 `python3 scripts/gen-adapters.py` is suite-maintainer tooling, not this install step.
 
+## Skills and hooks
+
+Grok loads project skills from `.claude/skills/` and `.grok/skills/`; install the suite's
+pointer-skills into either (see `../skills/README.md`). Grok also runs hooks declared in
+`.claude/settings.json`. Whether the Claude hooks' `Edit|Write|MultiEdit|NotebookEdit`
+matcher matches Grok's tool names is untested; the git pre-commit guard in `../git/hooks/`
+works regardless.
+
 ## Discovery reminder
 
 Grok project rules (priority includes): `AGENTS.md`, `CLAUDE.md`, `.grok/rules/`, and Claude-compat paths when enabled. Do not scatter conflicting maps.

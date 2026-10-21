@@ -40,6 +40,9 @@ This repo’s own maps: root `AGENTS.md` (canonical), `CLAUDE.md` (`@AGENTS.md` 
 
 ## How to use
 
+The consumer `AGENTS.md` works with any tool that reads `AGENTS.md`; only Claude Code, Codex,
+and Grok Build are evaluated.
+
 ### In another / existing codebase
 
 → **[`docs/USING_IN_EXISTING_REPOS.md`](./docs/USING_IN_EXISTING_REPOS.md)**  

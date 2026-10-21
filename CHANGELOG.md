@@ -78,6 +78,20 @@ Governance and retrieval only; no shared law changed.
   Scenarios gained `fixture`, `allowed-paths.txt`, and, where needed, `setup.sh`.
 - `scope-guard` gained cleanup bait outside the allowed paths. CI tests every fixture.
 
+### Cross-tool parity
+
+- Pointer-skills moved from `adapters/claude/skills/` to `adapters/skills/` and ship for Claude
+  Code, Codex, and Grok Build in the Agent Skills format. Each skill shows the Claude and shell
+  read forms. The generator enforces the spec's name rule; `check-size.py` enforces its
+  1,024-character description limit. No alias is left at the old path.
+- Added `adapters/git/hooks/pre-commit`, a tool-neutral guard that refuses commits on the
+  protected base branch for any agent or human, with a behavior test.
+- Documented that the consumer `AGENTS.md` works with any tool that reads it (only the three are
+  evaluated). Also documented Claude Code reading `AGENTS.md` natively when no `CLAUDE.md`
+  exists, Codex's 32 KiB `AGENTS.md` budget, Grok reading `.claude/rules/` and Claude hooks,
+  Codex's read-only `.git` sandbox, and sibling-clone limits for cloud agents with Claude's
+  `additionalDirectories`.
+
 ### Guides
 
 - Split code-style REFERENCE §7 Naming and §12 `get` / `ensureGet` into

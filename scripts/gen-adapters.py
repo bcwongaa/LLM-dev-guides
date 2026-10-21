@@ -56,6 +56,10 @@ def validate_manifest(m: dict) -> list[str]:
         if not (ROOT / rel).is_file():
             errors.append(f"route target missing: {rel}")
     for skill in m.get("skills", []):
+        # Agent Skills spec: lowercase letters, digits, single hyphens, at most 64 chars,
+        # equal to the folder name (which the generator derives from the id).
+        if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", skill.get("id", "")) or len(skill["id"]) > 64:
+            errors.append(f"skill id {skill.get('id')!r} breaks the Agent Skills name rule")
         guide = skill.get("guide")
         if not guide or not (ROOT / guide).is_file():
             errors.append(f"skill {skill.get('id')}: guide missing: {guide}")
@@ -248,7 +252,7 @@ This project is run with **permissions bypassed** (no interactive tool-approval 
 
 ## Claude-only notes
 
-- **Pointer-skills:** `adapters/claude/skills/` — one thin skill per domain that tells Claude to read the right guide. No law lives in the skills.
+- **Pointer-skills:** `adapters/skills/` — one thin skill per domain that tells the agent which guide sections to read. Shared with Codex and Grok; no law lives in the skills.
 - **Hooks:** `adapters/claude/hooks/` holds hook templates for consumer repos (STATUS injection, protected-branch edit guard, baseline-aware test gate). They are not installed in this repo.
 - Optional path-scoped rules: `.claude/rules/*.md` — **project facts only**, not a fork of code-style / stack.
 - Prefer MCP / project tools already configured; do not add new global tooling without asking.
@@ -264,7 +268,7 @@ This project is run with **permissions bypassed** (no interactive tool-approval 
 
 ## Claude-only notes
 
-- **Pointer-skills:** install `GUIDES_ROOT/adapters/claude/skills/` into `.claude/skills/` — one thin skill per domain that tells Claude to read the right guide. No law lives in the skills.
+- **Pointer-skills:** install `GUIDES_ROOT/adapters/skills/` into `.claude/skills/` — one thin skill per domain that tells Claude which guide sections to read. No law lives in the skills.
 - **Hooks:** install `GUIDES_ROOT/adapters/claude/hooks/` per its README — SessionStart injects STATUS, PreToolUse blocks edits on the protected base branch, Stop runs the Test command. Hooks enforce local gates; they do not replace protocol definition of done.
 - Optional path-scoped rules: `.claude/rules/*.md` — **project facts only**, not a fork of code-style / stack.
 - Prefer MCP / project tools already configured; do not add new global tooling without asking.
@@ -355,8 +359,8 @@ def render_skill(m: dict, skill: dict) -> str:
         f"---\n"
         f"\n"
         f"Law: `GUIDES_ROOT/{skill['guide']}` (`GUIDES_ROOT` from `AGENTS.md`).\n"
-        f"Read **only** the ranges you need: `Read(path, offset=START, limit=END-START+1)`.\n"
-        f"`INDEX.tsv` beside it indexes the REFERENCE files the same way.\n"
+        f"Read **only** the line ranges you need. Claude: `Read(path, offset=START, limit=END-START+1)`.\n"
+        f"Shell: `sed -n 'START,ENDp' path`. `INDEX.tsv` beside it indexes the REFERENCE files the same way.\n"
         f"\n"
         f"{rows}\n"
         f"\n"
@@ -378,7 +382,7 @@ def expected_files(m: dict) -> dict[str, str]:
         "adapters/grok/AGENTS.md": consumer_agents,
     }
     for skill in m["skills"]:
-        out[f"adapters/claude/skills/{skill['id']}/SKILL.md"] = render_skill(m, skill)
+        out[f"adapters/skills/{skill['id']}/SKILL.md"] = render_skill(m, skill)
     for guide_dir in sorted((ROOT / "guides").iterdir()):
         if (guide_dir / "RULES.md").is_file():
             domain = guide_dir.name

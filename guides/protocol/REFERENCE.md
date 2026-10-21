@@ -106,7 +106,7 @@ code-style/stack.
 
 Templates live under `adapters/` (`claude/`, `codex/`, `grok/`). Consuming repos copy or
 symlink them into the root; they must stay thin. See `adapters/README.md`. The Claude
-adapter also ships optional pointer-skills and hooks (`adapters/claude/skills/`,
+adapter also ships optional pointer-skills and hooks (`adapters/skills/`,
 `adapters/claude/hooks/`) that enforce parts of this ritual — they supplement protocol, never
 replace it.
 

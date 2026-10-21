@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SKILLS = ROOT / "adapters" / "claude" / "skills"
+SKILLS = ROOT / "adapters" / "skills"
 
 CLAIM_RE = re.compile(r"^(\d+)-(\d+)\s+(\S.*?)\s*$")
 LAW_RE = re.compile(r"^Law: `GUIDES_ROOT/(\S+?)`")
