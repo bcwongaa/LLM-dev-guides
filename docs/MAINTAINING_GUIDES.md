@@ -55,10 +55,10 @@ Every text file outside `temp/` is measured in bytes and in lines, against its k
 
 | Kind | Files | Soft cap | Hard cap |
 |---|---|---|---|
-| rules | `guides/*/RULES*.md` | 8 KB, 500 lines | 16 KB, 1,000 lines |
-| reference | `guides/*/REFERENCE*.md` | 20 KB, 500 lines | 40 KB, 1,000 lines |
-| docs | every other `.md` | 20 KB, 500 lines | 40 KB, 1,000 lines |
-| code | everything else | 20 KB, 500 lines | 40 KB, 1,000 lines |
+| rules | `guides/*/RULES*.md` | 8 KB, 500 lines | 16 KB, 1,600 lines |
+| reference | `guides/*/REFERENCE*.md` | 20 KB, 500 lines | 40 KB, 1,600 lines |
+| docs | every other `.md` | 20 KB, 500 lines | 40 KB, 1,600 lines |
+| code | everything else | 20 KB, 500 lines | 40 KB, 1,600 lines |
 
 For each metric:
 
@@ -68,11 +68,12 @@ For each metric:
 
 Why these numbers:
 
-- The hard caps are the smallest single-read window of the first-class tools. Grok's read tool
-  stops at 1,000 lines, and Codex returns at most 10,000 tokens of shell output, about 40 KB.
-  Under them, any tool reads a file whole in one call. Past them, a whole-file read silently
-  loses part of the file. RULES are tighter on bytes because Codex and Grok read them whole on
-  every task.
+- The byte hard caps sit at Codex's single-read window: it returns at most 10,000 tokens of
+  shell output, about 40 KB. Past that, a whole-file read silently loses part of the file.
+  RULES are tighter on bytes because Codex and Grok read them whole on every task.
+- The line hard cap, 1,600 lines, is a brake on drift set well above today's largest file. It
+  is not a read window: Grok's read tool returns 1,000 lines per call, so a longer file takes
+  two reads.
 - 1.5 SD is simple to explain and catches the biggest one or two files of a kind.
 - The mean and SD come from `scripts/size-baseline.tsv`, computed from the files at the last
   release tag. They are not live: live stats drop the bar every time a big file is split, so
