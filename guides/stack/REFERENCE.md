@@ -330,7 +330,8 @@ not get translated into vague nulls three layers down.
 
 | Rule | Detail |
 |---|---|
-| TypeScript package manager | **Always npm** |
+| TypeScript package manager | **npm** on greenfield; an existing repo keeps its own |
+| TypeScript runtime | **Node.js**; an existing Bun repo stays on Bun; an existing Deno repo: ask about moving to Node.js (ADR-0011) |
 | TypeScript runtime | **Node.js** |
 | Strictness | **Strict mode** (or equivalent) when available |
 | Formatter + linter | **Required** when the ecosystem supports them; wire them early |

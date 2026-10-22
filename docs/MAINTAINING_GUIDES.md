@@ -114,7 +114,8 @@ Keep any gating constraint attached to what it gates. Worked examples:
 a migration cannot silently drop it. Rewording pinned text fails CI — update the needle in
 the same commit.
 
-A needle must be **specific enough to localize law**. `'Done'` appears in 23 files and proves
+A needle must be **specific enough to localize law**. ADR records under `guides/decisions/` are
+left out of that count, because each one repeats the template and quotes the law it records. `'Done'` appears in 23 files and proves
 nothing. `scripts/conservation-baseline.txt` ratchets the count of too-generic needles
 (the number in that file); it may fall, never rise.
 

@@ -29,11 +29,25 @@ REFERENCE, in the direction the author chose.
 - Hard items: the `AGENTS.md` maps, orchestration, and the adoption guide now also name
   business logic and architecture, as protocol already did. The orchestration example where a
   parent picked the stack for a new worker now shows that as wrong.
+- stack: TypeScript runs on Node.js wherever possible, and npm is the greenfield package manager.
+  An existing repo keeps its package manager, an existing Bun repo stays on Bun, and an existing
+  Deno repo raises a move to Node.js with the author, because Deno development ends around
+  October 2027. Reasons in ADR-0011.
 - protocol: defines the section tags `[suite-default]`, `[common]`, `[project-example]`.
 - protocol REFERENCE: "Conflict order", "Ask vs decide", "Local convention", and "When to
   break" now match RULES. `check-sync.sh` bans the retired v1 phrases anywhere under `guides/`
   and `docs/`, because a REFERENCE section read on its own never sees a file-level disclaimer.
 
+
+### Decisions
+
+- Added ADRs 0001–0012, reviewed and accepted by the author: the settled process decisions (two
+  precedence systems, no consumer installer, generated thin maps, the size policy, no
+  compatibility aliases, no playbooks, Cursor out of scope, three first-class tools) and four
+  global stack decisions (Postgres default, no Python application services, TypeScript on
+  Node.js with npm on greenfield, no business logic in the database). The v2 survey that held
+  several reasons no longer exists; those ADRs record a reconstruction the author approved, and
+  0007 records none.
 
 ### Governance
 

@@ -133,7 +133,9 @@ bugfix with no repro test
 EOF
 
 # A needle like 'Done' or 'cannot' appears all over the corpus, passes trivially, and proves
-# nothing about where the law lives. Existing ones are baselined; new ones fail.
+# nothing about where the law lives. Existing ones are baselined; new ones fail. ADR records
+# (guides/decisions/NNNN-*.md) are left out: each repeats the template and quotes the law it
+# records, by design.
 weak="$(python3 - <<'EOF'
 from pathlib import Path
 rows=[]
@@ -142,7 +144,8 @@ for tsv in sorted(Path('scripts').glob('*-conservation.tsv')):
         if line.strip() and not line.startswith('#'):
             p=line.split('\t')
             if len(p)==3: rows.append(tuple(p))
-allg=[p.read_text() for p in Path('guides').rglob('*.md')]
+allg=[p.read_text() for p in Path('guides').rglob('*.md')
+      if not (p.parent.name == 'decisions' and p.name[:4].isdigit())]
 print(sum(1 for r in rows if sum(1 for t in allg if r[2] in t) > 3))
 EOF
 )"

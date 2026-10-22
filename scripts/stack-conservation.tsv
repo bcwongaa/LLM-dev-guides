@@ -21,7 +21,7 @@ storage	guides/stack/RULES.md	data nature
 business-logic-never-in-db	guides/stack/RULES.md	NEVER. NEVER. NEVER.
 access-style	guides/stack/RULES.md	direct client for complex queries
 errors	guides/stack/RULES.md	don't return errors as values in languages where throw is the idiom
-tooling	guides/stack/RULES.md	Always npm
+tooling	guides/stack/RULES.md	on Deno, **ask** about moving to Node.js
 layout	guides/stack/RULES.md	No personal global folder standard
 anti-patterns	guides/stack/RULES.md	Yarn/pnpm
 intentional	guides/stack/RULES.md	boring on purpose

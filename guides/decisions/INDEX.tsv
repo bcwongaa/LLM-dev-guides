@@ -12,9 +12,9 @@ RULES.md	55	65	322	suite-default	Format
 RULES.md	66	76	379	suite-default	Lifecycle
 RULES.md	77	89	503	suite-default	Agent rules
 RULES.md	90	98	381	suite-default	Done
-RULES.md	99	106	203	suite-default	Index
-RULES.md	107	110	221	suite-default	When to break
-RULES.md	111	119	323		Never
+RULES.md	99	117	1280	suite-default	Index
+RULES.md	118	121	221	suite-default	When to break
+RULES.md	122	130	323		Never
 REFERENCE.md	1	10	341		(preamble)
 REFERENCE.md	11	25	407		Scope
 REFERENCE.md	26	35	314		Relationship to other layers
