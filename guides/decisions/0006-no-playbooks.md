@@ -1,18 +1,21 @@
 # ADR-0006: No playbooks
 
-- **Status:** proposed
-- **Date:** 2026-10-21
+- **Status:** accepted
+- **Date:** 2026-08-15
 - **Scope:** suite-global
 
 ## Context
 
-Recorded as settled in the v2 author survey. The rationale was recorded in the v2 author survey, which was kept in the git-ignored `temp/` folder and no longer exists. **Author: restate the reason here before accepting.**
+Settled in the v2 author survey.
+
+A playbook restates domain law as steps for one task. Each one is a second copy of the law that
+drifts when the guide changes, and agents treat its steps as complete when they are not.
 
 ## Decision
 
-The suite ships no playbooks. **Author: confirm the definition.** The drafting agent's reading:
-no task-specific step-by-step procedures ("how to add an endpoint", "how to run a migration")
-beside the domain guides; the guides state law and rationale, and agents apply them.
+The suite ships no playbooks: no task-specific step-by-step procedures ("how to add an endpoint",
+"how to run a migration") beside the domain guides. The guides state law and rationale, and
+agents apply them.
 
 ## Consequences
 

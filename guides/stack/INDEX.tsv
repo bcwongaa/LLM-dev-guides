@@ -14,11 +14,11 @@ RULES.md	65	68	317	suite-default	Frontend and thin glue
 RULES.md	69	72	330	suite-default	Backend frameworks
 RULES.md	73	92	946	suite-default	Storage
 RULES.md	93	96	414	suite-default	Errors
-RULES.md	97	100	158	suite-default	Tooling
+RULES.md	97	100	397	suite-default	Tooling
 RULES.md	101	104	146	common	Layout
 RULES.md	105	110	503	suite-default	When to break
-RULES.md	111	116	391	suite-default	Done
-RULES.md	117	128	594		Never
+RULES.md	111	116	421	suite-default	Done
+RULES.md	117	128	617		Never
 RULES.md	129	132	331	suite-default	Looks wrong, is intentional
 REFERENCE.md	1	17	865		(preamble)
 REFERENCE.md	18	47	1232		1. Process rule: when to consult vs continue
@@ -30,10 +30,10 @@ REFERENCE.md	210	237	1207		6. Frontend and thin glue
 REFERENCE.md	238	256	716		7. Backend frameworks
 REFERENCE.md	257	301	2049		8. Storage and where logic lives
 REFERENCE.md	302	328	1318		9. Errors: code-style and language convention
-REFERENCE.md	329	343	516		10. Tooling and packages
-REFERENCE.md	344	354	431		11. Layout
-REFERENCE.md	355	377	1104		12. Anti-patterns
-REFERENCE.md	378	400	856		13. Intentional patterns that may look like mistakes
-REFERENCE.md	401	413	573		14. When to break these rules
-REFERENCE.md	414	442	1367		15. Done checklists
-REFERENCE.md	443	458	1017		Relationship to other layers
+REFERENCE.md	329	344	690		10. Tooling and packages
+REFERENCE.md	345	355	431		11. Layout
+REFERENCE.md	356	378	1104		12. Anti-patterns
+REFERENCE.md	379	401	856		13. Intentional patterns that may look like mistakes
+REFERENCE.md	402	414	573		14. When to break these rules
+REFERENCE.md	415	443	1367		15. Done checklists
+REFERENCE.md	444	459	1017		Relationship to other layers

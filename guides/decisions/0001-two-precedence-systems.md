@@ -1,7 +1,7 @@
 # ADR-0001: Two precedence systems
 
-- **Status:** proposed
-- **Date:** 2026-10-21
+- **Status:** accepted
+- **Date:** 2026-08-15
 - **Scope:** suite-global
 
 ## Context
@@ -9,7 +9,12 @@
 v1 used one conflict order, local code first and model taste last, for two different questions:
 whose instruction wins when instructions disagree, and which code pattern new code follows in a
 brownfield repo. The v2 generation split them (CHANGELOG v0.2: "Split instruction authority from
-brownfield implementation convention"). The rationale was recorded in the v2 author survey, which was kept in the git-ignored `temp/` folder and no longer exists. **Author: restate the reason here before accepting.**
+brownfield implementation convention").
+
+The single v1 order answered two questions with one ranking. "Local code first" is right for how
+new code looks, but it also put an existing file above the suite on correctness and safety, so a
+file that swallows errors could justify swallowing more. And it had no place for org policy or
+for what the human asked in this task.
 
 ## Decision
 

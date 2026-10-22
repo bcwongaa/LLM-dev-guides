@@ -1,7 +1,7 @@
 # ADR-0010: No Python application services
 
-- **Status:** proposed
-- **Date:** 2026-10-21
+- **Status:** accepted
+- **Date:** 2026-07-11
 - **Scope:** suite-global
 
 ## Context

@@ -1,14 +1,14 @@
 # ADR-0004: Size policy instead of fixed budgets
 
-- **Status:** proposed
+- **Status:** accepted
 - **Date:** 2026-10-21
 - **Scope:** suite-global
 - **Supersedes:** the v2 "budgets" decision (fixed byte caps per file and per section)
 
 ## Context
 
-Fixed byte caps became targets. Under an 8192 B cap every `RULES.md` ended at 8191 B, squeezed to
-fit instead of written to be read. Any measurable counter turns into something the LLM optimizes
+Fixed byte caps became targets. Under an 8192 B cap, four `RULES.md` files sat within 5 bytes of
+the cap, squeezed to fit instead of written to be read. Any measurable counter turns into something the LLM optimizes
 toward. The goal is files that are cheap to read and understandable, not files under a number.
 
 ## Decision

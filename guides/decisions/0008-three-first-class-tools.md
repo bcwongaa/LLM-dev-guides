@@ -1,12 +1,14 @@
 # ADR-0008: Claude Code, Codex, and Grok Build are first-class tools
 
-- **Status:** proposed
-- **Date:** 2026-10-21
+- **Status:** accepted
+- **Date:** 2026-08-15
 - **Scope:** suite-global
 
 ## Context
 
-The author works across all three tools, and every one of them must load the same law.
+The v2 author survey settled that Claude Code, Codex, and Grok Build are all first-class, and
+every one of them must load the same law. The author uses Claude Code and Grok Build daily and
+Codex rarely, so Codex is supported in full but used and tested less.
 
 ## Decision
 

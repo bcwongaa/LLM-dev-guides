@@ -1,13 +1,17 @@
 # ADR-0005: Destructive deprecation, no compatibility aliases
 
-- **Status:** proposed
-- **Date:** 2026-10-21
+- **Status:** accepted
+- **Date:** 2026-08-15
 - **Scope:** suite-global
 
 ## Context
 
 v2 moved every guide from `L0`–`L10` files to `guides/<domain>/` and moved
-`USING_IN_EXISTING_REPOS.md` under `docs/`. The rationale was recorded in the v2 author survey, which was kept in the git-ignored `temp/` folder and no longer exists. **Author: restate the reason here before accepting.**
+`USING_IN_EXISTING_REPOS.md` under `docs/`.
+
+An alias leaves two paths to the same law. An agent can land on the old one, and aliases pile up
+because no one knows when it is safe to delete them. A clean break fails loudly once, and
+adopting repos update.
 
 ## Decision
 

@@ -96,7 +96,7 @@ Unexpected failures **surface where they are detected** ([`../code-style/RULES.m
 
 ## Tooling `[suite-default]`
 
-TS: **Always npm**, **Node.js**, strict mode; formatter + linter required. Architecture-sized libs / greenfield doubt: **ask**.
+TS: **Node.js** runtime wherever possible; **npm** on greenfield; strict mode; formatter + linter required. Existing repo: keep its package manager; keep Bun if it runs on Bun; on Deno, **ask** about moving to Node.js (Deno development ends October 2027; [ADR-0011](../decisions/0011-typescript-node-runtime.md)). Architecture-sized libs / greenfield doubt: **ask**.
 
 ## Layout `[common]`
 
@@ -112,7 +112,7 @@ Breaking greenfield autonomy, Python-as-app, TS-for-CPU-stall, serverless-as-cor
 
 **Proposing a stack:** problem class; CPU vs I/O; language + framework-or-none + storage + why; hard rules checked; trade-offs; **Author confirmation received**; ADR `proposed`.
 
-**Implementing in-stack:** **Did not re-litigate** the stack. No new major framework without asking. No business logic in SQL/ORM callbacks. Language-convention errors. TS: npm + Node.
+**Implementing in-stack:** **Did not re-litigate** the stack. No new major framework without asking. No business logic in SQL/ORM callbacks. Language-convention errors. TS runtime and package manager per *Tooling*.
 
 ## Never
 
@@ -122,7 +122,7 @@ Breaking greenfield autonomy, Python-as-app, TS-for-CPU-stall, serverless-as-cor
 ✗ Serverless / Next routes as the system backend · business logic in the DB
 ✗ Mongo for relational core · Redis as primary business database
 ✗ Java/TS hierarchies in Rust · FP-only in TS/Kotlin OOP · fight Go/Rust error idioms
-✗ Second framework without asking · Yarn/pnpm for TS · skip formatter/linter/strict
+✗ Second framework without asking · Yarn/pnpm or Bun/Deno for greenfield TS · skip formatter/linter/strict
 ✗ Rewrite working Next/Vue/Angular · front-load Kotlin "for the future" when TS fits
 ```
 

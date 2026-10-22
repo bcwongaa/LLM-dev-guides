@@ -1,7 +1,7 @@
 # ADR-0009: Postgres is the default relational store
 
-- **Status:** proposed
-- **Date:** 2026-10-21
+- **Status:** accepted
+- **Date:** 2026-07-11
 - **Scope:** suite-global
 
 ## Context

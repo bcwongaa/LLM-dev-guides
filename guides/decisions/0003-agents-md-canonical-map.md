@@ -1,14 +1,13 @@
 # ADR-0003: AGENTS.md is the canonical thin map; maps are generated
 
-- **Status:** proposed
-- **Date:** 2026-10-21
+- **Status:** accepted
+- **Date:** 2026-08-15
 - **Scope:** suite-global
 
 ## Context
 
 Three tools must load the same law. Codex and Grok Build read `AGENTS.md` natively; Claude Code
 reads `CLAUDE.md`, and reads `AGENTS.md` itself only when no `CLAUDE.md` exists (2.1.277+).
-Hand-maintained maps drifted in v1 (CHANGELOG v0.2).
 
 ## Decision
 
